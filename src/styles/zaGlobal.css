@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+/*SITEWIDE VALUES*/
+:root {
+  /*Colors*/
+
+  /*Sizes*/
+  --MagicCardSize: 12rem;
+  --NavCardSize: 15rem;
+  --HeaderHeight: 7rem;
+  --FooterHeight: 7rem;
+  /*Gaps*/
+  --LargeGap: 4rem;
+  --SmallGap: 2rem;
+}
+
+/*CUSTOM FONTS*/
+
+@font-face {
+  font-family: 'JosefinSans';
+  src: url('../JosefinSans-Regular.ttf');
+}
+
+/*UNIVERSAL PAGE STYLE PROPERTIES*/
+.pageHeight {
+  min-height: calc(100vh - var(--FooterHeight));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
