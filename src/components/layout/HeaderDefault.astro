@@ -1,0 +1,117 @@
+---
+import "../../styles/zaGlobal.css";
+import CornerElement from "./svgs/cornerElement.astro";
+---
+
+<header>
+  <div class="headerBar">
+    <div class="bookmarksButtonContainer">
+      <a class="bookmarksIcon"></a>
+      <a class="bookmarksText">Bookmarks</a>
+    </div>
+    <a href="/" class="logo"></a>
+    <div class="accountButtonContainer">
+      <a href="/Account" class="accountIcon"></a>
+      <a href="/Account" class="accountText">My Account</a>
+    </div>
+  </div>
+  <div class="headerDecContainer">
+    <CornerElement class="headerDec1" />
+    <CornerElement class="headerDec2" />
+  </div>
+</header>
+
+<style>
+  .headerBar {
+    height: var(--HeaderHeight);
+    font-family: JosefinSans, Arial, Helvetica, sans-serif;
+    background: linear-gradient(to top, var(--ZAGreen1), var(--ZAGreen2));
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .logo {
+    grid-column: 2;
+    justify-self: center;
+    background-image: url("/logos/sylvanArchiveLogo.svg");
+    height: 60%;
+    aspect-ratio: 1/1;
+    margin-block: auto;
+    cursor: pointer;
+  }
+  .accountButtonContainer {
+    grid-column: 3;
+    display: flex;
+    flex-direction: row-reverse;
+    height: calc(0.3 * var(--HeaderHeight));
+    margin-inline: var(--SmallGap);
+    margin-block: auto;
+  }
+
+  .accountText {
+    display: var(--visLvl3);
+    color: white;
+    align-self: center;
+    text-align: right;
+    font-size: 1.3rem;
+    white-space: nowrap;
+    transition: color 0.25s;
+  }
+  .accountIcon {
+    align-self: center;
+    height: 100%;
+    aspect-ratio: 1/1;
+    background-image: url("/logos/accountIcon.svg");
+    background-size: cover;
+    margin-left: 1rem;
+    transition: background-image 0.25s;
+  }
+
+  .bookmarksButtonContainer {
+    grid-column: 1;
+    display: flex;
+    height: calc(0.3 * var(--HeaderHeight));
+    margin-inline: var(--SmallGap);
+    margin-block: auto;
+  }
+  .bookmarksText {
+    display: var(--visLvl3);
+    color: white;
+    align-self: center;
+    font-size: 1.3rem;
+    white-space: nowrap;
+    transition: color 0.25s;
+  }
+
+  .bookmarksIcon {
+    align-self: center;
+    height: 100%;
+    aspect-ratio: 1/1;
+    background-image: url("/logos/bookmarksIcon.svg");
+    background-size: cover;
+    margin-right: 1rem;
+    transition: background-image 0.25s;
+  }
+
+  .headerDecContainer {
+    display: grid;
+    grid-template-columns: 1fr, 1fr;
+    position: relative;
+  }
+
+  .headerDec1 {
+    display: var(--visLvl4);
+    grid-column: 1;
+    width: clamp(6rem, 15vw, 10rem);
+    position: absolute;
+    transform: translatex(-1px) translatey(-1px);
+  }
+  .headerDec2 {
+    display: var(--visLvl4);
+    grid-column: 2;
+    width: clamp(6rem, 15vw, 10rem);
+    justify-self: right;
+    transform: translatex(1px) translatey(-1px) scalex(-1);
+    position: absolute;
+  }
+</style>
