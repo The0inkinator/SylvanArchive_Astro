@@ -1,0 +1,26 @@
+---
+  import "../styles/zaGlobal.css"
+  import HeaderDefault from "../components/layoutComponents/HeaderDefault.astro"
+  import FooterDefault from "../components/layoutComponents/FooterDefault.astro"
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/sylvanArchiveLogo.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Sylvan Archive</title>
+	</head>
+	<body>
+  <HeaderDefault />
+		<slot />
+    <FooterDefault />
+	</body>
+</html>
+
+<style>
+h1 {
+  font-family: JosefinSans, arial, sans-serif;
+}
+</style>
