@@ -9,6 +9,10 @@
 /*SITEWIDE VALUES*/
 :root {
   /*Colors*/
+  --ZAGreen1: hsl(123, 30.7%, 54.7%);
+  --ZAGreen2: hsl(128, 43.9%, 38.4%);
+  --ZAGreen3: hsl(124, 32.9%, 33.3%);
+  --ZAGreen4: hsl(120, 100%, 7.3%);
 
   /*Sizes*/
   --MagicCardSize: 12rem;
@@ -18,13 +22,18 @@
   /*Gaps*/
   --LargeGap: 4rem;
   --SmallGap: 2rem;
+  /*Visibilty*/
+  --visLvl1: block;
+  --visLvl2: block;
+  --visLvl3: block;
+  --visLvl4: block;
 }
 
 /*CUSTOM FONTS*/
 
 @font-face {
-  font-family: 'JosefinSans';
-  src: url('../JosefinSans-Regular.ttf');
+  font-family: "JosefinSans";
+  src: url("../fonts/JosefinSans-Regular.ttf");
 }
 
 /*UNIVERSAL PAGE STYLE PROPERTIES*/
@@ -33,4 +42,40 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+@media (width < 1000px) {
+  :root {
+    --visLvl1: none;
+    --visLvl2: block;
+    --visLvl3: block;
+    --visLvl4: block;
+  }
+}
+
+@media (width < 800px) {
+  :root {
+    --visLvl1: none;
+    --visLvl2: none;
+    --visLvl3: block;
+    --visLvl4: block;
+  }
+}
+
+@media (width < 500px) {
+  :root {
+    --visLvl1: none;
+    --visLvl2: none;
+    --visLvl3: none;
+    --visLvl4: block;
+  }
+}
+
+@media (width < 200px) {
+  :root {
+    --visLvl1: none;
+    --visLvl2: none;
+    --visLvl3: none;
+    --visLvl4: none;
+  }
 }
