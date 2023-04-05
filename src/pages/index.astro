@@ -4,4 +4,29 @@ import ZABaseLayout from "../layouts/ZABaseLayout.astro";
 
 <ZABaseLayout>
   <h1>Main Page</h1>
+  <div class="testText" class="a">Destop</div>
+  <div class="testText" class="b">Laptop</div>
+  <div class="testText" class="c">Tablet</div>
+  <div class="testText" class="d">Mobile</div>
 </ZABaseLayout>
+
+<style>
+.testText {
+  margin-left: 2rem;
+  margin-bottom: 2rem;
+  color: white;
+
+}
+.a{
+display: var(--DesktopOnly);
+}
+.b{
+display: var(--LaptopOnly);
+}
+.c{display: var(--Only);
+
+}
+.d{
+display: var(--DesktopOnly);
+}
+</style>

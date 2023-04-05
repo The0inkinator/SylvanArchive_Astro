@@ -22,4 +22,11 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
 </html>
 
 <style>
+.pageHeight {
+  min-height: calc((100vh - var(--FooterHeight)) - var(--HeaderHeight));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: red;
+}
 </style>

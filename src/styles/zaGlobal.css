@@ -24,10 +24,15 @@
   --LargeGap: 4rem;
   --SmallGap: 2rem;
   /*Visibilty*/
-  --visLvl1: block;
-  --visLvl2: block;
-  --visLvl3: block;
-  --visLvl4: block;
+
+  --DesktopOnly: block;
+  --LaptopPlus: block;
+  --LaptopOnly: block;
+  --LaptopMinus: block;
+  --TabletPlus: block;
+  --TabletOnly: block;
+  --TabletMinus: block;
+  --MobileOnly: block;
   /*Global Styling*/
   background: var(--BGColor);
 }
@@ -39,47 +44,58 @@
   src: url('../fonts/JosefinSans-Regular.ttf');
 }
 
-/*UNIVERSAL PAGE STYLE PROPERTIES*/
-.pageHeight {
-  min-height: calc((100vh - var(--FooterHeight)) - var(--HeaderHeight));
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: red;
-}
-
-@media (width < 1000px) {
+/*BREAKPOINT - Desktops - Plus*/
+@media screen and (min-width: 1025px) {
   :root {
-    --visLvl1: none;
-    --visLvl2: block;
-    --visLvl3: block;
-    --visLvl4: block;
+    --DesktopOnly: block;
+    --LaptopPlus: block;
+    --LaptopOnly: none !important;
+    --LaptopMinus: none !important;
+    --TabletPlus: block;
+    --TabletOnly: none !important;
+    --TabletMinus: none !important;
+    --MobileOnly: none !important;
+  }
+
+  /*BREAKPOINT - Laptops*/
+}
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  :root {
+    --DesktopOnly: none !important;
+    --LaptopPlus: block;
+    --LaptopOnly: block;
+    --LaptopMinus: block;
+    --TabletPlus: block;
+    --TabletOnly: none !important;
+    --TabletMinus: none !important;
+    --MobileOnly: none !important;
   }
 }
 
-@media (width < 800px) {
+/*BREAKPOINT - Tablets*/
+@media screen and (max-width: 768px) and (min-width: 481px) {
   :root {
-    --visLvl1: none;
-    --visLvl2: none;
-    --visLvl3: block;
-    --visLvl4: block;
+    --DesktopOnly: none !important;
+    --LaptopPlus: none !important;
+    --LaptopOnly: none !important;
+    --LaptopMinus: block;
+    --TabletPlus: block;
+    --TabletOnly: block;
+    --TabletMinus: block;
+    --MobileOnly: none !important;
   }
 }
 
-@media (width < 500px) {
+/*BREAKPOINT - Mobile - Minus*/
+@media screen and (max-width: 480px) {
   :root {
-    --visLvl1: none;
-    --visLvl2: none;
-    --visLvl3: none;
-    --visLvl4: block;
-  }
-}
-
-@media (width < 200px) {
-  :root {
-    --visLvl1: none;
-    --visLvl2: none;
-    --visLvl3: none;
-    --visLvl4: none;
+    --DesktopOnly: none !important;
+    --LaptopPlus: none !important;
+    --LaptopOnly: none !important;
+    --LaptopMinus: block;
+    --TabletPlus: none !important;
+    --TabletOnly: none !important;
+    --TabletMinus: block;
+    --MobileOnly: block;
   }
 }
