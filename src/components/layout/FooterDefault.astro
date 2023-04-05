@@ -1,9 +1,58 @@
 ---
-import "../../styles/zaGlobal.css";
+
+import CornerElement from "./svgs/cornerElement.astro";
 ---
 
 <header>
+<div class="headerDecContainerTest"><div class="headerDecContainerTest2"><div class="footerDec1"><CornerElement class="footerSVG1" /></div>
+    <div class="footerDec2"><CornerElement class="footerSVG2" /></div></div></div>
   <div class="footerBar">
-  Footer
   </div>
+  
 </header>
+
+<style>
+.headerDecContainerTest {
+width: 100vw;
+height: 0rem;
+
+}
+
+.headerDecContainerTest2 {
+  width: 20vw;
+  aspect-ratio: 10/3;
+  background-color: blue;
+  transform: translatey(calc(((20vw * 3) / -10)));
+  margin-inline: auto;
+}
+
+.footerBar {
+    height: var(--FooterHeight);
+    font-family: JosefinSans, Arial, Helvetica, sans-serif;
+    background: linear-gradient(to bottom, var(--ZAGreen1), var(--ZAGreen2));
+     position: relative;
+  }
+
+
+    .footerDec1 {
+    display: var(--visLvl4);
+height:100%;
+
+
+  }
+  .footerDec2 {
+    display: var(--visLvl4);
+height:100%;
+
+
+  }
+
+  .footerSVG1 {
+    height: 100%;
+    transform: scalex(-1) scaley(-1) translatey(-1px);
+  }
+   .footerSVG2 {
+    width: 100%;
+    transform: scaley(-1) translatey(-1px) translatex(-1px);
+  }
+</style>

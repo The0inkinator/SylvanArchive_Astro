@@ -13,6 +13,7 @@
   --ZAGreen2: hsl(128, 43.9%, 38.4%);
   --ZAGreen3: hsl(124, 32.9%, 33.3%);
   --ZAGreen4: hsl(120, 100%, 7.3%);
+  --BGColor: hsl(124, 10%, 20%);
 
   /*Sizes*/
   --MagicCardSize: 12rem;
@@ -27,21 +28,24 @@
   --visLvl2: block;
   --visLvl3: block;
   --visLvl4: block;
+  /*Global Styling*/
+  background: var(--BGColor);
 }
 
 /*CUSTOM FONTS*/
 
 @font-face {
-  font-family: "JosefinSans";
-  src: url("../fonts/JosefinSans-Regular.ttf");
+  font-family: 'JosefinSans';
+  src: url('../fonts/JosefinSans-Regular.ttf');
 }
 
 /*UNIVERSAL PAGE STYLE PROPERTIES*/
 .pageHeight {
-  min-height: calc(100vh - var(--FooterHeight));
+  min-height: calc((100vh - var(--FooterHeight)) - var(--HeaderHeight));
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: red;
 }
 
 @media (width < 1000px) {
