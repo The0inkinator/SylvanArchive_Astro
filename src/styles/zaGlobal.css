@@ -47,8 +47,13 @@
 /*CUSTOM FONTS*/
 
 @font-face {
-  font-family: 'JosefinSans';
-  src: url('../fonts/JosefinSans-Regular.ttf');
+  font-family: "Mukta";
+  src: url("../fonts/Mukta-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Satisfy";
+  src: url("../fonts/Satisfy-Regular.ttf");
 }
 
 /*BREAKPOINT - Desktops - Plus*/
