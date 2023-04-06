@@ -1,16 +1,18 @@
 ---
-
+import NavCardGrid from "../components/grids/NavCardGrid.astro";
 import ZABaseLayout from "../layouts/ZABaseLayout.astro";
+import { startSearchingList } from "../scripts/navCardLists";
+const pageTitle = "Sylvan Archive";
+const NavCardList = startSearchingList;
 ---
 
-<ZABaseLayout>
+<ZABaseLayout pageTitle={pageTitle}>
   <h1>Main Page</h1>
-
-</div>
-
+  <NavCardGrid NavCardList={NavCardList} />
 </ZABaseLayout>
 
 <style>
-h1 {margin: auto;}
-
+  h1 {
+    margin: auto;
+  }
 </style>

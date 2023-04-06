@@ -1,6 +1,4 @@
 ---
-
-import CornerElement from "./svgs/cornerElement.astro";
 ---
 
 <header>
@@ -9,35 +7,48 @@ import CornerElement from "./svgs/cornerElement.astro";
       <a class="bookmarksIcon"></a>
       <a class="bookmarksText">Bookmarks</a>
     </div>
-    <a href="/" class="logo"></a>
+
+    <div class="titleContainer">
+      <a href="/" class="logo"></a>
+      <a href="/" class="title">Sylvan Archive</a>
+    </div>
+
     <div class="accountButtonContainer">
       <a href="/Account" class="accountIcon"></a>
       <a href="/Account" class="accountText">My Account</a>
     </div>
-  </div>
-  <div class="headerDecContainer">
-    <CornerElement class="headerDec1" />
-    <CornerElement class="headerDec2" />
   </div>
 </header>
 
 <style>
   .headerBar {
     height: var(--HeaderHeight);
-    font-family: JosefinSans, Arial, Helvetica, sans-serif;
+    font-family: Mukta, Arial, Helvetica, sans-serif;
     background: linear-gradient(to top, var(--ZAGreen1), var(--ZAGreen2));
     display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
 
   .logo {
-    grid-column: 2;
-    justify-self: center;
     background-image: url("/logos/sylvanArchiveLogo.svg");
     height: 60%;
     aspect-ratio: 1/1;
-    margin-block: auto;
     cursor: pointer;
+  }
+  .title {
+    display: var(--LaptopPlus);
+    color: white;
+    font-family: Satisfy, sans-serif;
+    font-size: 2rem;
+    margin-left: 1rem;
+  }
+  .titleContainer {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    min-width: 15rem;
+    height: var(--HeaderHeight);
   }
   .accountButtonContainer {
     grid-column: 3;
@@ -91,27 +102,5 @@ import CornerElement from "./svgs/cornerElement.astro";
     background-size: cover;
     margin-right: 1rem;
     transition: background-image 0.25s;
-  }
-
-  .headerDecContainer {
-    display: grid;
-    grid-template-columns: 1fr, 1fr;
-    position: relative;
-  }
-
-  .headerDec1 {
-    display: var(--visLvl4);
-    grid-column: 1;
-    width: clamp(6rem, 15vw, 10rem);
-    position: absolute;
-    transform: translatex(-1px) translatey(-1px);
-  }
-  .headerDec2 {
-    display: var(--visLvl4);
-    grid-column: 2;
-    width: clamp(6rem, 15vw, 10rem);
-    justify-self: right;
-    transform: translatex(1px) translatey(-1px) scalex(-1);
-    position: absolute;
   }
 </style>

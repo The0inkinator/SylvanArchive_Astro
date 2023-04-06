@@ -7,7 +7,11 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/logos/sylvanArchiveLogo.svg" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/logos/sylvanArchiveBrowserIcon.svg"
+    />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Sylvan Archive</title>
@@ -15,18 +19,17 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
   <body>
     <HeaderDefault />
     <div class="pageHeight">
-    <slot />
+      <slot />
     </div>
     <FooterDefault />
   </body>
 </html>
 
 <style>
-.pageHeight {
-  min-height: calc((100vh - var(--FooterHeight)) - var(--HeaderHeight));
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-}
+  .pageHeight {
+    min-height: calc((100vh - var(--FooterHeight)) - var(--HeaderHeight));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 </style>
