@@ -13,6 +13,7 @@
   --ZAGreen2: hsl(128, 43.9%, 38.4%);
   --ZAGreen3: hsl(124, 32.9%, 33.3%);
   --ZAGreen4: hsl(120, 100%, 7.3%);
+  --BGColor: hsl(124, 10%, 20%);
 
   /*Sizes*/
   --MagicCardSize: 12rem;
@@ -22,60 +23,93 @@
   /*Gaps*/
   --LargeGap: 4rem;
   --SmallGap: 2rem;
-  /*Visibilty*/
-  --visLvl1: block;
-  --visLvl2: block;
-  --visLvl3: block;
-  --visLvl4: block;
+  /*Breakpoint Variables*/
+  --DesktopOnly: block;
+  --LaptopPlus: block;
+  --LaptopOnly: block;
+  --LaptopMinus: block;
+  --MobileOnly: block;
+  --DesktopOnlyGrid: grid;
+  --LaptopPlusGrid: grid;
+  --LaptopOnlyGrid: grid;
+  --LaptopMinusGrid: grid;
+  --MobileOnlyGrid: grid;
+  --DesktopOnlyFlex: flex;
+  --LaptopPlusFlex: flex;
+  --LaptopOnlyFlex: flex;
+  --LaptopMinusFlex: flex;
+  --MobileOnlyFlex: flex;
+
+  /*Global Styling*/
+  background: var(--BGColor);
 }
 
 /*CUSTOM FONTS*/
 
 @font-face {
-  font-family: "JosefinSans";
-  src: url("../fonts/JosefinSans-Regular.ttf");
+  font-family: 'JosefinSans';
+  src: url('../fonts/JosefinSans-Regular.ttf');
 }
 
-/*UNIVERSAL PAGE STYLE PROPERTIES*/
-.pageHeight {
-  min-height: calc(100vh - var(--FooterHeight));
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-@media (width < 1000px) {
+/*BREAKPOINT - Desktops - Plus*/
+@media screen and (min-width: 1025px) {
   :root {
-    --visLvl1: none;
-    --visLvl2: block;
-    --visLvl3: block;
-    --visLvl4: block;
+    --DesktopOnly: block;
+    --LaptopPlus: block;
+    --LaptopOnly: none;
+    --LaptopMinus: none;
+    --MobileOnly: none;
+    --DesktopOnlyGrid: grid;
+    --LaptopPlusGrid: grid;
+    --LaptopOnlyGrid: none;
+    --LaptopMinusGrid: none;
+    --MobileOnlyGrid: none;
+    --DesktopOnlyFlex: flex;
+    --LaptopPlusFlex: flex;
+    --LaptopOnlyFlex: none;
+    --LaptopMinusFlex: none;
+    --MobileOnlyFlex: none;
+  }
+
+  /*BREAKPOINT - Laptops & Tablets*/
+}
+@media screen and (max-width: 1024px) and (min-width: 481px) {
+  :root {
+    --DesktopOnly: none;
+    --LaptopPlus: block;
+    --LaptopOnly: block;
+    --LaptopMinus: block;
+    --MobileOnly: none;
+    --DesktopOnlyGrid: none;
+    --LaptopPlusGrid: grid;
+    --LaptopOnlyGrid: grid;
+    --LaptopMinusGrid: grid;
+    --MobileOnlyGrid: none;
+    --DesktopOnlyFlex: none;
+    --LaptopPlusFlex: flex;
+    --LaptopOnlyFlex: flex;
+    --LaptopMinusFlex: flex;
+    --MobileOnlyFlex: none;
   }
 }
 
-@media (width < 800px) {
+/*BREAKPOINT - Mobile - Minus*/
+@media screen and (max-width: 480px) {
   :root {
-    --visLvl1: none;
-    --visLvl2: none;
-    --visLvl3: block;
-    --visLvl4: block;
-  }
-}
-
-@media (width < 500px) {
-  :root {
-    --visLvl1: none;
-    --visLvl2: none;
-    --visLvl3: none;
-    --visLvl4: block;
-  }
-}
-
-@media (width < 200px) {
-  :root {
-    --visLvl1: none;
-    --visLvl2: none;
-    --visLvl3: none;
-    --visLvl4: none;
+    --DesktopOnly: none;
+    --LaptopPlus: none;
+    --LaptopOnly: none;
+    --LaptopMinus: block;
+    --MobileOnly: block;
+    --DesktopOnlyGrid: none;
+    --LaptopPlusGrid: none;
+    --LaptopOnlyGrid: none;
+    --LaptopMinusGrid: grid;
+    --MobileOnlyGrid: grid;
+    --DesktopOnlyFlex: none;
+    --LaptopPlusFlex: none;
+    --LaptopOnlyFlex: none;
+    --LaptopMinusFlex: flex;
+    --MobileOnlyFlex: flex;
   }
 }

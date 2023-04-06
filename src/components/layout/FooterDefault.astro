@@ -1,9 +1,22 @@
 ---
-import "../../styles/zaGlobal.css";
+
+import CornerElement from "./svgs/cornerElement.astro";
 ---
 
 <header>
   <div class="footerBar">
-  Footer
   </div>
+  
 </header>
+
+<style>
+
+
+.footerBar {
+    height: var(--FooterHeight);
+    font-family: JosefinSans, Arial, Helvetica, sans-serif;
+    background: linear-gradient(to bottom, var(--ZAGreen1), var(--ZAGreen2));
+     position: relative;
+  }
+
+</style>
