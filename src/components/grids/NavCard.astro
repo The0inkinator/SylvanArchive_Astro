@@ -1,0 +1,113 @@
+---
+const { title, subtitle, imgSrc, link } = Astro.props;
+---
+
+<div class="navCardContainer">
+  <div class="fullNavCard">
+    <div class="navCardBox">
+      <div style={{ backgroundImage: `url(${imgSrc})` }} class="navCardImage">
+      </div>
+      <div class="overlay"></div>
+      <div class="navCardTitle">{title}</div>
+      <a href={link} class="link"></a>
+    </div>
+    <p class="navCardSubtitle">{subtitle}</p>
+  </div>
+</div>
+
+<style>
+  .navCardContainer {
+    width: var(--NavCardSize);
+    max-width: calc(var(--NavCardSize) * 1.4);
+    display: grid;
+  }
+  .navCardContainer > * {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .fullNavCard {
+    width: 85%;
+    aspect-ratio: 1/1.65;
+    font-family: Mukta, Arial, sans-serif;
+    font-size: 130%;
+    transform-origin: center;
+  }
+
+  .navCardBox {
+    width: 100%;
+    height: 85%;
+    clip-path: inset(0% round 8% 8% 8% 8%);
+    display: grid;
+  }
+  .navCardBox > * {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .navCardImage {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    transition: transform 0.5s;
+    transform-origin: center center;
+  }
+  .overlay {
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(to bottom, #0000 10%, #001 90%);
+    transition: background-image 0.25s;
+  }
+
+  .navCardTitle {
+    width: 100%;
+    text-align: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    color: white;
+    font-weight: bold;
+    align-self: end;
+    margin-bottom: 10%;
+    transition: margin-bottom 0.5s;
+  }
+
+  .link {
+    width: 100%;
+    height: 100%;
+  }
+
+  .navCardSubtitle {
+    width: 100%;
+    text-align: center;
+    padding-top: 0.4rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    color: hsl(0 0% 70%);
+    font-weight: bold;
+    overflow: clip;
+    font-size: 80%;
+  }
+
+  /*Hover Transforms*/
+
+  .navCardBox:hover {
+    cursor: pointer;
+  }
+
+  .navCardBox:hover > .navCardImage {
+    transform: scale(1.05);
+  }
+
+  .navCardBox:hover > .navCardTitle {
+    margin-bottom: 13%;
+  }
+
+  .navCardBox:hover > .navCardOverlay {
+    background-image: linear-gradient(to bottom, #0000 10%, #001 87%);
+  }
+</style>
