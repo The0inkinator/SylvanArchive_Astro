@@ -13,12 +13,13 @@
   --ZAGreen2: hsl(128, 43.9%, 38.4%);
   --ZAGreen3: hsl(124, 32.9%, 33.3%);
   --ZAGreen4: hsl(120, 100%, 7.3%);
-  --BGColor: hsl(124, 10%, 20%);
+  --BGColor: hsl(124, 0%, 30%);
 
   /*Sizes*/
   --MagicCardSize: 12rem;
   --NavCardSize: 15rem;
   --HeaderHeight: 7rem;
+  --ButtonLeafHeight: calc(var(--HeaderHeight) * 3.5);
   --FooterHeight: 7rem;
   /*Gaps*/
   --LargeGap: 4rem;

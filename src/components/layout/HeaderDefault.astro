@@ -3,19 +3,9 @@
 
 <header>
   <div class="headerBar">
-    <div class="bookmarksButtonContainer">
-      <a class="bookmarksIcon"></a>
-      <a class="bookmarksText">Bookmarks</a>
-    </div>
-
     <div class="titleContainer">
       <a href="/" class="logo"></a>
       <a href="/" class="title">Sylvan Archive</a>
-    </div>
-
-    <div class="accountButtonContainer">
-      <a href="/Account" class="accountIcon"></a>
-      <a href="/Account" class="accountText">My Account</a>
     </div>
   </div>
 </header>
@@ -25,8 +15,7 @@
     height: var(--HeaderHeight);
     font-family: Mukta, Arial, Helvetica, sans-serif;
     background: linear-gradient(to top, var(--ZAGreen1), var(--ZAGreen2));
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
   }
 
   .logo {
@@ -37,70 +26,16 @@
   }
   .title {
     display: var(--LaptopPlus);
-    color: white;
+    color: black;
     font-family: Satisfy, sans-serif;
     font-size: 2rem;
     margin-left: 1rem;
   }
   .titleContainer {
-    grid-column: 2;
     display: flex;
     align-items: center;
-    margin: 0 auto;
+    margin-left: var(--SmallGap);
     min-width: 15rem;
     height: var(--HeaderHeight);
-  }
-  .accountButtonContainer {
-    grid-column: 3;
-    display: flex;
-    flex-direction: row-reverse;
-    height: calc(0.3 * var(--HeaderHeight));
-    margin-inline: var(--SmallGap);
-    margin-block: auto;
-  }
-
-  .accountText {
-    display: var(--LaptopPlus);
-    color: white;
-    align-self: center;
-    text-align: right;
-    font-size: 1.3rem;
-    white-space: nowrap;
-    transition: color 0.25s;
-  }
-  .accountIcon {
-    align-self: center;
-    height: 100%;
-    aspect-ratio: 1/1;
-    background-image: url("/logos/accountIcon.svg");
-    background-size: cover;
-    margin-left: 1rem;
-    transition: background-image 0.25s;
-  }
-
-  .bookmarksButtonContainer {
-    grid-column: 1;
-    display: flex;
-    height: calc(0.3 * var(--HeaderHeight));
-    margin-inline: var(--SmallGap);
-    margin-block: auto;
-  }
-  .bookmarksText {
-    display: var(--LaptopPlus);
-    color: white;
-    align-self: center;
-    font-size: 1.3rem;
-    white-space: nowrap;
-    transition: color 0.25s;
-  }
-
-  .bookmarksIcon {
-    align-self: center;
-    height: 100%;
-    aspect-ratio: 1/1;
-    background-image: url("/logos/bookmarksIcon.svg");
-    background-size: cover;
-    margin-right: 1rem;
-    transition: background-image 0.25s;
   }
 </style>
