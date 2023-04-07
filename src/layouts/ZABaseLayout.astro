@@ -2,6 +2,7 @@
 import "../styles/zaGlobal.css";
 import HeaderDefault from "../components/layout/HeaderDefault.astro";
 import FooterDefault from "../components/layout/FooterDefault.astro";
+import ButtonLeaf from "../components/layout/ButtonLeaf.astro";
 ---
 
 <html lang="en">
@@ -17,11 +18,11 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
     <title>Sylvan Archive</title>
   </head>
   <body>
+    <ButtonLeaf />
     <HeaderDefault />
     <div class="pageHeight">
       <slot />
     </div>
-    <FooterDefault />
   </body>
 </html>
 
