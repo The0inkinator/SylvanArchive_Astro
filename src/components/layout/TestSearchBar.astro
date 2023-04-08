@@ -1,0 +1,34 @@
+---
+---
+
+<div class="headerSearchBarCon">
+<input class="searchBar"></input>
+</div>
+
+<style>
+.headerSearchBarCon {
+  width: calc(var(--HeaderHeight) * .6);
+  height: calc(var(--HeaderHeight) * .6);
+  margin: auto; 
+  transform: scalex(-1);
+}
+.searchBar {
+  all: unset;
+  display: block-reverse;
+  justify-self: right;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-radius: calc(var(--HeaderHeight) * .6);
+  transition: width 0.5s;
+  transform: scalex(-1);
+  color: white;
+  border: solid var(--ZAGreen3);
+}
+
+.searchBar:hover {
+  width: 30vw;
+  color: black;
+}
+
+</style>
