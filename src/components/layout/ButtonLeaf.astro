@@ -27,26 +27,24 @@ import SearchButton from "./SearchButton.astro";
     </g>
   </svg>
   <div class="buttonContainer">
-    <SearchButton/>
+    <SearchButton />
     <BookmarksButton />
     <AccountButton />
   </div>
 </div>
 
 <style>
-
   .buttonLeafContainer {
     display: var(--LaptopPlus);
     position: fixed;
     z-index: 5;
     right: 0;
-    filter: drop-shadow(0 0 0.75rem black);
   }
 
   .buttonLeaf {
     fill: var(--ZAGreen3);
     height: var(--ButtonLeafHeight);
-  
+    filter: drop-shadow(0 0 0.75rem black);
   }
 
   .buttonContainer {
