@@ -5,23 +5,39 @@ const { NavCardList } = Astro.props;
 
 <script>
   //This script shrinks the max width of the grid if it is under 5 grid items
-  const gridLength = document.querySelectorAll(".navCardContainer").length;
-  const grid = document.querySelectorAll(
-    ".navCardGrid"
-  ) as NodeListOf<HTMLElement>;
-  const navCardSize = getComputedStyle(
-    document.documentElement
-  ).getPropertyValue("--NavCardSize");
+  // const gridLength = document.querySelectorAll(".navCardContainer").length;
+  // const grid = document.querySelectorAll(
+  //   ".navCardGrid"
+  // ) as NodeListOf<HTMLElement>;
+  // const navCardSize = getComputedStyle(
+  //   document.documentElement
+  // ).getPropertyValue("--NavCardSize");
 
-  if (gridLength < 5) {
-    grid.forEach((grid) => {
-      grid.style.maxWidth = `calc(${navCardSize} * ${gridLength})`;
-    });
-  } else {
-    grid.forEach((grid) => {
-      grid.style.maxWidth = `calc(${navCardSize} * 5)`;
-    });
-  }
+  // if (gridLength < 5) {
+  //   grid.forEach((grid) => {
+  //     grid.style.maxWidth = `calc(${navCardSize} * ${gridLength})`;
+  //   });
+  // } else {
+  //   grid.forEach((grid) => {
+  //     grid.style.maxWidth = `calc(${navCardSize} * 5)`;
+  //   });
+  // }
+  let gridLength = document.querySelectorAll(".navCardContainer").length;
+  const grid = document.querySelector(".navCardGrid");
+
+  let gridColumnLength = getComputedStyle(grid).getPropertyValue(
+    "grid-template-columns"
+  );
+
+  let columnCount = gridColumnLength.split(" ").length;
+  window.addEventListener("resize", () => {
+    gridColumnLength = getComputedStyle(grid).getPropertyValue(
+      "grid-template-columns"
+    );
+
+    columnCount = gridColumnLength.split(" ").length;
+    console.log(columnCount);
+  });
 </script>
 
 <div class="navCardGrid">
