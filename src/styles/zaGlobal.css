@@ -27,6 +27,8 @@
   --NavCardSize: 15rem;
   --HeaderHeight: calc(100vh / 7);
   --FooterHeight: 7rem;
+  --SearchBarHeight: 3rem;
+  --SearchBarWidth: 30vw;
   /* Font Variables */
   --NavCardTitleSize: 1.5rem;
   --HeadingFont: Satisfy;

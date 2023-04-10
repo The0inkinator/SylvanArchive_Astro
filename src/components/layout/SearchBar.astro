@@ -1,0 +1,77 @@
+---
+---
+
+<script>
+const searchBar = document.getElementById("searchBar") as HTMLDivElement;
+const logo = document.getElementById("searchBarLogo") as HTMLDivElement;
+const input = document.getElementById("searchBarInput") as HTMLInputElement;
+const title = document.getElementById("searchBarTitle") as HTMLDivElement;
+
+let barScrolled = false;
+let barClicked = false;
+
+searchBar.addEventListener("click", () => {
+  if (barClicked === false) {
+    searchBar.style.width = "calc(var(--SearchBarHeight) * 1.5 + var(--SearchBarWidth))"
+    input.style.display = "block"
+    title.style.display = "none"
+    barClicked = true;
+  } else {
+    searchBar.style.width = "calc(var(--SearchBarHeight) * 4.4)"
+    input.style.display = "none"
+    title.style.display = "block"
+    barClicked = false;
+   
+  }
+})
+
+</script>
+
+  <div class="searchBarContainer">
+  <div id="searchBar">
+  <div id="searchBarLogo"></div>
+  <input id="searchBarInput" value="Start Searching" type="text">
+  <div id="searchBarTitle">Sylvan Archive</div>
+  </div>
+  </div>
+ <style>
+
+.searchBarContainer {
+  pointer-events: auto;
+}
+
+#searchBar {
+    background-color: white;
+    height: var(--SearchBarHeight);
+    border-radius: calc(var(--SearchBarHeight) / 5);
+    display: flex;
+    width: calc(calc(var(--SearchBarHeight) * 4.4));
+    align-items: center;
+    cursor: pointer;
+    filter: drop-shadow(0px 0px 5px black);
+    transition: width 0.25s;
+  }
+
+  #searchBarLogo {
+  height: 80%;
+  aspect-ratio: 1/1;
+  background-image: url("../../logos/sylvanArchiveLogo.svg");
+  margin-inline: calc(var(--SearchBarHeight) / 4);
+}
+
+  input {
+  all: unset;
+  display: none;
+  width: var(--SearchBarWidth);
+  transform: translateX(calc(var(--SearchBarHeight) / -8))
+}
+
+#searchBarTitle {
+  font-family: var(--HeadingFont);
+  font-size: calc(var(--SearchBarHeight) * .5);
+  white-space: nowrap;
+  margin-right: calc(var(--SearchBarHeight) / 4);
+
+}
+
+  </style>
