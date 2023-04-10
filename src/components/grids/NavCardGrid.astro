@@ -28,15 +28,17 @@ const { NavCardList } = Astro.props;
   let gridColumnLength = getComputedStyle(grid).getPropertyValue(
     "grid-template-columns"
   );
-
+  const navCardSize = getComputedStyle(
+    document.documentElement
+  ).getPropertyValue("--NavCardSize");
   let columnCount = gridColumnLength.split(" ").length;
   window.addEventListener("resize", () => {
     gridColumnLength = getComputedStyle(grid).getPropertyValue(
       "grid-template-columns"
     );
-
     columnCount = gridColumnLength.split(" ").length;
     console.log(columnCount);
+    grid.styles.width = `calc(${navCardSize} * ${columnCount})`;
   });
 </script>
 
