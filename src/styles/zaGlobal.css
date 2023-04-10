@@ -9,11 +9,6 @@
 /*SITEWIDE VALUES*/
 :root {
   /*Colors*/
-  --ZAGreen1: hsl(123, 30.7%, 54.7%);
-  --ZAGreen2: hsl(128, 43.9%, 38.4%);
-  --ZAGreen3: hsl(124, 32.9%, 33.3%);
-  --ZAGreen4: hsl(120, 100%, 7.3%);
-  --BGColor: hsl(124, 0%, 30%);
 
   /*Sizes*/
   --MagicCardSize: 12rem;
@@ -42,19 +37,19 @@
   --MobileOnlyFlex: flex;
 
   /*Global Styling*/
-  background: var(--BGColor);
+  background: hsl(134 60% 93%);
 }
 
 /*CUSTOM FONTS*/
 
 @font-face {
-  font-family: 'Mukta';
-  src: url('../fonts/Mukta-Regular.ttf');
+  font-family: "Mukta";
+  src: url("../fonts/Mukta-Regular.ttf");
 }
 
 @font-face {
-  font-family: 'Satisfy';
-  src: url('../fonts/Satisfy-Regular.ttf');
+  font-family: "Satisfy";
+  src: url("../fonts/Satisfy-Regular.ttf");
 }
 
 /*BREAKPOINT - Desktops - Plus*/

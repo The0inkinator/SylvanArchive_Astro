@@ -3,27 +3,6 @@ import NavCard from "./NavCard.astro";
 const { NavCardList } = Astro.props;
 ---
 
-<script>
-  //This script shrinks the max width of the grid if it is under 5 grid items
-  const gridLength = document.querySelectorAll(".navCardContainer").length;
-  const grid = document.querySelectorAll(
-    ".navCardGrid"
-  ) as NodeListOf<HTMLElement>;
-  const navCardSize = getComputedStyle(
-    document.documentElement
-  ).getPropertyValue("--NavCardSize");
-
-  if (gridLength < 5) {
-    grid.forEach((grid) => {
-      grid.style.maxWidth = `calc(${navCardSize} * ${gridLength})`;
-    });
-  } else {
-    grid.forEach((grid) => {
-      grid.style.maxWidth = `calc(${navCardSize} * 5)`;
-    });
-  }
-</script>
-
 <div class="navCardGrid">
   {
     NavCardList.map(
@@ -48,11 +27,11 @@ const { NavCardList } = Astro.props;
 
 <style>
   .navCardGrid {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
+    transition: flex-wrap 0.5s;
     width: 80vw;
-    grid-template-columns: repeat(auto-fit, minmax(var(--NavCardSize), 1fr));
-    padding-block: var(--LargeGap);
     margin: auto;
-    justify-items: center;
+    justify-content: center;
   }
 </style>

@@ -2,7 +2,6 @@
 import "../styles/zaGlobal.css";
 import HeaderDefault from "../components/layout/HeaderDefault.astro";
 import FooterDefault from "../components/layout/FooterDefault.astro";
-import ButtonLeaf from "../components/layout/ButtonLeaf.astro";
 ---
 
 <html lang="en">
@@ -17,20 +16,35 @@ import ButtonLeaf from "../components/layout/ButtonLeaf.astro";
     <meta name="generator" content={Astro.generator} />
     <title>Sylvan Archive</title>
   </head>
+  <div class="gradOverlay"></div>
   <body>
-    <ButtonLeaf />
     <HeaderDefault />
     <div class="pageHeight">
       <slot />
     </div>
   </body>
-</html>
 
-<style>
-  .pageHeight {
-    min-height: calc((100vh - var(--FooterHeight)) - var(--HeaderHeight));
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-</style>
+  <style>
+    .gradOverlay {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(
+        to bottom,
+        rgba(41, 163, 94, 0) 80%,
+        rgba(41, 163, 94, 0.1) 90%,
+        rgba(41, 163, 94, 0.3) 95%,
+        rgba(41, 163, 94, 0.7)
+      );
+      z-index: 5;
+      pointer-events: none;
+    }
+    .pageHeight {
+      min-height: calc(100vh - var(--HeaderHeight));
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+
+
+</html>

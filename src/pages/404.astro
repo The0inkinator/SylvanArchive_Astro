@@ -1,8 +1,10 @@
 ---
-	import ZABaseLayout from "../layouts/ZABaseLayout.astro";
-	import TestSearchBar from "../components/layout/TestSearchBar.astro"
+import ZABaseLayout from "../layouts/ZABaseLayout.astro";
+import NavCardGrid from "../components/grids/NavCardGrid.astro";
+import { startSearchingList } from "../scripts/navCardLists";
+const NavCardList = startSearchingList;
 ---
 
-<ZABaseLayout> 
-<TestSearchBar />
+<ZABaseLayout>
+  <NavCardGrid NavCardList={NavCardList} />
 </ZABaseLayout>
