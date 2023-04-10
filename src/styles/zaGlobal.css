@@ -6,6 +6,18 @@
   color: inherit;
 }
 
+/*CUSTOM FONTS*/
+
+@font-face {
+  font-family: 'Mukta';
+  src: url('../fonts/Mukta-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Satisfy';
+  src: url('../fonts/Satisfy-Regular.ttf');
+}
+
 /*SITEWIDE VALUES*/
 :root {
   /*Colors*/
@@ -13,9 +25,13 @@
   /*Sizes*/
   --MagicCardSize: 12rem;
   --NavCardSize: 15rem;
-  --HeaderHeight: 6rem;
-  --ButtonLeafHeight: calc(var(--HeaderHeight) * 3.5);
+  --HeaderHeight: calc(100vh / 7);
   --FooterHeight: 7rem;
+  /* Font Variables */
+  --NavCardTitleSize: 1.5rem;
+  --HeadingFont: Satisfy;
+  --SubHeadingFont: Mukta, Arial, sans-serif;
+  --BodyFont: Arial;
   /*Gaps*/
   --LargeGap: 4rem;
   --SmallGap: 2rem;
@@ -38,18 +54,6 @@
 
   /*Global Styling*/
   background: hsl(134 60% 93%);
-}
-
-/*CUSTOM FONTS*/
-
-@font-face {
-  font-family: "Mukta";
-  src: url("../fonts/Mukta-Regular.ttf");
-}
-
-@font-face {
-  font-family: "Satisfy";
-  src: url("../fonts/Satisfy-Regular.ttf");
 }
 
 /*BREAKPOINT - Desktops - Plus*/
@@ -112,5 +116,11 @@
     --LaptopOnlyFlex: none;
     --LaptopMinusFlex: flex;
     --MobileOnlyFlex: flex;
+
+    /* Sizes */
+    --NavCardSize: 10rem;
+
+    /* Font Variables */
+    --NavCardTitleSize: 1.2rem;
   }
 }

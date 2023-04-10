@@ -19,8 +19,12 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
   <div class="gradOverlay"></div>
   <body>
     <HeaderDefault />
-    <div class="pageHeight">
+    <div class="page">
+    <div class="upperMargin"></div>
+    <div class="contentContainer">
+    
       <slot />
+      </div>
     </div>
   </body>
 
@@ -39,10 +43,23 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
       z-index: 5;
       pointer-events: none;
     }
-    .pageHeight {
-      min-height: calc(100vh - var(--HeaderHeight));
+    .page {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
+
+    }
+    
+    .upperMargin {
+      height: calc(100vh - 70vw);
+      max-height: 15vh;
+
+    }
+    .contentContainer {
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+
     }
   </style>
 
