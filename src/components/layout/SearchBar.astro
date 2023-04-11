@@ -31,9 +31,8 @@
   });
 
   function visStateBarScrolled() {
-    searchBar.style.width = "calc(var(--MenuHeight) * 1.15)";
-    // input.style.display = "none";
-    input.style.width = "0";
+    searchBar.style.width = "var(--MenuHeight)";
+    searchBar.style.gridTemplateColumns = "var(--MenuHeight) 0 1fr 0 ";
     title.style.transition = "width 0.25s";
     title.style.width = "0";
     closeButton.style.display = "none";
@@ -43,10 +42,9 @@
 
   function visStateBar() {
     searchBar.style.width = "calc(var(--MenuHeight) * 4.3)";
-    // input.style.display = "none";
-    input.style.width = "0";
+    searchBar.style.gridTemplateColumns = "var(--MenuHeight) 0 1fr 0 ";
     title.style.transition = "width 0.25s";
-    title.style.width = "calc(var(--MenuHeight) * 3)";
+    title.style.width = "100%";
     closeButton.style.display = "none";
     barClicked = false;
   }
@@ -54,8 +52,7 @@
   function visStateBarClicked() {
     searchBar.style.width =
       "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
-    input.style.width = "var(--SearchBarWidth)";
-    // input.style.display = "block";
+    searchBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr 0 var(--MenuHeight) ";
     input.style.cursor = "text";
     title.style.transition = "width 0s";
     title.style.width = "0";
@@ -94,40 +91,48 @@
   }
 
   #searchBar {
+    all: unset;
     background-color: white;
-    height: var(--MenuHeight);
-    border-radius: calc(var(--MenuHeight) / 5);
-    display: flex;
-    width: calc(var(--MenuHeight) * 4.4);
-    align-items: center;
-    padding-inline: calc(var(--MenuHeight) / 6);
-    cursor: pointer;
     filter: drop-shadow(0px 0px 5px var(--ShadowGreen));
+    height: var(--MenuHeight);
+    width: calc(var(--MenuHeight) * 4.4);
+    border-radius: calc(var(--MenuHeight) / 5);
+    cursor: pointer;
     transition: width 0.25s;
+
+    display: grid;
+    grid-template-columns: var(--MenuHeight) 0 1fr 0;
+    grid-template-rows: var(--MenuHeight);
+    place-items: center;
   }
 
   #searchBarLogo {
     height: 80%;
     aspect-ratio: 1/1;
     background-image: url("../../logos/sylvanArchiveLogo.svg");
+    grid-column: 1;
+    /* background-color: blue; */
   }
 
   input {
     all: unset;
-    width: 0;
-    transform: translateX(calc(var(--MenuHeight) / -8));
+    width: 100%;
     transition: width 0.25s;
-    margin-left: calc(var(--MenuHeight) / 4);
+    grid-column: 2;
+    /* background-color: green; */
   }
 
   #searchBarTitle {
     font-family: var(--HeadingFont);
     font-size: calc(var(--MenuHeight) / 2);
     white-space: nowrap;
-    width: calc(var(--MenuHeight) * 2.8);
-    overflow: clip;
+    width: 100%;
     transition: width 0.25s;
-
+    text-align: center;
+    margin-right: calc(var(--MenuHeight) * .2);
+    overflow: hidden;
+    /* background-color: red; */
+    grid-column: 3;
   }
 
   #closeButton {
@@ -136,10 +141,12 @@
     height: 80%;
     aspect-ratio: 1/1;
     place-items: center;
+    grid-column: 4;
+    /* background-color: blue; */
   }
 
   #closeButton > * {
-    width: 80%;
+    width: 70%;
     height: 10%;
     background-color: lightgrey;
     grid-row: 1;
