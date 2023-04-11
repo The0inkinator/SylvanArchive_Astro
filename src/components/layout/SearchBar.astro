@@ -1,79 +1,93 @@
 ---
 ---
 
-<script >
-const searchBar = document.getElementById("searchBar") as HTMLDivElement;
-const logo = document.getElementById("searchBarLogo") as HTMLDivElement;
-const input = document.getElementById("searchBarInput") as HTMLInputElement;
-const title = document.getElementById("searchBarTitle") as HTMLDivElement;
-const x = document.getElementById("x") as HTMLDivElement;
+<div class="searchBarContainer">
+  <div id="searchBar">
+    <div id="searchBarLogo"></div>
+    <input id="searchBarInput" value="Start Searching" type="text" />
+    <button id="closeButton">
+      <div></div>
+      <div></div>
+    </button>
+    <div id="searchBarTitle">Sylvan Archive</div>
+  </div>
+</div>
 
-let barScrolled = false;
-let barClicked = false;
+<script>
+  const searchBar = document.getElementById("searchBar") as HTMLDivElement;
+  const logo = document.getElementById("searchBarLogo") as HTMLDivElement;
+  const input = document.getElementById("searchBarInput") as HTMLInputElement;
+  const title = document.getElementById("searchBarTitle") as HTMLDivElement;
+  const closeButton = document.getElementById("closeButton") as HTMLDivElement;
 
+  let barClicked = false;
+  let barScrolled = false;
+  let xHovered = false;
 
-// window.addEventListener("scroll", () => {
-//   if (window.scrollY > 0) {
-//     searchBar.style.width = "calc(var(--SearchBarHeight) * 1.3)"
-//     input.style.display = "none"
-//     title.style.transition = "width 0.25s"
-//     title.style.width = "0"
-//     x.style.display = "none"
-//     barScrolled = true;
-//     barClicked = false;
-//     } else {
-//     searchBar.style.width = "calc(var(--SearchBarHeight) * 4.4)"
-//     input.style.display = "none"
-//     title.style.transition = "width 0.25s"
-//     title.style.width = "calc(var(--SearchBarHeight) * 2.8)"
-//     x.style.display = "none"
-//   }
+  closeButton.addEventListener("mouseenter", () => {
+    xHovered = true;
+  });
+  closeButton.addEventListener("mouseleave", () => {
+    xHovered = false;
+  });
 
-// })
+  function visStateBarScrolled() {
+    searchBar.style.width = "calc(var(--SearchBarHeight) * 1.3)";
+    input.style.display = "none";
+    title.style.transition = "width 0.25s";
+    title.style.width = "0";
+    closeButton.style.display = "none";
+    barClicked = false;
+    barScrolled = true;
+  }
 
-// searchBar.addEventListener("click", () => {
-//   if (barClicked === false) {
-//     searchBar.style.width = "calc(var(--SearchBarHeight) * 2.2 + var(--SearchBarWidth))"
-//     input.style.display = "block"
-//     title.style.transition = "width 0s"
-//     title.style.width = "0"
-//     x.style.display = "grid"
-//     barClicked = true;
-//   } else {x.addEventListener("click", () => {if (barClicked === true) {
-//     console.log("x clicked")
-//     searchBar.style.width = "calc(var(--SearchBarHeight) * 4.4)"
-//     input.style.display = "none"
-//     title.style.transition = "width 0s"
-//     title.style.width = "calc(var(--SearchBarHeight) * 2.8)"
-//     x.style.display = "none"
-//     console.log(barClicked)
-//     }
-//     }
-   
-//     )}
+  function visStateBarDefault() {
+    searchBar.style.width = "calc(var(--SearchBarHeight) * 4.4)";
+    input.style.display = "none";
+    title.style.transition = "width 0.25s";
+    title.style.width = "calc(var(--SearchBarHeight) * 2.8)";
+    closeButton.style.display = "none";
+    barClicked = false;
+  }
 
-})
+  function visStateBarClicked() {
+    searchBar.style.width =
+      "calc(var(--SearchBarHeight) * 2.2 + var(--SearchBarWidth))";
+    input.style.display = "block";
+    title.style.transition = "width 0s";
+    title.style.width = "0";
+    closeButton.style.display = "grid";
+    barClicked = true;
+  }
 
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 0) {
+      visStateBarScrolled();
+    } else {
+      visStateBarDefault();
+      barScrolled = false;
+    }
+  });
+
+  searchBar.addEventListener("click", () => {
+    if (barClicked === false) {
+      visStateBarClicked();
+    } else if (xHovered === true) {
+      if (barScrolled === true) {
+        visStateBarScrolled();
+      } else {
+        visStateBarDefault();
+      }
+    }
+  });
 </script>
 
-  <div class="searchBarContainer">
-  <div id="searchBar">
-  <div id="searchBarLogo"></div>
-  <input id="searchBarInput" value="Start Searching" type="text">
-   <div id="x">
-  <div></div>
-  <div></div>
-  </div>
-  <div id="searchBarTitle">Sylvan Archive</div>
-  </div>
-  </div>
- <style>
+<style>
+  .searchBarContainer {
+    pointer-events: auto;
+  }
 
-.searchBarContainer {
-  pointer-events: auto;
-}
-
-#searchBar {
+  #searchBar {
     background-color: white;
     height: var(--SearchBarHeight);
     border-radius: calc(var(--SearchBarHeight) / 5);
@@ -86,52 +100,50 @@ let barClicked = false;
   }
 
   #searchBarLogo {
-  height: 80%;
-  aspect-ratio: 1/1;
-  background-image: url("../../logos/sylvanArchiveLogo.svg");
-  margin-inline: calc(var(--SearchBarHeight) / 4);
-}
+    height: 80%;
+    aspect-ratio: 1/1;
+    background-image: url("../../logos/sylvanArchiveLogo.svg");
+    margin-inline: calc(var(--SearchBarHeight) / 4);
+  }
 
   input {
-  all: unset;
-  display: none;
-  width: var(--SearchBarWidth);
-  transform: translateX(calc(var(--SearchBarHeight) / -8))
-}
+    all: unset;
+    display: none;
+    width: var(--SearchBarWidth);
+    transform: translateX(calc(var(--SearchBarHeight) / -8));
+  }
 
-#searchBarTitle {
-  font-family: var(--HeadingFont);
-  font-size: calc(var(--SearchBarHeight) * .5);
-  white-space: nowrap;
-  margin-right: calc(var(--SearchBarHeight) / 4);
-  width: calc(var(--SearchBarHeight) * 2.8);
-  overflow: clip;
-  transition: width 0.25s;
-}
+  #searchBarTitle {
+    font-family: var(--HeadingFont);
+    font-size: calc(var(--SearchBarHeight) * 0.5);
+    white-space: nowrap;
+    margin-right: calc(var(--SearchBarHeight) / 4);
+    width: calc(var(--SearchBarHeight) * 2.8);
+    overflow: clip;
+    transition: width 0.25s;
+  }
 
-#x {
-  display: none;
-  height: 80%;
-  aspect-ratio: 1/1;
-  place-items: center;
-}
+  #closeButton {
+    all: unset;
+    display: none;
+    height: 80%;
+    aspect-ratio: 1/1;
+    place-items: center;
+  }
 
+  #closeButton > * {
+    width: 80%;
+    height: 10%;
+    background-color: lightgrey;
+    grid-row: 1;
+    grid-column: 1;
+    align-items: center;
+  }
 
-
-#x > * {
-  width: 80%;
-  height: 10%;
-  background-color: lightgrey;
-  grid-row: 1;
-  grid-column: 1;
-  align-items: center;
-}
-
-#x > :nth-child(1) {
-  transform: rotate(45deg);
-}
-#x > :nth-child(2) {
-  transform: rotate(-45deg);
-}
-
-  </style>
+  #closeButton > :nth-child(1) {
+    transform: rotate(45deg);
+  }
+  #closeButton > :nth-child(2) {
+    transform: rotate(-45deg);
+  }
+</style>
