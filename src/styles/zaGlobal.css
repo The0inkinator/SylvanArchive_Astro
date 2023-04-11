@@ -9,18 +9,23 @@
 /*CUSTOM FONTS*/
 
 @font-face {
-  font-family: 'Mukta';
-  src: url('../fonts/Mukta-Regular.ttf');
+  font-family: "Mukta";
+  src: url("public/fonts/Mukta-Regular.ttf");
 }
 
 @font-face {
-  font-family: 'Satisfy';
-  src: url('../fonts/Satisfy-Regular.ttf');
+  font-family: "Satisfy";
+  src: url("public/fonts/Satisfy-Regular.ttf");
 }
 
+@font-face {
+  font-family: "Modern Sans";
+  src: url("../fonts/ModernSans-Light.otf");
+}
 /*SITEWIDE VALUES*/
 :root {
   /*Colors*/
+  --ShadowGreen: hsl(146 59.8% 10%);
 
   /*Sizes*/
   --MagicCardSize: 12rem;
@@ -33,7 +38,7 @@
   --NavCardTitleSize: 1.5rem;
   --HeadingFont: Satisfy;
   --SubHeadingFont: Mukta, Arial, sans-serif;
-  --BodyFont: Arial;
+  --BodyFont: Modern Sans, Arial, sans-serif;
   /*Gaps*/
   --LargeGap: 4rem;
   --SmallGap: 2rem;
@@ -121,6 +126,7 @@
 
     /* Sizes */
     --NavCardSize: 10rem;
+    --SearchBarWidth: 50vw;
 
     /* Font Variables */
     --NavCardTitleSize: 1.2rem;
