@@ -68,7 +68,12 @@
     barClicked = true;
   }
 
-  visStateBar();
+  if (window.scrollY > 0) {
+      visStateBarScrolled();
+    } else {
+      visStateBar();
+      barScrolled = false;
+    }
 
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
