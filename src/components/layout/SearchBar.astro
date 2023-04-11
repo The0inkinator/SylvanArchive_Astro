@@ -31,7 +31,7 @@
   });
 
   function visStateBarScrolled() {
-    searchBar.style.width = "calc(var(--SearchBarHeight) * 1.15)";
+    searchBar.style.width = "calc(var(--MenuHeight) * 1.15)";
     // input.style.display = "none";
     input.style.width = "0";
     title.style.transition = "width 0.25s";
@@ -42,18 +42,18 @@
   }
 
   function visStateBar() {
-    searchBar.style.width = "calc(var(--SearchBarHeight) * 4.3)";
+    searchBar.style.width = "calc(var(--MenuHeight) * 4.3)";
     // input.style.display = "none";
     input.style.width = "0";
     title.style.transition = "width 0.25s";
-    title.style.width = "calc(var(--SearchBarHeight) * 3)";
+    title.style.width = "calc(var(--MenuHeight) * 3)";
     closeButton.style.display = "none";
     barClicked = false;
   }
 
   function visStateBarClicked() {
     searchBar.style.width =
-      "calc(var(--SearchBarHeight) * 2.2 + var(--SearchBarWidth))";
+      "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
     input.style.width = "var(--SearchBarWidth)";
     // input.style.display = "block";
     input.style.cursor = "text";
@@ -89,25 +89,21 @@
 
 <style>
   .searchBarContainer {
-    all: unset;
     pointer-events: auto;
+    grid-row: 1;
   }
 
   #searchBar {
     background-color: white;
-    height: var(--SearchBarHeight);
-    border-radius: calc(var(--SearchBarHeight) / 5);
+    height: var(--MenuHeight);
+    border-radius: calc(var(--MenuHeight) / 5);
     display: flex;
-    width: calc(calc(var(--SearchBarHeight) * 4.4));
+    width: calc(var(--MenuHeight) * 4.4);
     align-items: center;
-    padding-inline: calc(var(--SearchBarHeight) / 6);
+    padding-inline: calc(var(--MenuHeight) / 6);
     cursor: pointer;
     filter: drop-shadow(0px 0px 5px var(--ShadowGreen));
     transition: width 0.25s;
-  }
-
-  #searchBar:focus {
-    border: solid black;
   }
 
   #searchBarLogo {
@@ -119,16 +115,16 @@
   input {
     all: unset;
     width: 0;
-    transform: translateX(calc(var(--SearchBarHeight) / -8));
+    transform: translateX(calc(var(--MenuHeight) / -8));
     transition: width 0.25s;
-    margin-left: calc(var(--SearchBarHeight) / 4);
+    margin-left: calc(var(--MenuHeight) / 4);
   }
 
   #searchBarTitle {
     font-family: var(--HeadingFont);
-    font-size: calc(var(--SearchBarHeight) / 2);
+    font-size: calc(var(--MenuHeight) / 2);
     white-space: nowrap;
-    width: calc(var(--SearchBarHeight) * 2.8);
+    width: calc(var(--MenuHeight) * 2.8);
     overflow: clip;
     transition: width 0.25s;
 

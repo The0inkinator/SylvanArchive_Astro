@@ -1,20 +1,25 @@
 ---
+   import BookmarkButton from "./BookmarkButton.astro"
   import SearchBar from "./SearchBar.astro"
+  import AccountButton from "./AccountButton.astro"
 ---
 
 <header>
   <div class="headerBar">
   <div class="menu">
+  <BookmarkButton />
   <SearchBar />
+  <AccountButton />
   </div>
   </div>
 </header>
 
 <style>
+
   .headerBar {
     position: fixed;
     width: 100%;
-    height: 15vh;
+    height: calc(var(--MenuHeight) * 2.5);
     z-index: 4;
     pointer-events: none;
     display: flex;
@@ -27,6 +32,22 @@
 
   .menu {
     margin: auto;
+    display: flex;
+    gap: calc(var(--MenuHeight) / 4);
+  }
+
+  @media screen and (max-width: 480px) {
+.headerBar {
+  height: auto;
+}
+
+.menu {
+  display: grid;
+  margin-left: calc(var(--MenuHeight) / 4);
+  margin-top: calc(var(--MenuHeight) / 4);
+
+}
+
   }
 
 </style>
