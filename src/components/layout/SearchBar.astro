@@ -15,6 +15,7 @@
 
 <script>
   const searchBar = document.getElementById("searchBar") as HTMLDivElement;
+  const logo = document.getElementById("searchBarLogo") as HTMLDivElement;
   const input = document.getElementById("searchBarInput") as HTMLInputElement;
   const title = document.getElementById("searchBarTitle") as HTMLDivElement;
   const closeButton = document.getElementById("closeButton") as HTMLDivElement;
@@ -31,9 +32,10 @@
   });
 
   function visStateBarScrolled() {
-    searchBar.style.width = "calc(var(--SearchBarHeight) * 1.15)";
-    // input.style.display = "none";
-    input.style.width = "0";
+    searchBar.style.width = "var(--MenuHeight)";
+    searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 1fr 0 0";
+    // logo.style.justifySelf = "center";
+    title.style.display = "none";
     title.style.transition = "width 0.25s";
     title.style.width = "0";
     closeButton.style.display = "none";
@@ -42,26 +44,36 @@
   }
 
   function visStateBar() {
-    searchBar.style.width = "calc(var(--SearchBarHeight) * 4.4)";
-    // input.style.display = "none";
-    input.style.width = "0";
+    searchBar.style.width = "calc(var(--MenuHeight) * 4.2)";
+    searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 80% 0 0";
+    // logo.style.justifySelf = "end";
+    title.style.display = "block";
     title.style.transition = "width 0.25s";
-    title.style.width = "calc(var(--SearchBarHeight) * 2.8)";
+    title.style.width = "100%";
     closeButton.style.display = "none";
     barClicked = false;
   }
 
   function visStateBarClicked() {
     searchBar.style.width =
-      "calc(var(--SearchBarHeight) * 2.2 + var(--SearchBarWidth))";
-    input.style.width = "var(--SearchBarWidth)";
-    // input.style.display = "block";
+      "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
+    searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 1fr 0 var(--MenuHeight) 0";
     input.style.cursor = "text";
+    // logo.style.justifySelf = "center";
+
+    title.style.display = "none";
     title.style.transition = "width 0s";
     title.style.width = "0";
     closeButton.style.display = "grid";
     barClicked = true;
   }
+
+  if (window.scrollY > 0) {
+      visStateBarScrolled();
+    } else {
+      visStateBar();
+      barScrolled = false;
+    }
 
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
@@ -87,51 +99,52 @@
 
 <style>
   .searchBarContainer {
-    all: unset;
     pointer-events: auto;
+    display: flex;
+    grid-row: 1;
   }
 
   #searchBar {
+    all: unset;
+    overflow: hidden;
     background-color: white;
-    height: var(--SearchBarHeight);
-    border-radius: calc(var(--SearchBarHeight) / 5);
-    display: flex;
-    width: calc(calc(var(--SearchBarHeight) * 4.4));
-    align-items: center;
-    justify-content: space-between;
-    padding-inline: calc(var(--SearchBarHeight) / 6);
-    cursor: pointer;
     filter: drop-shadow(0px 0px 5px var(--ShadowGreen));
+    height: var(--MenuHeight);
+    width: calc(var(--MenuHeight) * 4.2);
+    border-radius: calc(var(--MenuHeight) / 5);
+    cursor: pointer;
     transition: width 0.25s;
-  }
-
-  #searchBar:focus {
-    border: solid black;
+    display: grid;
+    grid-template-columns: var(--MenuHeight) 0 1fr 0;
+    grid-template-rows: var(--MenuHeight);
+    place-items: center;
   }
 
   #searchBarLogo {
     height: 80%;
     aspect-ratio: 1/1;
     background-image: url("../../logos/sylvanArchiveLogo.svg");
+    grid-column: 2;
+    /* background-color: blue; */
   }
 
   input {
     all: unset;
-    width: 0;
-    transform: translateX(calc(var(--SearchBarHeight) / -8));
+    width: 100%;
     transition: width 0.25s;
-    margin-left: calc(var(--SearchBarHeight) / 4);
+    grid-column: 3;
+    /* background-color: green; */
   }
 
   #searchBarTitle {
     font-family: var(--HeadingFont);
-    font-size: calc(var(--SearchBarHeight) / 2);
+    font-size: calc(var(--MenuHeight) / 2);
     white-space: nowrap;
-
-    width: calc(var(--SearchBarHeight) * 2.8);
-    overflow: clip;
+    width: 100%;
     transition: width 0.25s;
-    margin-inline: auto;
+    padding-left: 2px;
+    /* background-color: red; */
+    grid-column: 4;
   }
 
   #closeButton {
@@ -140,10 +153,12 @@
     height: 80%;
     aspect-ratio: 1/1;
     place-items: center;
+    grid-column: 5;
+    /* background-color: blue; */
   }
 
   #closeButton > * {
-    width: 80%;
+    width: 70%;
     height: 10%;
     background-color: lightgrey;
     grid-row: 1;

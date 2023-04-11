@@ -6,5 +6,27 @@ const NavCardList = startSearchingList;
 ---
 
 <ZABaseLayout>
-  <NavCardGrid NavCardList={NavCardList} />
+  <!-- <NavCardGrid NavCardList={NavCardList} /> -->
+  <div class="test"><div class="test2"></div></div>
 </ZABaseLayout>
+
+<style>
+.test {
+  width: auto;
+  height: 2rem;
+  background-color: blue;
+}
+
+.test2 {
+  width: 2rem;
+  height: 2rem;
+  background-color: red;
+  margin-inline: 1rem;
+  transition: width 0.25s;
+}
+
+.test2:hover {
+  width: 4rem;
+}
+</style>
+
