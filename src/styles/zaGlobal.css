@@ -121,7 +121,7 @@
 
     /* Sizes */
     --NavCardSize: 10rem;
-    --SearchBarWidth: 50vw;
+    --SearchBarWidth: calc(100vw - calc(var(--MenuHeight) * 2.75));
 
     /* Font Variables */
     --NavCardTitleSize: 1.2rem;
