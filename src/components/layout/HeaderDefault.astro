@@ -1,11 +1,32 @@
 ---
+  import SearchBar from "./SearchBar.astro"
 ---
 
 <header>
-  <div class="headerBar"></div>
+  <div class="headerBar">
+  <div class="menu">
+  <SearchBar />
+  </div>
+  </div>
 </header>
 
 <style>
   .headerBar {
+    position: fixed;
+    width: 100%;
+    height: 15vh;
+    z-index: 4;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
   }
+
+  .headerBar > * {
+    pointer-events: auto;
+  }
+
+  .menu {
+    margin: auto;
+  }
+
 </style>

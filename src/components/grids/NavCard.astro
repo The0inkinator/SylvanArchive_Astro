@@ -30,9 +30,9 @@ const { title, subtitle, imgSrc, link } = Astro.props;
 
   .fullNavCard {
     width: 85%;
-    aspect-ratio: 1/1.65;
-    font-family: Mukta, Arial, sans-serif;
-    font-size: 130%;
+    aspect-ratio: 1/1.7;
+    font-family: var(--SubHeadingFont);
+    font-size: var(--NavCardTitleSize);
     transform-origin: center;
   }
 
@@ -41,6 +41,7 @@ const { title, subtitle, imgSrc, link } = Astro.props;
     height: 85%;
     clip-path: inset(0% round 8% 8% 8% 8%);
     display: grid;
+    position: relative;
   }
   .navCardBox > * {
     grid-column: 1;
@@ -70,9 +71,8 @@ const { title, subtitle, imgSrc, link } = Astro.props;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     color: white;
-    font-weight: bold;
     align-self: end;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
     transition: margin-bottom 0.5s;
   }
 
@@ -83,14 +83,14 @@ const { title, subtitle, imgSrc, link } = Astro.props;
 
   .navCardSubtitle {
     width: 100%;
+    height: 13%;
     text-align: center;
-    padding-top: 0.4rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-top: 3.5%;
+    padding-inline: 5%;
     color: hsl(0 0% 70%);
-    font-weight: bold;
     overflow: clip;
-    font-size: 80%;
+    font-size: 70%;
+    line-height: 1;
   }
 
   /*Hover Transforms*/
@@ -104,7 +104,7 @@ const { title, subtitle, imgSrc, link } = Astro.props;
   }
 
   .navCardBox:hover > .navCardTitle {
-    margin-bottom: 13%;
+    margin-bottom: 9%;
   }
 
   .navCardBox:hover > .navCardOverlay {
