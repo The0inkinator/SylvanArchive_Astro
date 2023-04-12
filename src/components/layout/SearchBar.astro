@@ -2,9 +2,9 @@
 ---
 
 <div class="searchBarContainer">
-  <div id="searchBar">
+  <div tabindex="0" id="searchBar">
     <div id="searchBarLogo"></div>
-    <input id="searchBarInput" value="Start Searching" type="text" />
+    <input tabindex="1" id="searchBarInput" value="Start Searching" type="text" />
     <button id="closeButton">
       <div></div>
       <div></div>
@@ -20,7 +20,6 @@
   const title = document.getElementById("searchBarTitle") as HTMLDivElement;
   const closeButton = document.getElementById("closeButton") as HTMLDivElement;
   const titleWidth = window.getComputedStyle(title).width;
-  console.log(titleWidth)
 
   let barClicked = false;
   let barScrolled = false;
@@ -120,6 +119,10 @@
     grid-template-columns: var(--MenuHeight) 0 1fr 0;
     grid-template-rows: var(--MenuHeight);
     place-items: center;
+  }
+
+  #searchBar:focus-within {
+    box-shadow: 0 0 0 2px var(--ShadowGreen);
   }
 
   #searchBarLogo {

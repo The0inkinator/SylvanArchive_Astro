@@ -2,7 +2,7 @@
 ---
 
 <div class="accountButtonContainer">
-  <div id="accountButton">
+  <div tabindex="0" id="accountButton">
     <div id="accountButtonLogo"></div>
   </div>
 </div>
@@ -23,6 +23,10 @@
     display: flex;
     align-items: center;
     filter: drop-shadow(0px 0px 5px var(--ShadowGreen));
+  }
+
+     #accountButton:focus-within {
+    box-shadow: 0 0 0 2px var(--ShadowGreen);
   }
 
   #accountButtonLogo {
