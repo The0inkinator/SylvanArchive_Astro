@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar.astro";
 import AccountButton from "./AccountButton.astro";
 ---
 
-<div class="menu">
+<div id="menu">
   <HomeButton />
   <SearchBar />
   <BookmarkBar />
@@ -13,23 +13,27 @@ import AccountButton from "./AccountButton.astro";
 </div>
 
 <style>
-  .menu {
+  #menu {
     margin: auto;
     display: flex;
     gap: calc(var(--MenuHeight) / 4);
   }
 
   @media screen and (max-width: 480px) {
-    .menu {
+    #menu {
       display: grid;
-      margin-left: calc(var(--MenuHeight) / 4);
-      margin-top: calc(var(--MenuHeight) / 4);
+      /* margin-left: calc(var(--MenuHeight) / 4);
+      margin-top: calc(var(--MenuHeight) / 4); */
+      grid-template-areas: "a a a" "b c d";
     }
   }
 </style>
 
 <script>
   //Name elements & pull values
+
+  //Menu Grid
+  const menu = document.getElementById("menu") as HTMLDivElement;
 
   //Home Button
   const homeButton = document.getElementById("homeButton") as HTMLDivElement;
@@ -80,6 +84,7 @@ import AccountButton from "./AccountButton.astro";
     searchBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0"
     searchBarInput.style.cursor = "text";
     searchCloseButton.style.display = "none";
+
   }
 
   function vsSearchBarClicked() {
@@ -87,6 +92,8 @@ import AccountButton from "./AccountButton.astro";
     searchBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr var(--MenuHeight)"
     searchBarInput.style.cursor = "text";
     searchCloseButton.style.display = "grid";
+    //Menu Grid
+    menu.style.gridTemplateAreas = "'a c d' 'b b b'";
   }
   
     function vsBookmarkBarCollapsed() {
@@ -101,6 +108,8 @@ import AccountButton from "./AccountButton.astro";
     bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr"
     bookmarkDropdown.style.display = "block";
     bookmarkDropdown.style.width = "100%";
+        //Menu Grid
+    menu.style.gridTemplateAreas = "'a a a' 'b c d'";
   }
 
   //Establish base states
@@ -145,10 +154,12 @@ import AccountButton from "./AccountButton.astro";
 
   searchBar.addEventListener("click", () => {
 if (xHovered === true) {
-  console.log("hello")
+  if (window.scrollY > 0) {  vsHomeButtonCollapsed();
+  vsSearchBarCollapsed();
+  vsBookmarkBarCollapsed();} else {
   vsHomeButtonOpen();
   vsSearchBarCollapsed();
-  vsBookmarkBarCollapsed();
+  vsBookmarkBarCollapsed();}
 }
   })
 
