@@ -33,7 +33,7 @@ import AccountButton from "./AccountButton.astro";
 
   //Home Button
   const homeButton = document.getElementById("homeButton") as HTMLDivElement;
-  const homeTitle = document.getElementById("homeButtonhomeTitle") as HTMLDivElement;
+  const homeTitle = document.getElementById("homeButtonTitle") as HTMLDivElement;
   const homeTitleWidth = window.getComputedStyle(homeTitle).width;
   //Search Bar
   const searchBar = document.getElementById("searchBar") as HTMLDivElement;
@@ -52,14 +52,32 @@ import AccountButton from "./AccountButton.astro";
   let xHovered = false;
 
   //Define hover listeners
-  searchCloseButton.addEventListener("mouseenter", () => {
-    xHovered = true;
-  });
-  searchCloseButton.addEventListener("mouseleave", () => {
-    xHovered = false;
-  });
+  // searchCloseButton.addEventListener("mouseenter", () => {
+  //   xHovered = true;
+  // });
+  // searchCloseButton.addEventListener("mouseleave", () => {
+  //   xHovered = false;
+  // });
 
   //Create style states
+  function vsHomeButtonDefault() {
+    homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth}`;
+    homeButton.style.templateGridColumns = "var(--MenuHeight) 0"
+    homeTitle.style.display = "block";
+    homeTitle.style.width = "100%";
+  }
+
+  function vsHomeButtonCollapsed() {
+    homeButton.style.width = "var(--MenuHeight)";
+    homeButton.style.templateGridColumns = "var(--MenuHeight) 0"
+    homeTitle.style.display = "none";
+    homeTitle.style.width = "0";
+
+  }
+
+  
+
+
   // function vshomeButtonCollapsed() {
   //   searchBar.style.width = "var(--MenuHeight)";
   //   searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 1fr 0 0";
@@ -95,7 +113,7 @@ import AccountButton from "./AccountButton.astro";
   // }
 
   //Establish base states
-
+  vsHomeButtonDefault();
 
   //Create event listeners
 
