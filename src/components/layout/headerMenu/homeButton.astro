@@ -1,16 +1,17 @@
 ---
 ---
 
-<div class="homeButtonContainer">
+<a href="/" class="homeButtonContainer">
   <div tabindex="0" id="homeButton">
     <div id="homeButtonLogo"></div>
+    <div id="homeButtonTitle">Sylvan Archive</div>
   </div>
-</div>
+</a>
 
 <style>
   .homeButtonContainer {
     pointer-events: auto;
-    grid-row: 2;
+    grid-row: 1;
   }
 
   #homeButton {
@@ -33,5 +34,15 @@
     aspect-ratio: 1/1;
     background-image: url("../../logos/searchIcon.svg");
     margin: auto;
+  }
+
+  #homeButtonTitle {
+    font-family: var(--HeadingFont);
+    font-size: calc(var(--MenuHeight) / 2);
+    white-space: nowrap;
+    width: auto;
+    transition: width 0.25s;
+    padding-left: 2px;
+    grid-column: 4;
   }
 </style>

@@ -1,6 +1,6 @@
 ---
 import HomeButton from "./homeButton.astro";
-import BookmarkButton from "./BookmarkButton.astro";
+import BookmarkBar from "./BookmarkBar.astro";
 import SearchBar from "./SearchBar.astro";
 import AccountButton from "./AccountButton.astro";
 ---
@@ -8,7 +8,7 @@ import AccountButton from "./AccountButton.astro";
 <div class="menu">
   <HomeButton />
   <SearchBar />
-  <BookmarkButton />
+  <BookmarkBar />
   <AccountButton />
 </div>
 
@@ -29,87 +29,96 @@ import AccountButton from "./AccountButton.astro";
 </style>
 
 <script>
-  //Name Elements
-  const searchBar = document.getElementById("searchBar") as HTMLDivElement;
-  const logo = document.getElementById("searchBarLogo") as HTMLDivElement;
-  const input = document.getElementById("searchBarInput") as HTMLInputElement;
-  const title = document.getElementById("searchBarTitle") as HTMLDivElement;
-  const closeButton = document.getElementById("closeButton") as HTMLDivElement;
-  const titleWidth = window.getComputedStyle(title).width;
+  //Name elements & pull values
 
-  //Define button logic states
-  let barClicked = false;
-  let barScrolled = false;
+  //Home Button
+  const homeTitle = document.getElementById("homeButtonhomeTitle") as HTMLDivElement;
+  const homeTitleWidth = window.getComputedStyle(homeTitle).width;
+  //Search Bar
+  const searchBar = document.getElementById("searchBar") as HTMLDivElement;
+  const searchBarInput = document.getElementById("searchBarInput") as HTMLInputElement;
+  const searchCloseButton = document.getElementById("searchCloseButton") as HTMLDivElement;
+  //Bookmarks Button
+  const bookmarkBar = document.getElementById("bookmarkBar") as HTMLDivElement;
+  const bookmarkMenu = document.getElementById("bookmarkDropdown") as HTMLDivElement;
+
+  //Define element logic states
+  let homeButtonCollapsed = false;
+  let searchBarClicked = false;
+  let searchBarCollapsed = true;
+  let bookmarkBarClicked = false;
+  let bookmarkBarCollapsed = true;
   let xHovered = false;
 
-  //Define hovers
-  closeButton.addEventListener("mouseenter", () => {
+  //Define hover listeners
+  searchCloseButton.addEventListener("mouseenter", () => {
     xHovered = true;
   });
-  closeButton.addEventListener("mouseleave", () => {
+  searchCloseButton.addEventListener("mouseleave", () => {
     xHovered = false;
   });
 
   //Create style states
-  function visStateBarScrolled() {
+  function vshomeButtonCollapsed() {
     searchBar.style.width = "var(--MenuHeight)";
     searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 1fr 0 0";
-    title.style.display = "none";
-    title.style.transition = "width 0.25s";
-    title.style.width = "0";
-    closeButton.style.display = "none";
-    barClicked = false;
-    barScrolled = true;
+    homeTitle.style.display = "none";
+    homeTitle.style.transition = "width 0.25s";
+    homeTitle.style.width = "0";
+    searchCloseButton.style.display = "none";
+    searchBarClicked = false;
+    homeButtonCollapsed = true;
   }
 
-  function visStateBar() {
-    searchBar.style.width = `calc((var(--MenuHeight) * 1.2) + ${titleWidth})`;
+  function vsBar() {
+    searchBar.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth})`;
     searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 80% 0 0";
-    title.style.display = "block";
-    title.style.transition = "width 0.25s";
-    title.style.width = "100%";
-    closeButton.style.display = "none";
-    barClicked = false;
+    homeTitle.style.display = "block";
+    homeTitle.style.transition = "width 0.25s";
+    homeTitle.style.width = "100%";
+    searchCloseButton.style.display = "none";
+    searchBarClicked = false;
   }
 
-  function visStateBarClicked() {
+  function vssearchBarClicked() {
     searchBar.style.width =
       "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
     searchBar.style.gridTemplateColumns =
       "0 var(--MenuHeight) 1fr 0 var(--MenuHeight) 0";
-    input.style.cursor = "text";
-    title.style.display = "none";
-    title.style.transition = "width 0s";
-    title.style.width = "0";
-    closeButton.style.display = "grid";
-    barClicked = true;
+    searchBarInput.style.cursor = "text";
+    homeTitle.style.display = "none";
+    homeTitle.style.transition = "width 0s";
+    homeTitle.style.width = "0";
+    searchCloseButton.style.display = "grid";
+    searchBarClicked = true;
+  }
+
+  //Establish base states
+  if (window.scrollY > 0) {
+    vshomeButtonCollapsed();
+  } else {
+    vsBar();
+    homeButtonCollapsed = false;
   }
 
   //Create event listeners
-  if (window.scrollY > 0) {
-    visStateBarScrolled();
-  } else {
-    visStateBar();
-    barScrolled = false;
-  }
-
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
-      visStateBarScrolled();
+      vshomeButtonCollapsed();
     } else {
-      visStateBar();
-      barScrolled = false;
+      vsBar();
+      homeButtonCollapsed = false;
     }
   });
 
   searchBar.addEventListener("click", () => {
-    if (barClicked === false) {
-      visStateBarClicked();
+    if (searchBarClicked === false) {
+      vssearchBarClicked();
     } else if (xHovered === true) {
-      if (barScrolled === true) {
-        visStateBarScrolled();
+      if (homeButtonCollapsed === true) {
+        vshomeButtonCollapsed();
       } else {
-        visStateBar();
+        vsBar();
       }
     }
   });

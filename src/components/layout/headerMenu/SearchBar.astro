@@ -14,7 +14,6 @@
       <div></div>
       <div></div>
     </button>
-    <div id="searchBarTitle">Sylvan Archive</div>
   </div>
 </div>
 
@@ -22,7 +21,7 @@
   .searchBarContainer {
     pointer-events: auto;
     display: flex;
-    grid-row: 1;
+    grid-row: 2;
   }
 
   #searchBar {
@@ -49,27 +48,16 @@
     height: 80%;
     aspect-ratio: 1/1;
     background-image: url("../../logos/sylvanArchiveLogo.svg");
-    grid-column: 2;
-    /* background-color: blue; */
+    grid-column: 1;
+
   }
 
   input {
     all: unset;
     width: 100%;
     transition: width 0.25s;
-    grid-column: 3;
-    /* background-color: green; */
-  }
+    grid-column: 2;
 
-  #searchBarTitle {
-    font-family: var(--HeadingFont);
-    font-size: calc(var(--MenuHeight) / 2);
-    white-space: nowrap;
-    width: auto;
-    transition: width 0.25s;
-    padding-left: 2px;
-    /* background-color: red; */
-    grid-column: 4;
   }
 
   #closeButton {
@@ -78,8 +66,8 @@
     height: 80%;
     aspect-ratio: 1/1;
     place-items: center;
-    grid-column: 5;
-    /* background-color: blue; */
+    grid-column: 3;
+
   }
 
   #closeButton > * {
