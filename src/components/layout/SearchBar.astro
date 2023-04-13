@@ -2,9 +2,9 @@
 ---
 
 <div class="searchBarContainer">
-  <div id="searchBar">
+  <div tabindex="0" id="searchBar">
     <div id="searchBarLogo"></div>
-    <input id="searchBarInput" value="Start Searching" type="text" />
+    <input tabindex="1" id="searchBarInput" value="Start Searching" type="text" />
     <button id="closeButton">
       <div></div>
       <div></div>
@@ -13,89 +13,6 @@
   </div>
 </div>
 
-<script>
-  const searchBar = document.getElementById("searchBar") as HTMLDivElement;
-  const logo = document.getElementById("searchBarLogo") as HTMLDivElement;
-  const input = document.getElementById("searchBarInput") as HTMLInputElement;
-  const title = document.getElementById("searchBarTitle") as HTMLDivElement;
-  const closeButton = document.getElementById("closeButton") as HTMLDivElement;
-
-  let barClicked = false;
-  let barScrolled = false;
-  let xHovered = false;
-
-  closeButton.addEventListener("mouseenter", () => {
-    xHovered = true;
-  });
-  closeButton.addEventListener("mouseleave", () => {
-    xHovered = false;
-  });
-
-  function visStateBarScrolled() {
-    searchBar.style.width = "var(--MenuHeight)";
-    searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 1fr 0 0";
-    // logo.style.justifySelf = "center";
-    title.style.display = "none";
-    title.style.transition = "width 0.25s";
-    title.style.width = "0";
-    closeButton.style.display = "none";
-    barClicked = false;
-    barScrolled = true;
-  }
-
-  function visStateBar() {
-    searchBar.style.width = "calc(var(--MenuHeight) * 4.2)";
-    searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 80% 0 0";
-    // logo.style.justifySelf = "end";
-    title.style.display = "block";
-    title.style.transition = "width 0.25s";
-    title.style.width = "100%";
-    closeButton.style.display = "none";
-    barClicked = false;
-  }
-
-  function visStateBarClicked() {
-    searchBar.style.width =
-      "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
-    searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 1fr 0 var(--MenuHeight) 0";
-    input.style.cursor = "text";
-    // logo.style.justifySelf = "center";
-
-    title.style.display = "none";
-    title.style.transition = "width 0s";
-    title.style.width = "0";
-    closeButton.style.display = "grid";
-    barClicked = true;
-  }
-
-  if (window.scrollY > 0) {
-      visStateBarScrolled();
-    } else {
-      visStateBar();
-      barScrolled = false;
-    }
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 0) {
-      visStateBarScrolled();
-    } else {
-      visStateBar();
-      barScrolled = false;
-    }
-  });
-
-  searchBar.addEventListener("click", () => {
-    if (barClicked === false) {
-      visStateBarClicked();
-    } else if (xHovered === true) {
-      if (barScrolled === true) {
-        visStateBarScrolled();
-      } else {
-        visStateBar();
-      }
-    }
-  });
-</script>
 
 <style>
   .searchBarContainer {
@@ -120,6 +37,10 @@
     place-items: center;
   }
 
+  #searchBar:focus-within {
+    box-shadow: 0 0 0 2px var(--ShadowGreen);
+  }
+
   #searchBarLogo {
     height: 80%;
     aspect-ratio: 1/1;
@@ -140,7 +61,7 @@
     font-family: var(--HeadingFont);
     font-size: calc(var(--MenuHeight) / 2);
     white-space: nowrap;
-    width: 100%;
+    width: auto;
     transition: width 0.25s;
     padding-left: 2px;
     /* background-color: red; */
