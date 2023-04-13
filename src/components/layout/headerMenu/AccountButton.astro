@@ -1,13 +1,13 @@
 ---
 ---
 
-<a href="/Account" class="accountButtonContainer">
+<div tabindex="-1" class="accountButtonContainer">
 
-    <div tabindex="0" id="accountButton">
+    <a tabindex="0" href="/Account" id="accountButton">
       <div id="accountButtonLogo"></div>
-    </div>
+    </a>
 
-</a>
+</div>
 
 <style>
   .accountButtonContainer {
@@ -16,6 +16,7 @@
   }
 
   #accountButton {
+    all: unset;
     background-color: white;
     height: var(--MenuHeight);
     aspect-ratio: 1/1;

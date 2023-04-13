@@ -108,7 +108,7 @@ import AccountButton from "./AccountButton.astro";
     bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr"
     bookmarkDropdown.style.display = "block";
     bookmarkDropdown.style.width = "100%";
-        //Menu Grid
+    //Menu Grid
     menu.style.gridTemplateAreas = "'a a a' 'b c d'";
   }
 
@@ -136,7 +136,7 @@ import AccountButton from "./AccountButton.astro";
   }
   })
 
-  searchBar.addEventListener("click", () => {
+  searchBar.addEventListener("focusin", () => {
     if (searchBarClicked === false) {
     vsHomeButtonCollapsed();
     vsSearchBarClicked();
@@ -144,7 +144,15 @@ import AccountButton from "./AccountButton.astro";
     }
   })
 
-    bookmarkBar.addEventListener("click", () => {
+    searchBar.addEventListener("click", () => {
+    if (searchBarClicked === false) {
+    vsHomeButtonCollapsed();
+    vsSearchBarClicked();
+    vsBookmarkBarCollapsed();
+    }
+  })
+
+    bookmarkBar.addEventListener("focusin", () => {
     if (bookmarkBarClicked === false) {
     vsHomeButtonCollapsed();
     vsSearchBarCollapsed();
