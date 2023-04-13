@@ -41,7 +41,7 @@ import AccountButton from "./AccountButton.astro";
   const searchCloseButton = document.getElementById("searchCloseButton") as HTMLDivElement;
   //Bookmarks Button
   const bookmarkBar = document.getElementById("bookmarkBar") as HTMLDivElement;
-  const bookmarkMenu = document.getElementById("bookmarkDropdown") as HTMLDivElement;
+  const bookmarkDropdown = document.getElementById("bookmarkDropdown") as HTMLDivElement;
 
   //Define element logic states
   let homeButtonCollapsed = false;
@@ -52,15 +52,15 @@ import AccountButton from "./AccountButton.astro";
   let xHovered = false;
 
   //Define hover listeners
-  // searchCloseButton.addEventListener("mouseenter", () => {
-  //   xHovered = true;
-  // });
-  // searchCloseButton.addEventListener("mouseleave", () => {
-  //   xHovered = false;
-  // });
+  searchCloseButton.addEventListener("mouseenter", () => {
+    xHovered = true;
+  });
+  searchCloseButton.addEventListener("mouseleave", () => {
+    xHovered = false;
+  });
 
   //Create style states
-  function vsHomeButtonDefault() {
+  function vsHomeButtonOpen() {
     homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth}`;
     homeButton.style.templateGridColumns = "var(--MenuHeight) 0"
     homeTitle.style.display = "block";
@@ -75,45 +75,36 @@ import AccountButton from "./AccountButton.astro";
 
   }
 
+  function vsSearchBarCollapsed() {
+    searchBar.style.width = "var(--MenuHeight)";
+    searchBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0"
+    searchBarInput.style.cursor = "text";
+    searchCloseButton.style.display = "none";
+  }
+
+  function vsSearchBarClicked() {
+    searchBar.style.width = "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
+    searchBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr var(--MenuHeight)"
+    searchBarInput.style.cursor = "text";
+    searchCloseButton.style.display = "grid";
+  }
   
+    function vsBookmarkBarCollapsed() {
+    bookmarkBar.style.width = "var(--MenuHeight)";
+    bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 0"
+    bookmarkDropdown.style.display = "none";
+    bookmarkDropdown.style.width = "0";
+  }
 
-
-  // function vshomeButtonCollapsed() {
-  //   searchBar.style.width = "var(--MenuHeight)";
-  //   searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 1fr 0 0";
-  //   homeTitle.style.display = "none";
-  //   homeTitle.style.transition = "width 0.25s";
-  //   homeTitle.style.width = "0";
-  //   searchCloseButton.style.display = "none";
-  //   searchBarClicked = false;
-  //   homeButtonCollapsed = true;
-  // }
-
-  // function vsBar() {
-  //   searchBar.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth})`;
-  //   searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 80% 0 0";
-  //   homeTitle.style.display = "block";
-  //   homeTitle.style.transition = "width 0.25s";
-  //   homeTitle.style.width = "100%";
-  //   searchCloseButton.style.display = "none";
-  //   searchBarClicked = false;
-  // }
-
-  // function vssearchBarClicked() {
-  //   searchBar.style.width =
-  //     "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
-  //   searchBar.style.gridTemplateColumns =
-  //     "0 var(--MenuHeight) 1fr 0 var(--MenuHeight) 0";
-  //   searchBarInput.style.cursor = "text";
-  //   homeTitle.style.display = "none";
-  //   homeTitle.style.transition = "width 0s";
-  //   homeTitle.style.width = "0";
-  //   searchCloseButton.style.display = "grid";
-  //   searchBarClicked = true;
-  // }
+    function vsBookmarkBarClicked() {
+    bookmarkBar.style.width = "calc(var(--MenuHeight) + var(--SearchBarWidth))";
+    bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr"
+  }
 
   //Establish base states
-  vsHomeButtonDefault();
+  vsHomeButtonCollapsed();
+  vsSearchBarCollapsed();
+  vsBookmarkBarCollapsed();
 
   //Create event listeners
 
