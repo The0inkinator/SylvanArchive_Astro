@@ -15,14 +15,19 @@
   }
 
   #homeButton {
+    all: unset;
+    overflow: hidden;
     background-color: white;
+    filter: drop-shadow(0px 0px 5px var(--ShadowGreen));
     height: var(--MenuHeight);
-    aspect-ratio: 1/1;
+    width: var(--MenuHeight);
     border-radius: calc(var(--MenuHeight) / 5);
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    filter: drop-shadow(0px 0px 5px var(--ShadowGreen));
+    transition: width 0.25s;
+    display: grid;
+    grid-template-columns: var(--MenuHeight) 0;
+    grid-template-rows: var(--MenuHeight);
+    place-items: center;
   }
 
   #homeButton:focus-within {
@@ -30,19 +35,21 @@
   }
 
   #homeButtonLogo {
-    height: 65%;
+    height: 80%;
     aspect-ratio: 1/1;
-    background-image: url("../../logos/searchIcon.svg");
+    background-image: url("../../logos/sylvanArchiveLogo.svg");
     margin: auto;
+    grid-column: 1;
   }
 
   #homeButtonTitle {
+    display: none;
     font-family: var(--HeadingFont);
     font-size: calc(var(--MenuHeight) / 2);
     white-space: nowrap;
     width: auto;
     transition: width 0.25s;
     padding-left: 2px;
-    grid-column: 4;
+    grid-column: 2;
   }
 </style>

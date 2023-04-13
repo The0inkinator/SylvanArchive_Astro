@@ -32,6 +32,7 @@ import AccountButton from "./AccountButton.astro";
   //Name elements & pull values
 
   //Home Button
+  const homeButton = document.getElementById("homeButton") as HTMLDivElement;
   const homeTitle = document.getElementById("homeButtonhomeTitle") as HTMLDivElement;
   const homeTitleWidth = window.getComputedStyle(homeTitle).width;
   //Search Bar
@@ -59,67 +60,43 @@ import AccountButton from "./AccountButton.astro";
   });
 
   //Create style states
-  function vshomeButtonCollapsed() {
-    searchBar.style.width = "var(--MenuHeight)";
-    searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 1fr 0 0";
-    homeTitle.style.display = "none";
-    homeTitle.style.transition = "width 0.25s";
-    homeTitle.style.width = "0";
-    searchCloseButton.style.display = "none";
-    searchBarClicked = false;
-    homeButtonCollapsed = true;
-  }
+  // function vshomeButtonCollapsed() {
+  //   searchBar.style.width = "var(--MenuHeight)";
+  //   searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 1fr 0 0";
+  //   homeTitle.style.display = "none";
+  //   homeTitle.style.transition = "width 0.25s";
+  //   homeTitle.style.width = "0";
+  //   searchCloseButton.style.display = "none";
+  //   searchBarClicked = false;
+  //   homeButtonCollapsed = true;
+  // }
 
-  function vsBar() {
-    searchBar.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth})`;
-    searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 80% 0 0";
-    homeTitle.style.display = "block";
-    homeTitle.style.transition = "width 0.25s";
-    homeTitle.style.width = "100%";
-    searchCloseButton.style.display = "none";
-    searchBarClicked = false;
-  }
+  // function vsBar() {
+  //   searchBar.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth})`;
+  //   searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 80% 0 0";
+  //   homeTitle.style.display = "block";
+  //   homeTitle.style.transition = "width 0.25s";
+  //   homeTitle.style.width = "100%";
+  //   searchCloseButton.style.display = "none";
+  //   searchBarClicked = false;
+  // }
 
-  function vssearchBarClicked() {
-    searchBar.style.width =
-      "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
-    searchBar.style.gridTemplateColumns =
-      "0 var(--MenuHeight) 1fr 0 var(--MenuHeight) 0";
-    searchBarInput.style.cursor = "text";
-    homeTitle.style.display = "none";
-    homeTitle.style.transition = "width 0s";
-    homeTitle.style.width = "0";
-    searchCloseButton.style.display = "grid";
-    searchBarClicked = true;
-  }
+  // function vssearchBarClicked() {
+  //   searchBar.style.width =
+  //     "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
+  //   searchBar.style.gridTemplateColumns =
+  //     "0 var(--MenuHeight) 1fr 0 var(--MenuHeight) 0";
+  //   searchBarInput.style.cursor = "text";
+  //   homeTitle.style.display = "none";
+  //   homeTitle.style.transition = "width 0s";
+  //   homeTitle.style.width = "0";
+  //   searchCloseButton.style.display = "grid";
+  //   searchBarClicked = true;
+  // }
 
   //Establish base states
-  if (window.scrollY > 0) {
-    vshomeButtonCollapsed();
-  } else {
-    vsBar();
-    homeButtonCollapsed = false;
-  }
+
 
   //Create event listeners
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 0) {
-      vshomeButtonCollapsed();
-    } else {
-      vsBar();
-      homeButtonCollapsed = false;
-    }
-  });
 
-  searchBar.addEventListener("click", () => {
-    if (searchBarClicked === false) {
-      vssearchBarClicked();
-    } else if (xHovered === true) {
-      if (homeButtonCollapsed === true) {
-        vshomeButtonCollapsed();
-      } else {
-        vsBar();
-      }
-    }
-  });
 </script>
