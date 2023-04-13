@@ -99,13 +99,57 @@ import AccountButton from "./AccountButton.astro";
     function vsBookmarkBarClicked() {
     bookmarkBar.style.width = "calc(var(--MenuHeight) + var(--SearchBarWidth))";
     bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr"
+    bookmarkDropdown.style.display = "block";
+    bookmarkDropdown.style.width = "100%";
   }
 
   //Establish base states
-  vsHomeButtonCollapsed();
-  vsSearchBarCollapsed();
-  vsBookmarkBarCollapsed();
+  if (window.scrollY === 0) {
+    vsHomeButtonOpen();
+    vsSearchBarCollapsed();
+    vsBookmarkBarCollapsed();
+  } else {
+    vsHomeButtonCollapsed();
+    vsSearchBarCollapsed();
+    vsBookmarkBarCollapsed();
+  }
 
   //Create event listeners
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 0) {
+    vsHomeButtonCollapsed();
+    vsSearchBarCollapsed();
+    vsBookmarkBarCollapsed();
+  } else {
+    vsHomeButtonOpen();
+    vsSearchBarCollapsed();
+    vsBookmarkBarCollapsed();
+  }
+  })
+
+  searchBar.addEventListener("click", () => {
+    if (searchBarClicked === false) {
+    vsHomeButtonCollapsed();
+    vsSearchBarClicked();
+    vsBookmarkBarCollapsed();
+    }
+  })
+
+    bookmarkBar.addEventListener("click", () => {
+    if (bookmarkBarClicked === false) {
+    vsHomeButtonCollapsed();
+    vsSearchBarCollapsed();
+    vsBookmarkBarClicked();
+    }
+  })
+
+  searchBar.addEventListener("click", () => {
+if (xHovered === true) {
+  console.log("hello")
+  vsHomeButtonOpen();
+  vsSearchBarCollapsed();
+  vsBookmarkBarCollapsed();
+}
+  })
 
 </script>

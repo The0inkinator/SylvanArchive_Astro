@@ -21,6 +21,7 @@
     filter: drop-shadow(0px 0px 5px var(--ShadowGreen));
     height: var(--MenuHeight);
     min-width: var(--MenuHeight);
+    width: var(--MenuHeight);
     border-radius: calc(var(--MenuHeight) / 5);
     cursor: pointer;
     transition: width 0.25s;
@@ -39,9 +40,11 @@
     aspect-ratio: 1/1;
     background-image: url("../../logos/bookmarksIcon.svg");
     margin: auto;
+    grid-column: 1;
   }
 
   #bookmarkDropdown{
+    display: none;
     font-family: var(--HeadingFont);
     font-size: calc(var(--MenuHeight) / 2);
     white-space: nowrap;
