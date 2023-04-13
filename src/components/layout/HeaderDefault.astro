@@ -1,16 +1,14 @@
 ---
- import HeaderMenu from "./HeaderMenu.astro"
+import HeaderMenu from "./headerMenu/HeaderMenu.astro";
 ---
 
 <header>
   <div class="headerBar">
-
-  <HeaderMenu />
+    <HeaderMenu />
   </div>
 </header>
 
 <style>
-
   .headerBar {
     position: fixed;
     width: 100%;
@@ -32,17 +30,14 @@
   }
 
   @media screen and (max-width: 480px) {
-.headerBar {
-  height: auto;
-}
+    .headerBar {
+      height: auto;
+    }
 
-.menu {
-  display: grid;
-  margin-left: calc(var(--MenuHeight) / 4);
-  margin-top: calc(var(--MenuHeight) / 4);
-
-}
-
+    .menu {
+      display: grid;
+      margin-left: calc(var(--MenuHeight) / 4);
+      margin-top: calc(var(--MenuHeight) / 4);
+    }
   }
-
 </style>

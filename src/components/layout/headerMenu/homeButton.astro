@@ -1,0 +1,37 @@
+---
+---
+
+<div class="homeButtonContainer">
+  <div tabindex="0" id="homeButton">
+    <div id="homeButtonLogo"></div>
+  </div>
+</div>
+
+<style>
+  .homeButtonContainer {
+    pointer-events: auto;
+    grid-row: 2;
+  }
+
+  #homeButton {
+    background-color: white;
+    height: var(--MenuHeight);
+    aspect-ratio: 1/1;
+    border-radius: calc(var(--MenuHeight) / 5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    filter: drop-shadow(0px 0px 5px var(--ShadowGreen));
+  }
+
+  #homeButton:focus-within {
+    box-shadow: 0 0 0 2px var(--ShadowGreen);
+  }
+
+  #homeButtonLogo {
+    height: 65%;
+    aspect-ratio: 1/1;
+    background-image: url("../../logos/searchIcon.svg");
+    margin: auto;
+  }
+</style>

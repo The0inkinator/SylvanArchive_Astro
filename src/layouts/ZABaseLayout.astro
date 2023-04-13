@@ -17,23 +17,27 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
     <title>Sylvan Archive</title>
     <!-- Font imports -->
     <!-- Satisfy -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
-<!-- Roboto -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Satisfy&display=swap" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&family=Satisfy&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <div class="gradOverlay"></div>
   <body>
     <HeaderDefault />
     <div class="page">
-    <div class="upperMargin"></div>
-    <div class="contentContainer">
-    
-      <slot />
+      <div class="upperMargin"></div>
+      <div class="contentContainer">
+        <slot />
       </div>
     </div>
   </body>
@@ -57,19 +61,16 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-
     }
-    
+
     .upperMargin {
       height: calc(100vh - 70vw);
       max-height: 15vh;
-
     }
     .contentContainer {
       display: flex;
       flex-direction: column;
       margin: auto;
-
     }
   </style>
 
