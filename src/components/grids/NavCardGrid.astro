@@ -36,17 +36,18 @@ const { NavCardList } = Astro.props;
 </style>
 
 <script>
+//Set opening grid max width
   const navCardGrid = document.getElementsByClassName(
     "navCardGrid"
   )[0] as HTMLDivElement;
 
   const gridLength = navCardGrid.childElementCount;
 
-  console.log(gridLength);
-
   if (gridLength >= 5) {
     navCardGrid.style.maxWidth = "calc(var(--NavCardSize) * 5)";
   } else {
     navCardGrid.style.maxWidth = `calc(var(--NavCardSize) * ${gridLength})`;
   }
+
+
 </script>

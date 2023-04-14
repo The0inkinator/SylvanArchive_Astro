@@ -1,0 +1,103 @@
+---
+import "../styles/zaGlobal.css";
+import BaseHeader from "../components/layout/BaseHeader.astro";
+import BaseFooter from "../components/layout/BaseFooter.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/logos/sylvanArchiveBrowserIcon.svg"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Sylvan Archive</title>
+    <!-- Font imports -->
+    <!-- Satisfy -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&family=Satisfy&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <div class="gradOverlay"></div>
+  <body>
+    <BaseHeader />
+    <div class="page">
+      <div class="upperMargin"></div>
+      <div id="contentContainer">
+        <slot />
+      </div>
+    </div>
+  </body>
+
+  <style>
+    .gradOverlay {
+      position: fixed;
+      bottom: 0;
+      width: 100svw;
+      height: 100svh;
+      background: linear-gradient(
+        to bottom,
+        rgba(41, 163, 94, 0) 80%,
+        rgba(41, 163, 94, 0.1) 90%,
+        rgba(41, 163, 94, 0.3) 95%,
+        rgba(41, 163, 94, 0.7)
+      );
+      z-index: 5;
+      pointer-events: none;
+    }
+    .page {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #contentContainer {
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+    }
+  </style>
+
+  <script>
+//Add a top margin to the content container when it exceedsthe page height
+const contentContainer = document.getElementById("contentContainer") as HTMLDivElement;
+let contContainHeight = window.getComputedStyle(contentContainer).getPropertyValue("height"); //pixel value
+let root = document.documentElement;
+let headerHeightCalc = window.getComputedStyle(root).getPropertyValue("--ContContainUpperMargin").split(" "); //rem value
+let headerHeight = parseInt(headerHeightCalc[2]) * 16 * parseFloat(headerHeightCalc[4]);
+let windowHeight = window.innerHeight; //number
+
+
+  if (parseInt(contContainHeight) > (windowHeight - headerHeight)) {
+  contentContainer.style.marginTop = "var(--ContContainUpperMargin)";} else {contentContainer.style.marginTop = "auto";}
+  
+  window.addEventListener("resize", () => {
+    contContainHeight = window.getComputedStyle(contentContainer).getPropertyValue("height");
+    windowHeight = window.innerHeight;
+    root = document.documentElement;
+    headerHeightCalc = window.getComputedStyle(root).getPropertyValue("--ContContainUpperMargin").split(" ");
+    headerHeight = parseInt(headerHeightCalc[2]) * 16 * parseFloat(headerHeightCalc[4]);
+
+    if (window.innerWidth <= 480)  {contentContainer.style.marginTop = "var(--ContContainUpperMargin)"} else if (parseInt(contContainHeight) > (windowHeight - headerHeight)) {contentContainer.style.marginTop = "var(--ContContainUpperMargin)"} else {contentContainer.style.marginTop = "auto";}
+
+  
+  })
+
+  </script>
+
+
+</html>
