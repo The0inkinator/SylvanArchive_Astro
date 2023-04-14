@@ -5,6 +5,10 @@
   <div tabindex="0" id="bookmarkBar">
     <div id="bookmarkBarLogo"></div>
     <div id="bookmarkDropdown">Bookmarks</div>
+    <div id="bookmarkCloseButton">
+      <div></div>
+      <div></div>
+    </div>
   </div>
 </div>
 
@@ -32,7 +36,7 @@
   }
 
   #bookmarkBar:focus-within {
-    box-shadow: 0 0 0 2px var(--ShadowGreen);
+    box-shadow: 0 0 0 2px var(--FocusGreen);
   }
 
   #bookmarkBarLogo {
@@ -43,7 +47,7 @@
     grid-column: 1;
   }
 
-  #bookmarkDropdown{
+  #bookmarkDropdown {
     display: none;
     font-family: var(--HeadingFont);
     font-size: calc(var(--MenuHeight) / 2);
@@ -52,6 +56,30 @@
     transition: width 0.25s;
     padding-left: 2px;
     grid-column: 2;
+  }
 
+  #bookmarkCloseButton {
+    all: unset;
+    display: none;
+    height: 80%;
+    aspect-ratio: 1/1;
+    place-items: center;
+    grid-column: 3;
+  }
+
+  #bookmarkCloseButton > * {
+    width: 70%;
+    height: 10%;
+    background-color: lightgrey;
+    grid-row: 1;
+    grid-column: 1;
+    align-items: center;
+  }
+
+  #bookmarkCloseButton > :nth-child(1) {
+    transform: rotate(45deg);
+  }
+  #bookmarkCloseButton > :nth-child(2) {
+    transform: rotate(-45deg);
   }
 </style>
