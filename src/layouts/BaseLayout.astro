@@ -1,7 +1,7 @@
 ---
 import "../styles/zaGlobal.css";
-import HeaderDefault from "../components/layout/HeaderDefault.astro";
-import FooterDefault from "../components/layout/FooterDefault.astro";
+import BaseHeader from "../components/layout/BaseHeader.astro";
+import BaseFooter from "../components/layout/BaseFooter.astro";
 ---
 
 <html lang="en">
@@ -34,7 +34,7 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
 
   <div class="gradOverlay"></div>
   <body>
-    <HeaderDefault />
+    <BaseHeader />
     <div class="page">
       <div class="upperMargin"></div>
       <div class="contentContainer">
@@ -46,6 +46,7 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
   <style>
     .gradOverlay {
       position: fixed;
+      bottom: 0;
       width: 100svw;
       height: 100svh;
       background: linear-gradient(
