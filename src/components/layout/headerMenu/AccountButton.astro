@@ -2,17 +2,15 @@
 ---
 
 <div tabindex="-1" class="accountButtonContainer">
-
-    <a tabindex="0" href="/Account" id="accountButton">
-      <div id="accountButtonLogo"></div>
-    </a>
-
+  <a tabindex="0" href="/Account" id="accountButton">
+    <div id="accountButtonLogo"></div>
+  </a>
 </div>
 
 <style>
   .accountButtonContainer {
     pointer-events: auto;
-    grid-area: c;
+    grid-area: d;
   }
 
   #accountButton {
@@ -28,11 +26,11 @@
   }
 
   #accountButton:focus-within {
-    box-shadow: 0 0 0 2px var(--ShadowGreen);
+    box-shadow: 0 0 0 2px var(--FocusGreen);
   }
 
   #accountButtonLogo {
-    height: 70%;
+    height: 75%;
     aspect-ratio: 1/1;
     background-image: url("../../logos/accountIcon.svg");
     margin: auto;

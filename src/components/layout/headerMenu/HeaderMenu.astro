@@ -21,10 +21,7 @@ import AccountButton from "./AccountButton.astro";
 
   @media screen and (max-width: 480px) {
     #menu {
-      display: grid;
-      /* margin-left: calc(var(--MenuHeight) / 4);
-      margin-top: calc(var(--MenuHeight) / 4); */
-      grid-template-areas: "a a a" "b c d";
+      display: flex;
     }
   }
 </style>
@@ -37,79 +34,152 @@ import AccountButton from "./AccountButton.astro";
 
   //Home Button
   const homeButton = document.getElementById("homeButton") as HTMLDivElement;
-  const homeTitle = document.getElementById("homeButtonTitle") as HTMLDivElement;
+  const homeTitle = document.getElementById(
+    "homeButtonTitle"
+  ) as HTMLDivElement;
   const homeTitleWidth = window.getComputedStyle(homeTitle).width;
   //Search Bar
   const searchBar = document.getElementById("searchBar") as HTMLDivElement;
-  const searchBarInput = document.getElementById("searchBarInput") as HTMLInputElement;
-  const searchCloseButton = document.getElementById("searchCloseButton") as HTMLDivElement;
+  const searchBarInput = document.getElementById(
+    "searchBarInput"
+  ) as HTMLInputElement;
+  const searchCloseButton = document.getElementById(
+    "searchCloseButton"
+  ) as HTMLDivElement;
   //Bookmarks Button
   const bookmarkBar = document.getElementById("bookmarkBar") as HTMLDivElement;
-  const bookmarkDropdown = document.getElementById("bookmarkDropdown") as HTMLDivElement;
+  const bookmarkDropdown = document.getElementById(
+    "bookmarkDropdown"
+  ) as HTMLDivElement;
+  const bookmarkCloseButton = document.getElementById(
+    "bookmarkCloseButton"
+  ) as HTMLDivElement;
+  //Account Button
+  const accountButton = document.getElementById(
+    "accountButton"
+  ) as HTMLAnchorElement;
 
   //Define element logic states
-  let homeButtonCollapsed = false;
-  let searchBarClicked = false;
-  let searchBarCollapsed = true;
-  let bookmarkBarClicked = false;
-  let bookmarkBarCollapsed = true;
-  let xHovered = false;
+  let searchCloseHover = false;
+  let bookmarkCloseHover = false;
 
   //Define hover listeners
   searchCloseButton.addEventListener("mouseenter", () => {
-    xHovered = true;
+    searchCloseHover = true;
   });
   searchCloseButton.addEventListener("mouseleave", () => {
-    xHovered = false;
+    searchCloseHover = false;
+  });
+  bookmarkCloseButton.addEventListener("mouseenter", () => {
+    bookmarkCloseHover = true;
+  });
+  bookmarkCloseButton.addEventListener("mouseleave", () => {
+    bookmarkCloseHover = false;
   });
 
   //Create style states
   function vsHomeButtonOpen() {
-    homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth}`;
-    homeButton.style.templateGridColumns = "var(--MenuHeight) 0"
-    homeTitle.style.display = "block";
     homeTitle.style.width = "100%";
+    if (window.innerWidth > 480) {
+      //Styles
+      homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth}`;
+      homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
+      homeTitle.style.display = "block";
+      homeTitle.style.width = "100%";
+      //Logic
+    }
   }
 
   function vsHomeButtonCollapsed() {
+    //Styles
     homeButton.style.width = "var(--MenuHeight)";
-    homeButton.style.templateGridColumns = "var(--MenuHeight) 0"
+    homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
     homeTitle.style.display = "none";
     homeTitle.style.width = "0";
-
+    //Logic
   }
 
   function vsSearchBarCollapsed() {
+    //Styles
     searchBar.style.width = "var(--MenuHeight)";
-    searchBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0"
+    searchBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0";
     searchBarInput.style.cursor = "text";
     searchCloseButton.style.display = "none";
-
+    //Logic
+    searchBarInput.blur();
+    //Mobile Menu
+    setTimeout(() => {
+      if (
+        window.innerWidth <= 480 &&
+        document.activeElement !== bookmarkDropdown
+      ) {
+        homeButton.style.display = "grid";
+        searchBar.style.display = "grid";
+        bookmarkBar.style.display = "grid";
+        accountButton.style.display = "flex";
+      }
+    }, 200);
   }
 
   function vsSearchBarClicked() {
-    searchBar.style.width = "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
-    searchBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr var(--MenuHeight)"
+    //Styles
+    searchBar.style.width =
+      "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
+    searchBar.style.gridTemplateColumns =
+      "var(--MenuHeight) 1fr var(--MenuHeight)";
     searchBarInput.style.cursor = "text";
     searchCloseButton.style.display = "grid";
-    //Menu Grid
-    menu.style.gridTemplateAreas = "'a c d' 'b b b'";
-  }
-  
-    function vsBookmarkBarCollapsed() {
-    bookmarkBar.style.width = "var(--MenuHeight)";
-    bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 0"
-    bookmarkDropdown.style.display = "none";
-    bookmarkDropdown.style.width = "0";
+    //Logic
+    vsHomeButtonCollapsed();
+    vsBookmarkBarCollapsed();
+    //Mobile Menu
+    if (window.innerWidth <= 480) {
+      homeButton.style.display = "none";
+      bookmarkBar.style.display = "none";
+      accountButton.style.display = "none";
+    }
   }
 
-    function vsBookmarkBarClicked() {
-    bookmarkBar.style.width = "calc(var(--MenuHeight) + var(--SearchBarWidth))";
-    bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr"
-    bookmarkDropdown.style.display = "block";
+  function vsBookmarkBarCollapsed() {
+    //Styles
+    bookmarkBar.style.width = "var(--MenuHeight)";
+    bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0";
+    bookmarkDropdown.style.width = "0";
+    bookmarkCloseButton.style.display = "none";
+    //Logic
+    bookmarkDropdown.blur();
+    //Mobile Menu
+    setTimeout(() => {
+      if (
+        window.innerWidth <= 480 &&
+        document.activeElement !== searchBarInput
+      ) {
+        homeButton.style.display = "grid";
+        searchBar.style.display = "grid";
+        bookmarkBar.style.display = "grid";
+        accountButton.style.display = "flex";
+      }
+    }, 200);
+  }
+
+  function vsBookmarkBarClicked() {
+    //Styles
+    bookmarkBar.style.width =
+      "calc((var(--MenuHeight) * 2) + var(--SearchBarWidth))";
+    bookmarkBar.style.gridTemplateColumns =
+      "var(--MenuHeight) 1fr var(--MenuHeight)";
+
     bookmarkDropdown.style.width = "100%";
-    //Menu Grid
-    menu.style.gridTemplateAreas = "'a a a' 'b c d'";
+    bookmarkCloseButton.style.display = "grid";
+    //Logic
+    vsHomeButtonCollapsed();
+    vsSearchBarCollapsed();
+    //Mobile Menu
+    if (window.innerWidth <= 480) {
+      homeButton.style.display = "none";
+      searchBar.style.display = "none";
+      accountButton.style.display = "none";
+    }
   }
 
   //Establish base states
@@ -123,52 +193,91 @@ import AccountButton from "./AccountButton.astro";
     vsBookmarkBarCollapsed();
   }
 
-  //Create event listeners
+  //Event listeners
+  //SCROLL
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
-    vsHomeButtonCollapsed();
-    vsSearchBarCollapsed();
-    vsBookmarkBarCollapsed();
-  } else {
-    vsHomeButtonOpen();
-    vsSearchBarCollapsed();
-    vsBookmarkBarCollapsed();
-  }
-  })
+      vsHomeButtonCollapsed();
+      vsSearchBarCollapsed();
+      vsBookmarkBarCollapsed();
+    } else {
+      vsHomeButtonOpen();
+      vsSearchBarCollapsed();
+      vsBookmarkBarCollapsed();
+    }
+  });
+
+  //SEARCHBAR
+  searchBar.addEventListener("click", () => {
+    searchBarInput.focus();
+  });
+
+  searchBar.addEventListener("mousedown", () => {
+    if (searchCloseHover === true) {
+      if (window.scrollY > 0) {
+        vsSearchBarCollapsed();
+      } else {
+        vsHomeButtonOpen();
+        vsSearchBarCollapsed();
+      }
+    }
+  });
 
   searchBar.addEventListener("focusin", () => {
-    if (searchBarClicked === false) {
-    vsHomeButtonCollapsed();
     vsSearchBarClicked();
-    vsBookmarkBarCollapsed();
-    }
-  })
+  });
 
-    searchBar.addEventListener("click", () => {
-    if (searchBarClicked === false) {
-    vsHomeButtonCollapsed();
-    vsSearchBarClicked();
-    vsBookmarkBarCollapsed();
-    }
-  })
+  searchBar.addEventListener("focusout", () => {
+    setTimeout(vsSearchBarCollapsed, 100);
+    setTimeout(() => {
+      if (window.scrollY === 0 && bookmarkDropdown !== document.activeElement) {
+        vsHomeButtonOpen();
+      }
+    }, 101);
+  });
 
-    bookmarkBar.addEventListener("focusin", () => {
-    if (bookmarkBarClicked === false) {
-    vsHomeButtonCollapsed();
-    vsSearchBarCollapsed();
+  //BOOKMARK BAR
+  bookmarkBar.addEventListener("click", () => {
+    bookmarkDropdown.focus();
+  });
+
+  bookmarkBar.addEventListener("focusin", () => {
     vsBookmarkBarClicked();
+    bookmarkCloseButton.focus();
+  });
+
+  bookmarkCloseButton.addEventListener("focus", () => {
+    console.log("lost focus");
+  });
+
+  bookmarkBar.addEventListener("focusout", () => {
+    setTimeout(vsBookmarkBarCollapsed, 100);
+    setTimeout(() => {
+      if (window.scrollY === 0 && searchBarInput !== document.activeElement) {
+        vsHomeButtonOpen();
+      }
+    }, 101);
+  });
+
+  bookmarkBar.addEventListener("mousedown", () => {
+    if (bookmarkCloseHover === true) {
+      if (window.scrollY > 0) {
+        vsBookmarkBarCollapsed();
+      } else {
+        vsHomeButtonOpen();
+        vsBookmarkBarCollapsed();
+      }
     }
-  })
+  });
 
-  searchBar.addEventListener("click", () => {
-if (xHovered === true) {
-  if (window.scrollY > 0) {  vsHomeButtonCollapsed();
-  vsSearchBarCollapsed();
-  vsBookmarkBarCollapsed();} else {
-  vsHomeButtonOpen();
-  vsSearchBarCollapsed();
-  vsBookmarkBarCollapsed();}
-}
-  })
+  //Grid Layout
+  const windowSmall = window.matchMedia("(max-width: 480px)");
 
+  windowSmall.addEventListener("change", () => {
+    if (window.innerWidth <= 480) {
+      vsHomeButtonCollapsed();
+    } else {
+      vsHomeButtonOpen();
+    }
+  });
 </script>

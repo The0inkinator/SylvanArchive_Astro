@@ -31,6 +31,7 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
       rel="stylesheet"
     />
   </head>
+
   <div class="gradOverlay"></div>
   <body>
     <HeaderDefault />
@@ -45,8 +46,8 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
   <style>
     .gradOverlay {
       position: fixed;
-      width: 100vw;
-      height: 100vh;
+      width: 100svw;
+      height: 100svh;
       background: linear-gradient(
         to bottom,
         rgba(41, 163, 94, 0) 80%,
@@ -58,14 +59,13 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
       pointer-events: none;
     }
     .page {
-      min-height: 100vh;
+      min-height: 100svh;
       display: flex;
       flex-direction: column;
     }
 
     .upperMargin {
-      height: calc(100vh - 70vw);
-      max-height: 15vh;
+      height: var(--NavCardUpperMargin);
     }
     .contentContainer {
       display: flex;
