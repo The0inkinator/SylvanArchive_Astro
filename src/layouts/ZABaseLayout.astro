@@ -31,6 +31,7 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
       rel="stylesheet"
     />
   </head>
+
   <div class="gradOverlay"></div>
   <body>
     <HeaderDefault />
@@ -64,8 +65,7 @@ import FooterDefault from "../components/layout/FooterDefault.astro";
     }
 
     .upperMargin {
-      height: calc(100vh - 70vw);
-      max-height: 15vh;
+      height: var(--NavCardUpperMargin);
     }
     .contentContainer {
       display: flex;

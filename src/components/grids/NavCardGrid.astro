@@ -29,7 +29,7 @@ const { NavCardList } = Astro.props;
   .navCardGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, var(--NavCardSize));
-    width: 80vw;
+    width: var(--NavGridMargin);
     max-width: calc(var(--NavCardSize) * 5);
     justify-content: center;
   }
@@ -39,10 +39,6 @@ const { NavCardList } = Astro.props;
   const navCardGrid = document.getElementsByClassName(
     "navCardGrid"
   )[0] as HTMLDivElement;
-  const currentGridWidth = window
-    .getComputedStyle(navCardGrid)
-    .getPropertyValue("grid-template-columns")
-    .split(" ").length;
 
   const gridLength = navCardGrid.childElementCount;
 

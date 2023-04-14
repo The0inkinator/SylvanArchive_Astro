@@ -25,12 +25,15 @@
 
   /*Sizes*/
   --MagicCardSize: 12rem;
-  --NavCardSize: clamp(11rem, 20vw, 15rem);
+  --NavCardSize: clamp(13rem, 20vw, 15rem);
   --HeaderHeight: calc(100vh / 7);
   --FooterHeight: 7rem;
   --MenuHeight: 3rem;
   --SearchBarWidth: 30vw;
-  /* Font Variables */
+  /* Margins */
+  --NavGridMargin: 80vw;
+  --NavCardUpperMargin: 0rem;
+  /* Fonts & Font Variables */
   --NavCardTitleSize: 1.5rem;
   --HeadingFont: Satisfy, Roboto;
   --SubHeadingFont: Roboto, Arial, sans-serif;
@@ -38,22 +41,6 @@
   /*Gaps*/
   --LargeGap: 4rem;
   --SmallGap: 2rem;
-  /*Breakpoint Variables*/
-  --DesktopOnly: block;
-  --LaptopPlus: block;
-  --LaptopOnly: block;
-  --LaptopMinus: block;
-  --MobileOnly: block;
-  --DesktopOnlyGrid: grid;
-  --LaptopPlusGrid: grid;
-  --LaptopOnlyGrid: grid;
-  --LaptopMinusGrid: grid;
-  --MobileOnlyGrid: grid;
-  --DesktopOnlyFlex: flex;
-  --LaptopPlusFlex: flex;
-  --LaptopOnlyFlex: flex;
-  --LaptopMinusFlex: flex;
-  --MobileOnlyFlex: flex;
 
   /*Global Styling*/
   background: hsl(134 60% 93%);
@@ -61,66 +48,26 @@
 
 /*BREAKPOINT - Desktops - Plus*/
 @media screen and (min-width: 1025px) {
-  :root {
-    --DesktopOnly: block;
-    --LaptopPlus: block;
-    --LaptopOnly: none;
-    --LaptopMinus: none;
-    --MobileOnly: none;
-    --DesktopOnlyGrid: grid;
-    --LaptopPlusGrid: grid;
-    --LaptopOnlyGrid: none;
-    --LaptopMinusGrid: none;
-    --MobileOnlyGrid: none;
-    --DesktopOnlyFlex: flex;
-    --LaptopPlusFlex: flex;
-    --LaptopOnlyFlex: none;
-    --LaptopMinusFlex: none;
-    --MobileOnlyFlex: none;
-  }
-
-  /*BREAKPOINT - Laptops & Tablets*/
 }
+
+/*BREAKPOINT - Laptops & Tablets*/
 @media screen and (max-width: 1024px) and (min-width: 481px) {
   :root {
-    --DesktopOnly: none;
-    --LaptopPlus: block;
-    --LaptopOnly: block;
-    --LaptopMinus: block;
-    --MobileOnly: none;
-    --DesktopOnlyGrid: none;
-    --LaptopPlusGrid: grid;
-    --LaptopOnlyGrid: grid;
-    --LaptopMinusGrid: grid;
-    --MobileOnlyGrid: none;
-    --DesktopOnlyFlex: none;
-    --LaptopPlusFlex: flex;
-    --LaptopOnlyFlex: flex;
-    --LaptopMinusFlex: flex;
-    --MobileOnlyFlex: none;
+    /* Margins */
+    --NavGridMargin: 90vw;
+    --NavCardUpperMargin: calc(var(--MenuHeight) * 3);
   }
 }
 
 /*BREAKPOINT - Mobile - Minus*/
 @media screen and (max-width: 480px) {
   :root {
-    --DesktopOnly: none;
-    --LaptopPlus: none;
-    --LaptopOnly: none;
-    --LaptopMinus: block;
-    --MobileOnly: block;
-    --DesktopOnlyGrid: none;
-    --LaptopPlusGrid: none;
-    --LaptopOnlyGrid: none;
-    --LaptopMinusGrid: grid;
-    --MobileOnlyGrid: grid;
-    --DesktopOnlyFlex: none;
-    --LaptopPlusFlex: none;
-    --LaptopOnlyFlex: none;
-    --LaptopMinusFlex: flex;
-    --MobileOnlyFlex: flex;
+    /* Margins */
+    --NavGridMargin: 95vw;
+    --NavCardUpperMargin: calc(var(--MenuHeight) * 3);
 
     /* Sizes */
+    --NavCardSize: clamp(10rem, 20vw, 15rem);
     --SearchBarWidth: calc(100vw - (var(--MenuHeight) * 4));
 
     /* Font Variables */
