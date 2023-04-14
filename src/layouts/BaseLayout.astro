@@ -37,7 +37,7 @@ import BaseFooter from "../components/layout/BaseFooter.astro";
     <BaseHeader />
     <div class="page">
       <div class="upperMargin"></div>
-      <div class="contentContainer">
+      <div id="contentContainer">
         <slot />
       </div>
     </div>
@@ -65,15 +65,19 @@ import BaseFooter from "../components/layout/BaseFooter.astro";
       flex-direction: column;
     }
 
-    .upperMargin {
-      height: var(--NavCardUpperMargin);
-    }
-    .contentContainer {
+    #contentContainer {
       display: flex;
       flex-direction: column;
+      border: solid black;
       margin: auto;
     }
   </style>
+
+  <script>
+
+  
+  // window.addEventListener("resize", () => {console.log(window.innerWidth)})
+  </script>
 
 
 </html>
