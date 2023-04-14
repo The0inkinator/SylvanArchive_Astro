@@ -2,9 +2,9 @@
 ---
 
 <div class="bookmarkBarContainer">
-  <div tabindex="0" id="bookmarkBar">
+  <div id="bookmarkBar">
     <div id="bookmarkBarLogo"></div>
-    <div id="bookmarkDropdown">Bookmarks</div>
+    <div tabindex="0" id="bookmarkDropdown">Bookmarks</div>
     <div id="bookmarkCloseButton">
       <div></div>
       <div></div>
@@ -15,7 +15,7 @@
 <style>
   .bookmarkBarContainer {
     pointer-events: auto;
-    grid-area: d;
+    grid-area: c;
   }
 
   #bookmarkBar {
@@ -48,7 +48,7 @@
   }
 
   #bookmarkDropdown {
-    display: none;
+    all: unset;
     font-family: var(--HeadingFont);
     font-size: calc(var(--MenuHeight) / 2);
     white-space: nowrap;
