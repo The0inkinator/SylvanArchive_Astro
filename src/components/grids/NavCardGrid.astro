@@ -49,22 +49,5 @@ const { NavCardList } = Astro.props;
     navCardGrid.style.maxWidth = `calc(var(--NavCardSize) * ${gridLength})`;
   }
 
-//Set upper margin
-
-const contentContainer = document.getElementById("contentContainer") as HTMLDivElement;
-
-let currentGridLength = window.getComputedStyle(navCardGrid).getPropertyValue("grid-template-columns").split(" ").length;
-
-console.log(currentGridLength)
-  
-  window.addEventListener("resize", () => {
-    currentGridLength = window.getComputedStyle(navCardGrid).getPropertyValue("grid-template-columns").split(" ").length;
-    if ((currentGridLength / gridLength) < 1) {
-      contentContainer.style.marginTop = "var(--ContContainUpperMargin)";
-
-    } else {contentContainer.style.marginTop = "auto";
-}
-    })
-
 
 </script>

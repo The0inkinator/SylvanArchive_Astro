@@ -25,14 +25,15 @@
 
   /*Sizes*/
   --MagicCardSize: 12rem;
-  --NavCardSize: clamp(13rem, 20vw, 15rem);
+  --NavCardSize: clamp(12rem, 20vw, 15rem);
   --HeaderHeight: calc(100vh / 7);
   --FooterHeight: 7rem;
   --MenuHeight: 3rem;
   --SearchBarWidth: 30vw;
   /* Margins */
-  --NavGridMargin: 80vw;
-  --ContContainUpperMargin: calc(var(--MenuHeight) * 2.5);
+  --NavGridMargin: 70vw;
+  --ContContainUpperMargin: calc(var(--MenuHeight) * 2.5)
+    /* ^^^ this var must remain in the format: (* () *) */;
   /* Fonts & Font Variables */
   --NavCardTitleSize: 1.5rem;
   --HeadingFont: Satisfy, Roboto;
@@ -54,7 +55,7 @@
 @media screen and (max-width: 1024px) and (min-width: 481px) {
   :root {
     /* Margins */
-    --NavGridMargin: 90vw;
+    --NavGridMargin: 80vw;
   }
 }
 
@@ -63,7 +64,6 @@
   :root {
     /* Margins */
     --NavGridMargin: 95vw;
-    --ContContainUpperMargin: calc(var(--MenuHeight) * 2);
 
     /* Sizes */
     --NavCardSize: clamp(10rem, 20vw, 15rem);
