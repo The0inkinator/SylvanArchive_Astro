@@ -27,10 +27,30 @@ const { NavCardList } = Astro.props;
 
 <style>
   .navCardGrid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, var(--NavCardSize));
     width: 80vw;
-    margin-inline: auto;
+    max-width: calc(var(--NavCardSize) * 5);
     justify-content: center;
   }
 </style>
+
+<script>
+  const navCardGrid = document.getElementsByClassName(
+    "navCardGrid"
+  )[0] as HTMLDivElement;
+  const currentGridWidth = window
+    .getComputedStyle(navCardGrid)
+    .getPropertyValue("grid-template-columns")
+    .split(" ").length;
+
+  const gridLength = navCardGrid.childElementCount;
+
+  console.log(gridLength);
+
+  if (gridLength >= 5) {
+    navCardGrid.style.maxWidth = "calc(var(--NavCardSize) * 5)";
+  } else {
+    navCardGrid.style.maxWidth = `calc(var(--NavCardSize) * ${gridLength})`;
+  }
+</script>

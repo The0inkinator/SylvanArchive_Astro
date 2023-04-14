@@ -25,7 +25,7 @@
 
   /*Sizes*/
   --MagicCardSize: 12rem;
-  --NavCardSize: 15rem;
+  --NavCardSize: clamp(11rem, 20vw, 15rem);
   --HeaderHeight: calc(100vh / 7);
   --FooterHeight: 7rem;
   --MenuHeight: 3rem;
@@ -121,7 +121,6 @@
     --MobileOnlyFlex: flex;
 
     /* Sizes */
-    --NavCardSize: 10rem;
     --SearchBarWidth: calc(100vw - (var(--MenuHeight) * 4));
 
     /* Font Variables */

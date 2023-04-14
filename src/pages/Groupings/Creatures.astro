@@ -1,0 +1,13 @@
+---
+import NavCardGrid from "../../components/grids/NavCardGrid.astro";
+import ZABaseLayout from "../../layouts/ZABaseLayout.astro";
+import { creaturesList } from "../../scripts/navCardLists";
+const pageTitle = "Lands";
+const NavCardList = creaturesList;
+---
+
+<ZABaseLayout pageTitle={pageTitle}>
+  <NavCardGrid NavCardList={NavCardList} />
+</ZABaseLayout>
+
+<style></style>
