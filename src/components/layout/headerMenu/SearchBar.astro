@@ -7,7 +7,7 @@
     <input
       tabindex="0"
       id="searchBarInput"
-      value="Start Searching"
+      value="Start searching"
       type="text"
     />
     <div id="searchCloseButton">
@@ -16,6 +16,14 @@
     </div>
   </div>
 </div>
+
+<script>
+const searchBarInput = document.getElementById(
+    "searchBarInput"
+  ) as HTMLInputElement;
+
+  searchBarInput.addEventListener("click", () => {searchBarInput.value = ""})
+</script>
 
 <style>
   .searchBarContainer {
@@ -54,9 +62,10 @@
   input {
     all: unset;
     width: 100%;
+    padding-left: calc(var(--MenuHeight) * .07);
     transition: width 0.25s;
     grid-column: 2;
-    font-size: calc(var(--MenuHeight) * 0.4);
+    font-size: calc(var(--MenuHeight) * 0.32);
     font-family: var(--SubHeadingFont);
     color: grey;
   }
