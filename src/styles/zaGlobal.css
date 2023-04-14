@@ -9,13 +9,13 @@
 /*CUSTOM FONTS*/
 
 @font-face {
-  font-family: "Mukta";
-  src: url("public/fonts/Mukta-Regular.ttf");
+  font-family: 'Mukta';
+  src: url('public/fonts/Mukta-Regular.ttf');
 }
 
 @font-face {
-  font-family: "Modern Sans";
-  src: url("../fonts/ModernSans-Light.otf");
+  font-family: 'Modern Sans';
+  src: url('../fonts/ModernSans-Light.otf');
 }
 /*SITEWIDE VALUES*/
 :root {
@@ -121,7 +121,7 @@
 
     /* Sizes */
     --NavCardSize: 10rem;
-    --SearchBarWidth: calc(100vw - calc(var(--MenuHeight) * 2.75));
+    --SearchBarWidth: calc(100vw - (var(--MenuHeight) * 4));
 
     /* Font Variables */
     --NavCardTitleSize: 1.2rem;

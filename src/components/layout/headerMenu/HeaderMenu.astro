@@ -1,116 +1,174 @@
 ---
 import HomeButton from "./homeButton.astro";
-import BookmarkButton from "./BookmarkButton.astro";
+import BookmarkBar from "./BookmarkBar.astro";
 import SearchBar from "./SearchBar.astro";
 import AccountButton from "./AccountButton.astro";
 ---
 
-<div class="menu">
+<div id="menu">
   <HomeButton />
   <SearchBar />
-  <BookmarkButton />
+  <BookmarkBar />
   <AccountButton />
 </div>
 
 <style>
-  .menu {
+  #menu {
     margin: auto;
     display: flex;
     gap: calc(var(--MenuHeight) / 4);
   }
 
   @media screen and (max-width: 480px) {
-    .menu {
+    #menu {
       display: grid;
-      margin-left: calc(var(--MenuHeight) / 4);
-      margin-top: calc(var(--MenuHeight) / 4);
+      /* margin-left: calc(var(--MenuHeight) / 4);
+      margin-top: calc(var(--MenuHeight) / 4); */
+      grid-template-areas: "a a a" "b c d";
     }
   }
 </style>
 
 <script>
-  //Name Elements
-  const searchBar = document.getElementById("searchBar") as HTMLDivElement;
-  const logo = document.getElementById("searchBarLogo") as HTMLDivElement;
-  const input = document.getElementById("searchBarInput") as HTMLInputElement;
-  const title = document.getElementById("searchBarTitle") as HTMLDivElement;
-  const closeButton = document.getElementById("closeButton") as HTMLDivElement;
-  const titleWidth = window.getComputedStyle(title).width;
+  //Name elements & pull values
 
-  //Define button logic states
-  let barClicked = false;
-  let barScrolled = false;
+  //Menu Grid
+  const menu = document.getElementById("menu") as HTMLDivElement;
+
+  //Home Button
+  const homeButton = document.getElementById("homeButton") as HTMLDivElement;
+  const homeTitle = document.getElementById("homeButtonTitle") as HTMLDivElement;
+  const homeTitleWidth = window.getComputedStyle(homeTitle).width;
+  //Search Bar
+  const searchBar = document.getElementById("searchBar") as HTMLDivElement;
+  const searchBarInput = document.getElementById("searchBarInput") as HTMLInputElement;
+  const searchCloseButton = document.getElementById("searchCloseButton") as HTMLDivElement;
+  //Bookmarks Button
+  const bookmarkBar = document.getElementById("bookmarkBar") as HTMLDivElement;
+  const bookmarkDropdown = document.getElementById("bookmarkDropdown") as HTMLDivElement;
+
+  //Define element logic states
+  let homeButtonCollapsed = false;
+  let searchBarClicked = false;
+  let searchBarCollapsed = true;
+  let bookmarkBarClicked = false;
+  let bookmarkBarCollapsed = true;
   let xHovered = false;
 
-  //Define hovers
-  closeButton.addEventListener("mouseenter", () => {
+  //Define hover listeners
+  searchCloseButton.addEventListener("mouseenter", () => {
     xHovered = true;
   });
-  closeButton.addEventListener("mouseleave", () => {
+  searchCloseButton.addEventListener("mouseleave", () => {
     xHovered = false;
   });
 
   //Create style states
-  function visStateBarScrolled() {
+  function vsHomeButtonOpen() {
+    homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth}`;
+    homeButton.style.templateGridColumns = "var(--MenuHeight) 0"
+    homeTitle.style.display = "block";
+    homeTitle.style.width = "100%";
+  }
+
+  function vsHomeButtonCollapsed() {
+    homeButton.style.width = "var(--MenuHeight)";
+    homeButton.style.templateGridColumns = "var(--MenuHeight) 0"
+    homeTitle.style.display = "none";
+    homeTitle.style.width = "0";
+
+  }
+
+  function vsSearchBarCollapsed() {
     searchBar.style.width = "var(--MenuHeight)";
-    searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 1fr 0 0";
-    title.style.display = "none";
-    title.style.transition = "width 0.25s";
-    title.style.width = "0";
-    closeButton.style.display = "none";
-    barClicked = false;
-    barScrolled = true;
+    searchBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0"
+    searchBarInput.style.cursor = "text";
+    searchCloseButton.style.display = "none";
+
   }
 
-  function visStateBar() {
-    searchBar.style.width = `calc((var(--MenuHeight) * 1.2) + ${titleWidth})`;
-    searchBar.style.gridTemplateColumns = "0 var(--MenuHeight) 0 80% 0 0";
-    title.style.display = "block";
-    title.style.transition = "width 0.25s";
-    title.style.width = "100%";
-    closeButton.style.display = "none";
-    barClicked = false;
+  function vsSearchBarClicked() {
+    searchBar.style.width = "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
+    searchBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr var(--MenuHeight)"
+    searchBarInput.style.cursor = "text";
+    searchCloseButton.style.display = "grid";
+    //Menu Grid
+    menu.style.gridTemplateAreas = "'a c d' 'b b b'";
+  }
+  
+    function vsBookmarkBarCollapsed() {
+    bookmarkBar.style.width = "var(--MenuHeight)";
+    bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 0"
+    bookmarkDropdown.style.display = "none";
+    bookmarkDropdown.style.width = "0";
   }
 
-  function visStateBarClicked() {
-    searchBar.style.width =
-      "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
-    searchBar.style.gridTemplateColumns =
-      "0 var(--MenuHeight) 1fr 0 var(--MenuHeight) 0";
-    input.style.cursor = "text";
-    title.style.display = "none";
-    title.style.transition = "width 0s";
-    title.style.width = "0";
-    closeButton.style.display = "grid";
-    barClicked = true;
+    function vsBookmarkBarClicked() {
+    bookmarkBar.style.width = "calc(var(--MenuHeight) + var(--SearchBarWidth))";
+    bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 1fr"
+    bookmarkDropdown.style.display = "block";
+    bookmarkDropdown.style.width = "100%";
+    //Menu Grid
+    menu.style.gridTemplateAreas = "'a a a' 'b c d'";
+  }
+
+  //Establish base states
+  if (window.scrollY === 0) {
+    vsHomeButtonOpen();
+    vsSearchBarCollapsed();
+    vsBookmarkBarCollapsed();
+  } else {
+    vsHomeButtonCollapsed();
+    vsSearchBarCollapsed();
+    vsBookmarkBarCollapsed();
   }
 
   //Create event listeners
-  if (window.scrollY > 0) {
-    visStateBarScrolled();
-  } else {
-    visStateBar();
-    barScrolled = false;
-  }
-
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
-      visStateBarScrolled();
-    } else {
-      visStateBar();
-      barScrolled = false;
+    vsHomeButtonCollapsed();
+    vsSearchBarCollapsed();
+    vsBookmarkBarCollapsed();
+  } else {
+    vsHomeButtonOpen();
+    vsSearchBarCollapsed();
+    vsBookmarkBarCollapsed();
+  }
+  })
+
+  searchBar.addEventListener("focusin", () => {
+    if (searchBarClicked === false) {
+    vsHomeButtonCollapsed();
+    vsSearchBarClicked();
+    vsBookmarkBarCollapsed();
     }
-  });
+  })
+
+    searchBar.addEventListener("click", () => {
+    if (searchBarClicked === false) {
+    vsHomeButtonCollapsed();
+    vsSearchBarClicked();
+    vsBookmarkBarCollapsed();
+    }
+  })
+
+    bookmarkBar.addEventListener("focusin", () => {
+    if (bookmarkBarClicked === false) {
+    vsHomeButtonCollapsed();
+    vsSearchBarCollapsed();
+    vsBookmarkBarClicked();
+    }
+  })
 
   searchBar.addEventListener("click", () => {
-    if (barClicked === false) {
-      visStateBarClicked();
-    } else if (xHovered === true) {
-      if (barScrolled === true) {
-        visStateBarScrolled();
-      } else {
-        visStateBar();
-      }
-    }
-  });
+if (xHovered === true) {
+  if (window.scrollY > 0) {  vsHomeButtonCollapsed();
+  vsSearchBarCollapsed();
+  vsBookmarkBarCollapsed();} else {
+  vsHomeButtonOpen();
+  vsSearchBarCollapsed();
+  vsBookmarkBarCollapsed();}
+}
+  })
+
 </script>

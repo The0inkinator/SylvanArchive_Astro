@@ -1,21 +1,22 @@
 ---
 ---
 
-<a href="/Account">
-  <div class="accountButtonContainer">
-    <div tabindex="0" id="accountButton">
+<div tabindex="-1" class="accountButtonContainer">
+
+    <a tabindex="0" href="/Account" id="accountButton">
       <div id="accountButtonLogo"></div>
-    </div>
-  </div>
-</a>
+    </a>
+
+</div>
 
 <style>
   .accountButtonContainer {
     pointer-events: auto;
-    grid-row: 3;
+    grid-area: c;
   }
 
   #accountButton {
+    all: unset;
     background-color: white;
     height: var(--MenuHeight);
     aspect-ratio: 1/1;
