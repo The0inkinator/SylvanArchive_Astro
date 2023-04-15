@@ -22,6 +22,7 @@
   /*Colors*/
   --ShadowGreen: hsl(146 59.8% 10%);
   --FocusGreen: hsl(146 59.8% 20%);
+  --BackgroundColor: hsl(134 60% 93%);
 
   /*Sizes*/
   --MagicCardSize: 12rem;
@@ -44,7 +45,7 @@
   --SmallGap: 2rem;
 
   /*Global Styling*/
-  background: hsl(134 60% 93%);
+  background: var(--BackgroundColor);
 }
 
 /*BREAKPOINT - Desktops - Plus*/

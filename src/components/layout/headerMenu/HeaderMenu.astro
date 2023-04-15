@@ -85,6 +85,7 @@ import AccountButton from "./AccountButton.astro";
       homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth}`;
       homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
       homeTitle.style.display = "block";
+      homeTitle.style.visibility = "visible"
       homeTitle.style.width = "100%";
       //Logic
     }
@@ -95,6 +96,7 @@ import AccountButton from "./AccountButton.astro";
     homeButton.style.width = "var(--MenuHeight)";
     homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
     homeTitle.style.display = "none";
+    homeTitle.style.visibility = "visible"
     homeTitle.style.width = "0";
     //Logic
   }
@@ -145,7 +147,9 @@ import AccountButton from "./AccountButton.astro";
     bookmarkBar.style.width = "var(--MenuHeight)";
     bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0";
     bookmarkDropdown.style.width = "0";
+    bookmarkDropdown.style.visibility = "visible"
     bookmarkCloseButton.style.display = "none";
+  
     //Logic
     bookmarkDropdown.blur();
     //Mobile Menu
@@ -168,8 +172,8 @@ import AccountButton from "./AccountButton.astro";
       "calc((var(--MenuHeight) * 2) + var(--SearchBarWidth))";
     bookmarkBar.style.gridTemplateColumns =
       "var(--MenuHeight) 1fr var(--MenuHeight)";
-
     bookmarkDropdown.style.width = "100%";
+    bookmarkDropdown.style.visibility = "visible"
     bookmarkCloseButton.style.display = "grid";
     //Logic
     vsHomeButtonCollapsed();

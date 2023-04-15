@@ -3,6 +3,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "404";
 ---
 
-<BaseLayout pageTitle={pageTitle} />
+<BaseLayout pageTitle={pageTitle}> 
+<div></div>
+</BaseLayout>
 
-<style></style>
+<style>
+div {
+  background-color: white;
+  width: 5rem;
+  height: 5rem;
+  background-image: linear-gradient(to right, rgba(255, 0, 0, 0.5), rgba(0, 255, 0, 0.5));
+  transition: background-image 0.5s ease;
+}
+
+div:hover {
+  background-image: linear-gradient(to right, rgba(0, 0, 255, 0.5), rgba(255, 255, 0, 0.5));
+}
+
+</style>
