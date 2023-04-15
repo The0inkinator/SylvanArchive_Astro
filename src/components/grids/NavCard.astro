@@ -57,15 +57,19 @@ const { title, subtitle, imgSrc, link } = Astro.props;
     background-position: center;
     z-index: -1;
     transform-origin: center center;
-    filter: blur(.5px) grayscale(20%);
+    filter: blur(0.5px) grayscale(20%);
     transition: transform 0.5s, filter 0.25s;
   }
   .overlay {
     height: 110%;
     width: 110%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%,  rgba(0, 0, 0, .5) 70%, rgba(0, 0, 0, .95) 90%);
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0.5) 70%,
+      rgba(0, 0, 0, 0.95) 90%
+    );
   }
-
 
   .navCardTitle {
     width: 100%;
@@ -75,7 +79,7 @@ const { title, subtitle, imgSrc, link } = Astro.props;
     align-self: end;
     margin-bottom: 7%;
     font-size: calc(var(--NavCardSize) * 0.11);
-    color: white;
+    color: var(--BackgroundColor);
     transition: margin-bottom 0.5s;
   }
 
@@ -113,7 +117,11 @@ const { title, subtitle, imgSrc, link } = Astro.props;
   }
 
   .navCardBox:hover > .overlay {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%,  rgba(0, 0, 0, .5) 70%, rgba(0, 0, 0, .95) 90%);
-
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0.5) 70%,
+      rgba(0, 0, 0, 0.95) 90%
+    );
   }
 </style>
