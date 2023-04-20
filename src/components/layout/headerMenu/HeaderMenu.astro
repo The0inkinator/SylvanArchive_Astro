@@ -17,6 +17,9 @@ import AccountButton from "./AccountButton.astro";
     margin: auto;
     display: flex;
     gap: calc(var(--MenuHeight) / 4);
+    background-color: rgba(226, 248, 231, 0.5);
+    padding: calc(var(--MenuHeight) / 4);
+    border-radius: calc(var(--MenuHeight) / 3);
   }
 
   @media screen and (max-width: 480px) {
@@ -85,7 +88,7 @@ import AccountButton from "./AccountButton.astro";
       homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${homeTitleWidth}`;
       homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
       homeTitle.style.display = "block";
-      homeTitle.style.visibility = "visible"
+      homeTitle.style.visibility = "visible";
       homeTitle.style.width = "100%";
       //Logic
     }
@@ -96,7 +99,7 @@ import AccountButton from "./AccountButton.astro";
     homeButton.style.width = "var(--MenuHeight)";
     homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
     homeTitle.style.display = "none";
-    homeTitle.style.visibility = "visible"
+    homeTitle.style.visibility = "visible";
     homeTitle.style.width = "0";
     //Logic
   }
@@ -147,9 +150,9 @@ import AccountButton from "./AccountButton.astro";
     bookmarkBar.style.width = "var(--MenuHeight)";
     bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0";
     bookmarkDropdown.style.width = "0";
-    bookmarkDropdown.style.visibility = "visible"
+    bookmarkDropdown.style.visibility = "visible";
     bookmarkCloseButton.style.display = "none";
-  
+
     //Logic
     bookmarkDropdown.blur();
     //Mobile Menu
@@ -173,7 +176,7 @@ import AccountButton from "./AccountButton.astro";
     bookmarkBar.style.gridTemplateColumns =
       "var(--MenuHeight) 1fr var(--MenuHeight)";
     bookmarkDropdown.style.width = "100%";
-    bookmarkDropdown.style.visibility = "visible"
+    bookmarkDropdown.style.visibility = "visible";
     bookmarkCloseButton.style.display = "grid";
     //Logic
     vsHomeButtonCollapsed();
