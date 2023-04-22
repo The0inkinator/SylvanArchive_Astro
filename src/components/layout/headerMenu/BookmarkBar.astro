@@ -10,12 +10,53 @@
       <div></div>
     </div>
   </div>
+  <ul id="bookmarkListContainer">
+    <div class="bookmarkItem">
+      <div class="bookmarkItemImage"></div><div class="bookmarkItemTitle">
+        Example Item
+      </div>
+    </div>
+    <div class="bookmarkItem">
+      <div class="bookmarkItemImage"></div><div class="bookmarkItemTitle">
+        Example Item 2
+      </div>
+    </div>
+    <div class="bookmarkItem">
+      <div class="bookmarkItemImage"></div><div class="bookmarkItemTitle">
+        Example Item 2
+      </div>
+    </div>
+  </ul>
 </div>
 
 <style>
+  #bookmarkListContainer {
+    all: unset;
+    width: calc(100% - (var(--MenuHeight) / 2.5));
+    z-index: -1;
+    max-height: 20vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: absolute;
+    right: 0;
+    transform: translateX(calc(var(--MenuHeight) / -5));
+    border-radius: calc(var(--MenuHeight) / 5);
+  }
+
+  .bookmarkItem {
+    height: calc(var(--MenuHeight) * 1);
+    background-color: white;
+  }
+
+  .bookmarkItemImage {
+  }
+
+  .bookmarkItemTitle {
+  }
   .bookmarkBarContainer {
     pointer-events: auto;
     grid-area: c;
+    position: relative;
   }
 
   #bookmarkBar {
