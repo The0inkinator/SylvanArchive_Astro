@@ -1,5 +1,5 @@
 ---
-const { title, subtitle, imgSrc, link } = Astro.props;
+const { title, subtitle, imgSrc, link, bookmarked } = Astro.props;
 ---
 
 <div class="navCardContainer">
@@ -16,12 +16,50 @@ const { title, subtitle, imgSrc, link } = Astro.props;
   </div>
 </div>
 
+<script>
+  const pageNavCards = document.getElementsByClassName("navCardBookmark");
+
+  for (let i = 0; i < pageNavCards.length; i++) {
+    pageNavCards[i].setAttribute("id", "pageNavCard" + i);
+
+    pageNavCards[i].addEventListener("click", () => {
+      let navCardClicked = false;
+      const pageNavCard = document.getElementById(`pageNavCard${i}`);
+      if (pageNavCard instanceof HTMLElement) {
+        if (navCardClicked === false) {
+          pageNavCard.style.backgroundImage =
+            "url('../../graphics/bookmarkOn.svg')";
+          navCardClicked = true;
+        } else {
+          pageNavCard.style.backgroundImage =
+            "url('../../graphics/bookmarkOff.svg')";
+          navCardClicked = false;
+        }
+      }
+    });
+  }
+
+  // pageNavCards.Map((navCard) => console.log(navCard));
+</script>
+
 <style>
+  .navCardBookmark {
+    width: 15%;
+    aspect-ratio: 1/2.5;
+    background-image: url("../../graphics/bookmarkOff.svg");
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    right: 0;
+    margin-right: 10%;
+    top: 0;
+  }
   .navCardContainer {
     width: var(--NavCardSize);
     max-width: calc(var(--NavCardSize) * 1.4);
     display: grid;
   }
+
   .navCardContainer > * {
     grid-row: 1;
     grid-column: 1;
