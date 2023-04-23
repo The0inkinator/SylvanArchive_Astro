@@ -3,9 +3,9 @@ export const bookmarkedNavCards: object[] = [];
 
 for (let i = 0; i < pageNavCards.length; i++) {
   pageNavCards[i].setAttribute("id", "pageNavCard" + i);
+  let navCardClicked = false;
 
   pageNavCards[i].addEventListener("click", () => {
-    let navCardClicked = false;
     const pageNavCard = document.getElementById(`pageNavCard${i}`);
 
     if (pageNavCard instanceof HTMLElement) {
@@ -28,6 +28,13 @@ for (let i = 0; i < pageNavCards.length; i++) {
         pageNavCard.style.backgroundImage =
           "url('../../graphics/bookmarkOff.svg')";
         navCardClicked = false;
+        const pageNavCardToRemove = `pageNavCard${i}`;
+        const indexToRemove = bookmarkedNavCards.findIndex(
+          (bookmark) => bookmark.id === pageNavCardToRemove
+        );
+        if (indexToRemove !== -1) {
+          bookmarkedNavCards.splice(indexToRemove, 1);
+        }
       }
     }
   });
