@@ -10,23 +10,7 @@
       <div></div>
     </div>
   </div>
-  <ul id="bookmarkListContainer">
-    <div class="bookmarkItem">
-      <div class="bookmarkItemImage"></div><div class="bookmarkItemTitle">
-        Example Item
-      </div>
-    </div>
-    <div class="bookmarkItem">
-      <div class="bookmarkItemImage"></div><div class="bookmarkItemTitle">
-        Example Item 2
-      </div>
-    </div>
-    <div class="bookmarkItem">
-      <div class="bookmarkItemImage"></div><div class="bookmarkItemTitle">
-        Example Item 2
-      </div>
-    </div>
-  </ul>
+  <ul id="bookmarkListContainer"></ul>
 </div>
 
 <script>
@@ -51,7 +35,51 @@
   bookmarkBar.addEventListener("focusout", () => {
     bookmarkList.style.display = "none";
   });
+
+  import { bookmarkedNavCards } from "../../../scripts/ui/navCardGeneral";
+
+  bookmarkBar.addEventListener("focusin", () => {
+    bookmarkedNavCards.map((bmnc) => {
+      const listItem = document.createElement(`${bmnc.id}`);
+      const listItemImage = document.createElement("div");
+      const listItemTitle = document.createElement("div");
+      listItem.classList.add("bookmarkItem");
+      listItemImage.classList.add("bookmarkItemImage");
+      listItemImage.style.backgroundImage = `${bmnc.image}`;
+      listItemTitle.classList.add("bookmarkItemTitle");
+      listItemTitle.innerHTML = `${bmnc.title}`;
+      bookmarkList.appendChild(listItem);
+      listItem.appendChild(listItemImage);
+      listItem.appendChild(listItemTitle);
+      console.log(bookmarkList);
+    });
+  });
 </script>
+
+<style is:global>
+  .bookmarkItem {
+    height: calc(var(--MenuHeight) * 1);
+    width: 100%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+  }
+
+  .bookmarkItemImage {
+    height: 80%;
+    aspect-ratio: 1/1;
+    background-size: cover;
+    background-size: 200%;
+    background-position: center;
+    margin-inline: calc(var(--MenuHeight) / 6);
+    border-radius: calc(var(--MenuHeight) / 7);
+  }
+
+  .bookmarkItemTitle {
+    font-family: var(--SubHeadingFont);
+    color: var(--FocusGreen);
+  }
+</style>
 
 <style>
   #bookmarkListContainer {
@@ -70,30 +98,6 @@
       0% round 0 0 calc(var(--MenuHeight) / 4) calc(var(--MenuHeight) / 4)
     );
     transition: height 0.5s;
-  }
-
-  .bookmarkItem {
-    height: calc(var(--MenuHeight) * 1);
-    background-color: white;
-    display: flex;
-    align-items: center;
-  }
-
-  .bookmarkItemImage {
-    height: 80%;
-    aspect-ratio: 1/1;
-    background-color: red;
-    background-image: url("https://cards.scryfall.io/art_crop/front/7/f/7f8c9ac8-0741-4261-b43b-d745839e11f5.jpg?1562925071");
-    background-size: cover;
-    background-size: 200%;
-    background-position: center;
-    margin-inline: calc(var(--MenuHeight) / 6);
-    border-radius: calc(var(--MenuHeight) / 7);
-  }
-
-  .bookmarkItemTitle {
-    font-family: var(--SubHeadingFont);
-    color: var(--FocusGreen);
   }
   .bookmarkBarContainer {
     pointer-events: auto;
