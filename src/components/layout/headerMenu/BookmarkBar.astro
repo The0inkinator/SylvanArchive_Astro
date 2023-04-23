@@ -29,29 +29,71 @@
   </ul>
 </div>
 
+<script>
+  const bookmarkList = document.getElementById(
+    "bookmarkListContainer"
+  ) as HTMLDivElement;
+
+  //Bookmarks Button
+  const bookmarkBar = document.getElementById("bookmarkBar") as HTMLDivElement;
+  const bookmarkDropdown = document.getElementById(
+    "bookmarkDropdown"
+  ) as HTMLDivElement;
+  const bookmarkCloseButton = document.getElementById(
+    "bookmarkCloseButton"
+  ) as HTMLDivElement;
+
+  bookmarkBar.addEventListener("focusin", () => {
+    bookmarkList.style.display = "block";
+    bookmarkList.style.height = "20vh";
+  });
+
+  bookmarkBar.addEventListener("focusout", () => {
+    bookmarkList.style.display = "none";
+  });
+</script>
+
 <style>
   #bookmarkListContainer {
     all: unset;
+    display: none;
     width: calc(100% - (var(--MenuHeight) / 2.5));
     z-index: -1;
-    max-height: 20vw;
+    height: 0;
+    max-height: 20vh;
     overflow-y: scroll;
     overflow-x: hidden;
     position: absolute;
     right: 0;
     transform: translateX(calc(var(--MenuHeight) / -5));
-    border-radius: calc(var(--MenuHeight) / 5);
+    clip-path: inset(
+      0% round 0 0 calc(var(--MenuHeight) / 4) calc(var(--MenuHeight) / 4)
+    );
+    transition: height 0.5s;
   }
 
   .bookmarkItem {
     height: calc(var(--MenuHeight) * 1);
     background-color: white;
+    display: flex;
+    align-items: center;
   }
 
   .bookmarkItemImage {
+    height: 80%;
+    aspect-ratio: 1/1;
+    background-color: red;
+    background-image: url("https://cards.scryfall.io/art_crop/front/7/f/7f8c9ac8-0741-4261-b43b-d745839e11f5.jpg?1562925071");
+    background-size: cover;
+    background-size: 200%;
+    background-position: center;
+    margin-inline: calc(var(--MenuHeight) / 6);
+    border-radius: calc(var(--MenuHeight) / 7);
   }
 
   .bookmarkItemTitle {
+    font-family: var(--SubHeadingFont);
+    color: var(--FocusGreen);
   }
   .bookmarkBarContainer {
     pointer-events: auto;

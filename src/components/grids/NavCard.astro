@@ -17,29 +17,7 @@ const { title, subtitle, imgSrc, link, bookmarked } = Astro.props;
 </div>
 
 <script>
-  const pageNavCards = document.getElementsByClassName("navCardBookmark");
-
-  for (let i = 0; i < pageNavCards.length; i++) {
-    pageNavCards[i].setAttribute("id", "pageNavCard" + i);
-
-    pageNavCards[i].addEventListener("click", () => {
-      let navCardClicked = false;
-      const pageNavCard = document.getElementById(`pageNavCard${i}`);
-      if (pageNavCard instanceof HTMLElement) {
-        if (navCardClicked === false) {
-          pageNavCard.style.backgroundImage =
-            "url('../../graphics/bookmarkOn.svg')";
-          navCardClicked = true;
-        } else {
-          pageNavCard.style.backgroundImage =
-            "url('../../graphics/bookmarkOff.svg')";
-          navCardClicked = false;
-        }
-      }
-    });
-  }
-
-  // pageNavCards.Map((navCard) => console.log(navCard));
+  import "../../scripts/ui/navCardGeneral";
 </script>
 
 <style>
