@@ -10,19 +10,119 @@
       <div></div>
     </div>
   </div>
+  <ul id="bookmarkListContainer"></ul>
 </div>
 
+<script>
+  const bookmarkList = document.getElementById(
+    "bookmarkListContainer"
+  ) as HTMLDivElement;
+
+  //Bookmarks Button
+  const bookmarkBar = document.getElementById("bookmarkBar") as HTMLDivElement;
+
+  bookmarkBar.addEventListener("focusin", () => {
+    if (bookmarkedNavCards.length > 0) {
+      bookmarkList.style.visibility = "visible";
+    }
+    bookmarkList.style.height = `calc(var(--MenuHeight) * ${bookmarkedNavCards.length})`;
+  });
+
+  bookmarkBar.addEventListener("focusout", () => {
+    bookmarkList.style.visibility = "hidden";
+    bookmarkList.style.height = "0";
+  });
+
+  import { bookmarkedNavCards } from "../../../scripts/ui/navCardGeneral";
+
+  bookmarkBar.addEventListener("focusin", () => {
+    bookmarkedNavCards.map((bmnc) => {
+      const listItem = document.createElement(`${bmnc.id}`);
+      const listItemImage = document.createElement("div");
+      const listItemTitle = document.createElement("div");
+      listItem.classList.add("bookmarkItem");
+      listItemImage.classList.add("bookmarkItemImage");
+      listItemImage.style.backgroundImage = `${bmnc.image}`;
+      listItemTitle.classList.add("bookmarkItemTitle");
+      listItemTitle.innerHTML = `${bmnc.title}`;
+      bookmarkList.appendChild(listItem);
+      listItem.appendChild(listItemImage);
+      listItem.appendChild(listItemTitle);
+    });
+  });
+  bookmarkBar.addEventListener("focusout", () => {
+    while (bookmarkList.firstChild) {
+      bookmarkList.removeChild(bookmarkList.firstChild);
+    }
+  });
+</script>
+
+<style is:global>
+  .bookmarkItem {
+    height: calc(var(--MenuHeight) * 1);
+    width: 100%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+  }
+
+  .bookmarkItemImage {
+    height: 80%;
+    aspect-ratio: 1/1;
+    background-size: cover;
+    background-size: 200%;
+    background-position: center;
+    margin-inline: calc(var(--MenuHeight) / 6);
+    border-radius: calc(var(--MenuHeight) / 7);
+  }
+
+  .bookmarkItemTitle {
+    font-family: var(--SubHeadingFont);
+    color: var(--FocusGreen);
+  }
+</style>
+
 <style>
+  #bookmarkListContainer {
+    all: unset;
+    z-index: -1;
+    visibility: hidden;
+    width: calc(100% - (var(--MenuHeight) / 2.5));
+    max-height: 20vh;
+    position: absolute;
+    right: 0;
+    transform: translateX(calc(var(--MenuHeight) / -5));
+    clip-path: inset(
+      0% round 0 0 calc(var(--MenuHeight) / 4) calc(var(--MenuHeight) / 4)
+    );
+    overflow: hidden;
+    overflow-y: auto;
+    padding-block: calc(var(--MenuHeight) / 10);
+    background-color: white;
+    transition: height 0.5s;
+  }
+
+  #bookmarkListContainer::-webkit-scrollbar {
+    width: 15px;
+  }
+  #bookmarkListContainer::-webkit-scrollbar-thumb {
+    background-color: var(--DefaultGreen);
+  }
+  #bookmarkListContainer::-webkit-scrollbar-track {
+    background-color: white;
+  }
   .bookmarkBarContainer {
     pointer-events: auto;
     grid-area: c;
+    position: relative;
   }
 
   #bookmarkBar {
     all: unset;
     overflow: hidden;
     background-color: white;
-    filter: drop-shadow(0px 0px 5px var(--ShadowGreen));
+    /* filter: drop-shadow(0px 0px 5px var(--ShadowGreen)); */
+    box-shadow: 0 0 0 2px var(--DefaultGreen);
     height: var(--MenuHeight);
     min-width: var(--MenuHeight);
     width: var(--MenuHeight);

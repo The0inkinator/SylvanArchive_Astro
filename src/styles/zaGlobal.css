@@ -9,19 +9,20 @@
 /*CUSTOM FONTS*/
 
 @font-face {
-  font-family: 'Mukta';
-  src: url('public/fonts/Mukta-Regular.ttf');
+  font-family: "Mukta";
+  src: url("public/fonts/Mukta-Regular.ttf");
 }
 
 @font-face {
-  font-family: 'Modern Sans';
-  src: url('../fonts/ModernSans-Light.otf');
+  font-family: "Modern Sans";
+  src: url("../fonts/ModernSans-Light.otf");
 }
 /*SITEWIDE VALUES*/
 :root {
   /*Colors*/
   --ShadowGreen: hsl(146 59.8% 10%);
-  --FocusGreen: hsl(146 59.8% 20%);
+  --DefaultGreen: hsl(120, 63%, 37%);
+  --FocusGreen: hsl(133, 55%, 27%);
   --BackgroundColor: hsl(134 60% 93%);
 
   /*Sizes*/
@@ -34,11 +35,11 @@
   /* Margins */
   --NavGridMargin: 70vw;
   --ContContainUpperMargin: calc(var(--MenuHeight) * 2.5)
-    /* ^^^ this var must remain in the format: (* () *) */;
+    /* ^^^ this var must remain in the format: ((number) (multiplied by) (number)) */;
   /* Fonts & Font Variables */
   --NavCardTitleSize: 1.5rem;
   --HeadingFont: Satisfy, Roboto;
-  --SubHeadingFont: Roboto, Arial, sans-serif;
+  --SubHeadingFont: Josefin Sans, Arial, sans-serif;
   --BodyFont: Modern Sans, Arial, sans-serif;
   /*Gaps*/
   --LargeGap: 4rem;

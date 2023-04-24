@@ -1,5 +1,5 @@
 ---
-const { title, subtitle, imgSrc, link } = Astro.props;
+const { title, subtitle, imgSrc, link, bookmarked } = Astro.props;
 ---
 
 <div class="navCardContainer">
@@ -16,12 +16,28 @@ const { title, subtitle, imgSrc, link } = Astro.props;
   </div>
 </div>
 
+<script>
+  import "../../scripts/ui/navCardGeneral";
+</script>
+
 <style>
+  .navCardBookmark {
+    width: 15%;
+    aspect-ratio: 1/2.5;
+    background-image: url("../../graphics/bookmarkOff.svg");
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    right: 0;
+    margin-right: 10%;
+    top: 0;
+  }
   .navCardContainer {
     width: var(--NavCardSize);
     max-width: calc(var(--NavCardSize) * 1.4);
     display: grid;
   }
+
   .navCardContainer > * {
     grid-row: 1;
     grid-column: 1;
@@ -32,7 +48,6 @@ const { title, subtitle, imgSrc, link } = Astro.props;
   .fullNavCard {
     width: 85%;
     aspect-ratio: 1/1.7;
-    font-family: var(--SubHeadingFont);
     font-size: var(--NavCardTitleSize);
     transform-origin: center;
   }
@@ -57,25 +72,31 @@ const { title, subtitle, imgSrc, link } = Astro.props;
     background-position: center;
     z-index: -1;
     transform-origin: center center;
-    filter: blur(.5px) grayscale(20%);
+    filter: blur(0.5px) grayscale(20%);
     transition: transform 0.5s, filter 0.25s;
   }
   .overlay {
     height: 110%;
     width: 110%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%,  rgba(0, 0, 0, .5) 70%, rgba(0, 0, 0, .95) 90%);
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0.5) 70%,
+      rgba(0, 0, 0, 0.95) 90%
+    );
   }
-
 
   .navCardTitle {
     width: 100%;
-    text-align: center;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-inline: calc(var(--NavCardSize) * 0.08);
     align-self: end;
     margin-bottom: 7%;
-    font-size: calc(var(--NavCardSize) * 0.11);
-    color: white;
+    font-size: calc(var(--NavCardSize) * 0.1);
+    font-family: var(--SubHeadingFont);
+    text-overflow: ellipsis;
+    /* text-transform: uppercase; */
+    text-align: center;
+    color: var(--BackgroundColor);
     transition: margin-bottom 0.5s;
   }
 
@@ -113,7 +134,11 @@ const { title, subtitle, imgSrc, link } = Astro.props;
   }
 
   .navCardBox:hover > .overlay {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%,  rgba(0, 0, 0, .5) 70%, rgba(0, 0, 0, .95) 90%);
-
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0.5) 70%,
+      rgba(0, 0, 0, 0.95) 90%
+    );
   }
 </style>

@@ -18,11 +18,13 @@
 </div>
 
 <script>
-const searchBarInput = document.getElementById(
+  const searchBarInput = document.getElementById(
     "searchBarInput"
   ) as HTMLInputElement;
 
-  searchBarInput.addEventListener("click", () => {searchBarInput.value = ""})
+  searchBarInput.addEventListener("click", () => {
+    searchBarInput.value = "";
+  });
 </script>
 
 <style>
@@ -36,7 +38,8 @@ const searchBarInput = document.getElementById(
     all: unset;
     overflow: hidden;
     background-color: white;
-    filter: drop-shadow(0px 0px 5px var(--ShadowGreen));
+    /* filter: drop-shadow(0px 0px 5px var(--ShadowGreen)); */
+    box-shadow: 0 0 0 2px var(--DefaultGreen);
     height: var(--MenuHeight);
     min-width: var(--MenuHeight);
     border-radius: calc(var(--MenuHeight) / 5);
@@ -62,7 +65,7 @@ const searchBarInput = document.getElementById(
   input {
     all: unset;
     width: 100%;
-    padding-left: calc(var(--MenuHeight) * .07);
+    padding-left: calc(var(--MenuHeight) * 0.07);
     transition: width 0.25s;
     grid-column: 2;
     font-size: calc(var(--MenuHeight) * 0.32);
