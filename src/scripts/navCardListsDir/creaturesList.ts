@@ -1,4 +1,12 @@
-export const creaturesListRaw = [
+type NavCardDetails = {
+  title: string;
+  subtitle: string;
+  imgSrc: string;
+  link: string;
+  bookmarked: boolean;
+};
+
+export const creaturesListRaw: NavCardDetails[] = [
   {
     title: "Card Advantage",
     subtitle: "Creatures that draw cards",
