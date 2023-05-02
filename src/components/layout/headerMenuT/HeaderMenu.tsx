@@ -1,70 +1,42 @@
-import { createEffect, createSignal } from "solid-js";
-import "./headerMenuStyles.css";
-import HomeButton from "./HomeButton";
+import { createEffect, createSignal, Switch, Match, Show } from 'solid-js';
+import { createScrollPosition } from '@solid-primitives/scroll';
+import './headerMenuStyles.css';
 
 export const [homeScrolled, setHomeScrolled] = createSignal(false);
 export const [searchFocused, setSearchFocused] = createSignal(false);
 export const [bookmarksFocused, setBookmarksFocused] = createSignal(false);
+export const windowScroll = createScrollPosition();
 
 export default function HeaderMenuT() {
-  switch (homeScrolled()) {
-    case true:
-      return (
-        <>
-          <div id="menu">
-            <HomeButton />
-            <SearchBar />
-            <BookmarkBar />
-            <AccountButton />
-          </div>
-        </>
-      );
-    case false:
-      return (
-        <>
-          <div id="menu">
-            <HomeButton />
-            <SearchBar />
-            <BookmarkBar />
-            <AccountButton />
-            <TestElement />
-          </div>
-        </>
-      );
-  }
-}
-
-const TestElement = () => {
-  const [count, setCount] = createSignal(0);
-  setCount(0);
-  const increment = () => {
-    setCount(count() + 1);
-    console.log(count());
-  };
-
-  function ActiveUI() {
-    switch (count()) {
-      case 0:
-        return (
-          <div onclick={() => increment()} style="pointer-events: auto;">
-            0
-          </div>
-        );
-        break;
-      case 1:
-        return <div>1</div>;
-        break;
-      // default:
-      //   <div>69</div>;
-    }
-  }
-
+  setHomeScrolled(true);
+  console.log(homeScrolled());
   return (
     <>
-      <div onclick={() => increment()} style="pointer-events: auto;">
-        0
+      <div id="menu">
+        <HomeButton />
+        <SearchBar />
+        <BookmarkBar />
+        <AccountButton />
       </div>
-      <ActiveUI />
+    </>
+  );
+}
+
+const HomeButton = () => {
+  return (
+    <>
+      <div class="homeButtonContainer">
+        <a
+          tabindex="0"
+          id="homeButton"
+          href="/"
+          // classList={{ homeButtonScrolled: homeScrolled() === true }}
+          class="homeButtonScrolled"
+        >
+          <div id="homeButtonLogo"></div>
+          <div id="homeButtonTitle">Sylvan Archive</div>
+        </a>
+      </div>
     </>
   );
 };
@@ -73,7 +45,18 @@ const SearchBar = () => {
   return (
     <>
       <div class="searchBarContainer">
-        <div id="searchBar">
+        <div
+          id="searchBar"
+          onClick={() => {
+            document.getElementById('searchBarInput').focus();
+          }}
+          onFocusIn={() => {
+            setSearchFocused(true);
+          }}
+          onFocusOut={() => {
+            setSearchFocused(false);
+          }}
+        >
           <div id="searchBarLogo"></div>
           <input
             tabindex="0"
@@ -95,7 +78,18 @@ const BookmarkBar = () => {
   return (
     <>
       <div class="bookmarkBarContainer">
-        <div id="bookmarkBar">
+        <div
+          id="bookmarkBar"
+          onClick={() => {
+            document.getElementById('bookmarkDropdown').focus();
+          }}
+          onFocusIn={() => {
+            setBookmarksFocused(true);
+          }}
+          onFocusOut={() => {
+            setBookmarksFocused(false);
+          }}
+        >
           <div id="bookmarkBarLogo"></div>
           <div tabindex="0" id="bookmarkDropdown">
             Bookmarks

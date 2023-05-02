@@ -27,7 +27,6 @@
   all: unset;
   overflow: hidden;
   background-color: white;
-  /* filter: drop-shadow(0px 0px 5px var(--ShadowGreen)); */
   box-shadow: 0 0 0 2px var(--DefaultGreen);
   height: var(--MenuHeight);
   min-width: var(--MenuHeight);
@@ -40,6 +39,10 @@
   place-items: center;
 }
 
+.homeButtonScrolled {
+  background-color: red;
+}
+
 #homeButton:focus-within {
   box-shadow: 0 0 0 2px var(--FocusGreen);
 }
@@ -47,7 +50,7 @@
 #homeButtonLogo {
   height: 80%;
   aspect-ratio: 1/1;
-  background-image: url("../../logos/sylvanArchiveLogo.svg");
+  background-image: url('../../logos/sylvanArchiveLogo.svg');
   margin: auto;
   grid-column: 1;
 }
@@ -95,7 +98,7 @@
 #searchBarLogo {
   height: 70%;
   aspect-ratio: 1/1;
-  background-image: url("../../logos/searchIcon.svg");
+  background-image: url('../../logos/searchIcon.svg');
   grid-column: 1;
 }
 
@@ -196,7 +199,7 @@ input {
 #bookmarkBarLogo {
   height: 75%;
   aspect-ratio: 1/1;
-  background-image: url("../../logos/bookmarksIcon.svg");
+  background-image: url('../../logos/bookmarksIcon.svg');
   margin: auto;
   grid-column: 1;
 }
@@ -265,6 +268,6 @@ input {
 #accountButtonLogo {
   height: 75%;
   aspect-ratio: 1/1;
-  background-image: url("../../logos/accountIcon.svg");
+  background-image: url('../../logos/accountIcon.svg');
   margin: auto;
 }
