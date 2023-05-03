@@ -1,12 +1,16 @@
 ---
-import HeaderMenuT from "../layout/headerMenuT/HeaderMenu";
 import HeaderMenu from "./headerMenu/HeaderMenu.astro";
+import FloatingMenu from "./floatingMenu/FloatingMenu"
 ---
 
 <header>
   <div class="headerBar">
-    <!-- <HeaderMenu /> -->
-    <HeaderMenuT client:visible />
+    <HeaderMenu />
+
+  </div>
+    <div class="headerBar second">
+    <FloatingMenu />
+
   </div>
 </header>
 
@@ -19,6 +23,11 @@ import HeaderMenu from "./headerMenu/HeaderMenu.astro";
     pointer-events: none;
     display: flex;
     flex-direction: column;
+  }
+
+  .second {
+    margin-top: var(--ContContainUpperMargin);
+
   }
 
   .headerBar > * {

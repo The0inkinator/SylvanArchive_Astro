@@ -1,0 +1,9 @@
+.floatingMenuContainer {
+  margin: auto;
+  display: flex;
+  gap: calc(var(--MenuHeight) * 0.25);
+}
+
+.menuItemContainer {
+  color: red;
+}
