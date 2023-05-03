@@ -31,7 +31,7 @@ const HomeButton = () => {
           id="homeButton"
           href="/"
           // classList={{ homeButtonScrolled: homeScrolled() === true }}
-          class="homeButtonScrolled"
+          class="test"
         >
           <div id="homeButtonLogo"></div>
           <div id="homeButtonTitle">Sylvan Archive</div>
