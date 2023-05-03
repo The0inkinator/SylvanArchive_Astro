@@ -2,7 +2,7 @@ import { createSignal, createEffect } from 'solid-js';
 import { createScrollPosition } from '@solid-primitives/scroll';
 import './testMenuStyles.css';
 
-const [hovered, setHovered] = createSignal(0);
+const [hovered, setHovered] = createSignal(1);
 
 const windowScroll = createScrollPosition();
 
@@ -30,10 +30,9 @@ export default function TestMenu() {
     <>
       <div class="menuContainer">
         <div
-          class="button"
           onMouseEnter={() => item1Hovered()}
           onMouseLeave={() => itemUnHovered()}
-          classList={{ hoveredButton: hovered() === 1 }}
+          classList={{ hoveredButton: hovered() === 1, button: true }}
         ></div>
         <div
           class="button"
