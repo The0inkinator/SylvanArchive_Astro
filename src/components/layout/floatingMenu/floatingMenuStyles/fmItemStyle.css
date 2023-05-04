@@ -10,10 +10,9 @@
   font-family: var(--HeadingFont);
   font-size: calc(var(--MenuHeight) / 2);
   white-space: nowrap;
-  width: auto;
-  transition: width 0.25s;
   padding-left: 2px;
   grid-column: 2;
+  transition: width 0.25s;
 }
 
 #FMSearchIcon {

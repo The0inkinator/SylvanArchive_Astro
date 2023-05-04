@@ -6,12 +6,7 @@ import "./floatingMenuStyles/floatingMenuStyle.css";
 import "./floatingMenuStyles/fmItemStyle.css";
 import { createSignal } from "solid-js";
 
-type MenuStates =
-  | "allClosed"
-  | "homeOpen"
-  | "searchOpen"
-  | "bookmarkOpen"
-  | "loading";
+type MenuStates = "allClosed" | "homeOpen" | "searchOpen" | "bookmarkOpen";
 
 export const [menuState, setMenuState] = createSignal<MenuStates>("homeOpen");
 

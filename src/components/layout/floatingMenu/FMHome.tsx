@@ -1,25 +1,20 @@
-import { createEffect } from "solid-js";
+import { createEffect, onMount } from "solid-js";
 import { menuState, setMenuState } from "./FloatingMenu";
 import { createScrollPosition } from "@solid-primitives/scroll";
 
-const windowScroll = createScrollPosition
+const windowScroll = createScrollPosition();
 let homeButton: HTMLAnchorElement;
 let homeTitle: HTMLDivElement;
+let initTitleWidth = () => window.getComputedStyle(homeTitle).width;
 
 const openHomeButton = () => {
-  homeButton.style.width = "calc((var(--MenuHeight) * 4)";
-  homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
-  homeTitle.style.display = "block";
-  homeTitle.style.visibility = "visible";
-  homeTitle.style.width = "100%";
+  homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${initTitleWidth()})`;
+  homeButton.style.gridTemplateColumns = "var(--MenuHeight) 1fr";
 };
 
 const closeHomeButton = () => {
   homeButton.style.width = "var(--MenuHeight)";
   homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
-  homeTitle.style.display = "none";
-  homeTitle.style.visibility = "visible";
-  homeTitle.style.width = "0";
 };
 
 export default function FMHome() {
@@ -29,21 +24,32 @@ export default function FMHome() {
     } else {
       openHomeButton();
     }
-
-    if ()
   });
+
+  createEffect(() => {
+    if (windowScroll.y > 0) {
+      setMenuState("allClosed");
+    } else {
+      setMenuState("homeOpen");
+    }
+  });
+
   return (
     <>
       <div classList={{ menuItemContainer: true }}>
         <a
+          tabIndex="1"
           classList={{
             button: true,
           }}
           ref={homeButton}
+          onclick={() => console.log(initTitleWidth())}
         >
           <div id="FMHomeIcon"></div>
-          <div classList={{ fmHomeTitle: true }} ref={homeTitle}>
-            Sylvan Archive
+          <div style={"display: flex"}>
+            <div classList={{ fmHomeTitle: true }} ref={homeTitle}>
+              Sylvan Archive
+            </div>
           </div>
         </a>
       </div>
