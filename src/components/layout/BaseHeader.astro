@@ -1,16 +1,14 @@
 ---
 import HeaderMenu from "./headerMenu/HeaderMenu.astro";
-import FloatingMenu from "./floatingMenu/FloatingMenu"
+import FloatingMenu from "./floatingMenu/FloatingMenu";
 ---
 
 <header>
   <div class="headerBar">
     <HeaderMenu />
-
   </div>
-    <div class="headerBar second">
-    <FloatingMenu />
-
+  <div class="headerBar second">
+    <FloatingMenu client:visible />
   </div>
 </header>
 
@@ -27,7 +25,6 @@ import FloatingMenu from "./floatingMenu/FloatingMenu"
 
   .second {
     margin-top: var(--ContContainUpperMargin);
-
   }
 
   .headerBar > * {

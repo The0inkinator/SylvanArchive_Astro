@@ -1,0 +1,40 @@
+#FMHomeIcon {
+  height: 80%;
+  aspect-ratio: 1/1;
+  background-image: url("../../logos/sylvanArchiveLogo.svg");
+  margin: auto;
+  grid-column: 1;
+}
+
+.fmHomeTitle {
+  font-family: var(--HeadingFont);
+  font-size: calc(var(--MenuHeight) / 2);
+  white-space: nowrap;
+  width: auto;
+  transition: width 0.25s;
+  padding-left: 2px;
+  grid-column: 2;
+}
+
+#FMSearchIcon {
+  height: 70%;
+  aspect-ratio: 1/1;
+  margin: auto;
+  background-image: url("../../logos/searchIcon.svg");
+  grid-column: 1;
+}
+
+#FMBookmarkIcon {
+  height: 75%;
+  aspect-ratio: 1/1;
+  background-image: url("../../logos/bookmarksIcon.svg");
+  margin: auto;
+  grid-column: 1;
+}
+
+#FMAccountIcon {
+  height: 75%;
+  aspect-ratio: 1/1;
+  background-image: url("../../logos/accountIcon.svg");
+  margin: auto;
+}
