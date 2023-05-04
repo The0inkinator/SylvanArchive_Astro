@@ -1,13 +1,17 @@
 ---
 import NavCardGrid from "../components/grids/NavCardGrid.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import TestLayout from "../layouts/TestLayout.astro";
 import { startSearchingList } from "../scripts/navCardLists";
+import TestMenu from "../components/test/TestMenu"
 const pageTitle = "Sylvan Archive";
 const NavCardList = startSearchingList;
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<!-- <BaseLayout pageTitle={pageTitle}>
   <NavCardGrid NavCardList={NavCardList} />
-</BaseLayout>
+</BaseLayout> -->
+<TestLayout>
+</TestLayout>
 
 <style></style>
