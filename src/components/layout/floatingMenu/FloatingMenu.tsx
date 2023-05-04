@@ -5,10 +5,13 @@ import FMAccount from "./FMAccount";
 import "./floatingMenuStyles/floatingMenuStyle.css";
 import "./floatingMenuStyles/fmItemStyle.css";
 import { createSignal } from "solid-js";
+import { createScrollPosition } from "@solid-primitives/scroll";
+
+export const windowScroll = createScrollPosition();
 
 type MenuStates = "allClosed" | "homeOpen" | "searchOpen" | "bookmarkOpen";
 
-export const [menuState, setMenuState] = createSignal<MenuStates>("homeOpen");
+export const [menuState, setMenuState] = createSignal<MenuStates>("searchOpen");
 
 export default function FloatingMenu() {
   return (

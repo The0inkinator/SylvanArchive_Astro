@@ -1,18 +1,16 @@
-import { createEffect, onMount } from "solid-js";
-import { menuState, setMenuState } from "./FloatingMenu";
-import { createScrollPosition } from "@solid-primitives/scroll";
+import { createEffect } from "solid-js";
+import { menuState, setMenuState, windowScroll } from "./FloatingMenu";
 
-const windowScroll = createScrollPosition();
 let homeButton: HTMLAnchorElement;
 let homeTitle: HTMLDivElement;
 let initTitleWidth = () => window.getComputedStyle(homeTitle).width;
 
-const openHomeButton = () => {
+const openHome = () => {
   homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${initTitleWidth()})`;
   homeButton.style.gridTemplateColumns = "var(--MenuHeight) 1fr";
 };
 
-const closeHomeButton = () => {
+const closeHome = () => {
   homeButton.style.width = "var(--MenuHeight)";
   homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
 };
@@ -20,14 +18,14 @@ const closeHomeButton = () => {
 export default function FMHome() {
   createEffect(() => {
     if (menuState() !== "homeOpen") {
-      closeHomeButton();
+      closeHome();
     } else {
-      openHomeButton();
+      openHome();
     }
   });
 
   createEffect(() => {
-    if (windowScroll.y > 0) {
+    if (windowScroll.y > 0 && menuState() === "homeOpen") {
       setMenuState("allClosed");
     } else {
       setMenuState("homeOpen");
@@ -38,12 +36,12 @@ export default function FMHome() {
     <>
       <div classList={{ menuItemContainer: true }}>
         <a
-          tabIndex="1"
+          href="/"
+          tabIndex="0"
           classList={{
             button: true,
           }}
           ref={homeButton}
-          onclick={() => console.log(initTitleWidth())}
         >
           <div id="FMHomeIcon"></div>
           <div style={"display: flex"}>

@@ -4,7 +4,7 @@ export default function FMAccount() {
   return (
     <>
       <div classList={{ menuItemContainer: true }}>
-        <a classList={{ button: true }} tabIndex="4">
+        <a href="/Account" classList={{ button: true }} tabIndex="0">
           <div id="FMAccountIcon"></div>
         </a>
       </div>

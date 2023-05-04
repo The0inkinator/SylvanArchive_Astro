@@ -25,10 +25,7 @@
   transition: width 0.25s, box-shadow 0.15s;
 }
 
-.button:focus-within {
-  box-shadow: 0 0 0 3px var(--FocusGreen);
-}
-
+.button:focus-within,
 .button:hover {
   box-shadow: 0 0 0 3px var(--FocusGreen);
 }

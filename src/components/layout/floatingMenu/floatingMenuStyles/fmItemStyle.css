@@ -23,6 +23,38 @@
   grid-column: 1;
 }
 
+#searchInput {
+  all: unset;
+  overflow: hidden;
+  place-items: center;
+  transition: width 0.25s;
+}
+
+#searchCloseButton {
+  all: unset;
+  display: none;
+  height: 80%;
+  aspect-ratio: 1/1;
+  place-items: center;
+  grid-column: 3;
+}
+
+#searchCloseButton > * {
+  width: 70%;
+  height: 10%;
+  background-color: lightgrey;
+  grid-row: 1;
+  grid-column: 1;
+  align-items: center;
+}
+
+#searchCloseButton > :nth-child(1) {
+  transform: rotate(45deg);
+}
+#searchCloseButton > :nth-child(2) {
+  transform: rotate(-45deg);
+}
+
 #FMBookmarkIcon {
   height: 75%;
   aspect-ratio: 1/1;
