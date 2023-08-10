@@ -1,4 +1,4 @@
-import { createEffect } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { menuState, setMenuState, windowScroll } from "./FloatingMenu";
 
 let searchBar: HTMLDivElement;
@@ -16,40 +16,30 @@ const openSearch = () => {
 const closeSearch = () => {
   searchBar.style.width = "var(--MenuHeight)";
   searchBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0";
-  searchBarInput.style.cursor = "text";
+
   searchCloseButton.style.display = "none";
   //Logic
   searchBarInput.blur();
 };
 
 export default function FMSearch() {
-  // const conditionalClose = () => {
-  //   if (windowScroll.y > 0) {
-  //     setMenuState("allClosed");
-  //     console.log(menuState());
-  //   } else {
-  //     setMenuState("homeOpen");
-  //     console.log(menuState());
-  //   }
-  // };
-
-  // createEffect(() => {
-  //   if (menuState() === "searchOpen") {
-  //     openSearch();
-  //   } else {
-  //     closeSearch();
-  //   }
-  // });
+  createEffect(() => {
+    if (menuState() === "searchOpen") {
+      openSearch();
+    } else {
+      closeSearch();
+    }
+  });
   return (
     <>
       <div classList={{ menuItemContainer: true }}>
         <div
-          tabIndex="-1"
           ref={searchBar}
           classList={{ button: true }}
           onClick={() => {
-            searchBarInput.focus();
-            setMenuState("searchOpen");
+            if (menuState() !== "searchOpen") {
+              searchBarInput.focus();
+            }
           }}
         >
           <div id="FMSearchIcon"></div>
@@ -66,7 +56,12 @@ export default function FMSearch() {
           <div
             id="searchCloseButton"
             ref={searchCloseButton}
-            // onClick={() => conditionalClose()}
+            onClick={() => {
+              setTimeout(() => {
+                setMenuState("homeOpen");
+                searchBarInput.blur();
+              }, 1);
+            }}
           >
             <div></div>
             <div></div>
