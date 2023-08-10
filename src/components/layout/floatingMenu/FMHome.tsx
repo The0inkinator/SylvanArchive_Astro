@@ -24,14 +24,6 @@ export default function FMHome() {
     }
   });
 
-  createEffect(() => {
-    if (windowScroll.y > 0 && menuState() === "homeOpen") {
-      setMenuState("allClosed");
-    } else {
-      setMenuState("homeOpen");
-    }
-  });
-
   return (
     <>
       <div classList={{ menuItemContainer: true }}>
@@ -42,6 +34,9 @@ export default function FMHome() {
             button: true,
           }}
           ref={homeButton}
+          onFocusIn={() => {
+            setMenuState("homeOpen");
+          }}
         >
           <div id="FMHomeIcon"></div>
           <div style={"display: flex"}>

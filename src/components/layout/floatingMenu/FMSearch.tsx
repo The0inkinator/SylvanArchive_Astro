@@ -23,23 +23,23 @@ const closeSearch = () => {
 };
 
 export default function FMSearch() {
-  const conditionalClose = () => {
-    if (windowScroll.y > 0) {
-      setMenuState("allClosed");
-      console.log(menuState());
-    } else {
-      setMenuState("homeOpen");
-      console.log(menuState());
-    }
-  };
+  // const conditionalClose = () => {
+  //   if (windowScroll.y > 0) {
+  //     setMenuState("allClosed");
+  //     console.log(menuState());
+  //   } else {
+  //     setMenuState("homeOpen");
+  //     console.log(menuState());
+  //   }
+  // };
 
-  createEffect(() => {
-    if (menuState() === "searchOpen") {
-      openSearch();
-    } else {
-      closeSearch();
-    }
-  });
+  // createEffect(() => {
+  //   if (menuState() === "searchOpen") {
+  //     openSearch();
+  //   } else {
+  //     closeSearch();
+  //   }
+  // });
   return (
     <>
       <div classList={{ menuItemContainer: true }}>
@@ -59,11 +59,14 @@ export default function FMSearch() {
             id="searchInput"
             value="Start searching"
             type="text"
+            onFocusIn={() => {
+              setMenuState("searchOpen");
+            }}
           />
           <div
             id="searchCloseButton"
             ref={searchCloseButton}
-            onClick={() => conditionalClose()}
+            // onClick={() => conditionalClose()}
           >
             <div></div>
             <div></div>

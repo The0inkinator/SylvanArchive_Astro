@@ -11,7 +11,7 @@ export const windowScroll = createScrollPosition();
 
 type MenuStates = "allClosed" | "homeOpen" | "searchOpen" | "bookmarkOpen";
 
-export const [menuState, setMenuState] = createSignal<MenuStates>("searchOpen");
+export const [menuState, setMenuState] = createSignal<MenuStates>("homeOpen");
 
 export default function FloatingMenu() {
   return (
