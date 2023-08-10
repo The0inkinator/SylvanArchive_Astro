@@ -32,6 +32,7 @@
   --FooterHeight: 7rem;
   --MenuHeight: 3rem;
   --SearchBarWidth: 30vw;
+  --BookmarkBarWidth: 30vw;
   /* Margins */
   --NavGridMargin: 70vw;
   --ContContainUpperMargin: calc(var(--MenuHeight) * 2.5)
@@ -70,6 +71,7 @@
     /* Sizes */
     --NavCardSize: clamp(10rem, 20vw, 15rem);
     --SearchBarWidth: calc(100vw - (var(--MenuHeight) * 4));
+    --BookmarkBarWidth: calc(100vw - (var(--MenuHeight) * 4));
 
     /* Font Variables */
     --NavCardTitleSize: 1.2rem;

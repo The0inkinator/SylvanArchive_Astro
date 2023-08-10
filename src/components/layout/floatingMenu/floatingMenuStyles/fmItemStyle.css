@@ -1,0 +1,105 @@
+#FMHomeIcon {
+  height: 80%;
+  aspect-ratio: 1/1;
+  background-image: url("../../logos/sylvanArchiveLogo.svg");
+  margin: auto;
+  grid-column: 1;
+}
+
+.fmHomeTitle {
+  font-family: var(--HeadingFont);
+  font-size: calc(var(--MenuHeight) / 2);
+  white-space: nowrap;
+  padding-left: 2px;
+  grid-column: 2;
+  transition: width 0.25s;
+}
+
+/* SEARCHBAR STYLING */
+
+#FMSearchIcon {
+  height: 70%;
+  aspect-ratio: 1/1;
+  margin: auto;
+  background-image: url("../../logos/searchIcon.svg");
+  grid-column: 1;
+}
+
+#searchInput {
+  all: unset;
+  overflow: hidden;
+  place-items: center;
+  transition: width 0.25s;
+  font-size: calc(var(--MenuHeight) * 0.32);
+  font-family: var(--SubHeadingFont);
+  color: grey;
+}
+
+#searchCloseButton {
+  all: unset;
+  display: none;
+  height: 80%;
+  aspect-ratio: 1/1;
+  place-items: center;
+  grid-column: 3;
+}
+
+#searchCloseButton > * {
+  width: 70%;
+  height: 10%;
+  background-color: lightgrey;
+  grid-row: 1;
+  grid-column: 1;
+  align-items: center;
+}
+
+#searchCloseButton > :nth-child(1) {
+  transform: rotate(45deg);
+}
+#searchCloseButton > :nth-child(2) {
+  transform: rotate(-45deg);
+}
+
+/* BOOKMARK STYLING */
+
+#FMBookmarkIcon {
+  height: 75%;
+  aspect-ratio: 1/1;
+  background-image: url("../../logos/bookmarksIcon.svg");
+  margin: auto;
+  grid-column: 1;
+}
+
+#bookmarkCloseButton {
+  all: unset;
+  display: none;
+  height: 80%;
+  aspect-ratio: 1/1;
+  place-items: center;
+  grid-column: 3;
+}
+
+#bookmarkCloseButton > * {
+  width: 70%;
+  height: 10%;
+  background-color: lightgrey;
+  grid-row: 1;
+  grid-column: 1;
+  align-items: center;
+}
+
+#bookmarkCloseButton > :nth-child(1) {
+  transform: rotate(45deg);
+}
+#bookmarkCloseButton > :nth-child(2) {
+  transform: rotate(-45deg);
+}
+
+/* ACCOUNT BUTTON STYLING */
+
+#FMAccountIcon {
+  height: 75%;
+  aspect-ratio: 1/1;
+  background-image: url("../../logos/accountIcon.svg");
+  margin: auto;
+}
