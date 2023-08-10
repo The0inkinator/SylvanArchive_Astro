@@ -1,5 +1,5 @@
-import { createEffect, createSignal } from "solid-js";
-import { menuState, setMenuState, windowScroll } from "./FloatingMenu";
+import { createEffect, createSignal } from 'solid-js';
+import { menuState, setMenuState, windowScroll } from './FloatingMenu';
 
 let searchBar: HTMLDivElement;
 let searchBarInput: HTMLInputElement;
@@ -7,29 +7,29 @@ let searchCloseButton: HTMLDivElement;
 
 const openSearch = () => {
   searchBar.style.width =
-    "calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))";
+    'calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))';
   searchBar.style.gridTemplateColumns =
-    "var(--MenuHeight) 1fr var(--MenuHeight)";
-  searchBarInput.style.cursor = "text";
-  searchCloseButton.style.display = "grid";
+    'var(--MenuHeight) 1fr var(--MenuHeight)';
+  searchBarInput.style.cursor = 'text';
+  searchCloseButton.style.display = 'grid';
 };
 const closeSearch = () => {
-  searchBar.style.width = "var(--MenuHeight)";
-  searchBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0";
-
-  searchCloseButton.style.display = "none";
+  searchBar.style.width = 'var(--MenuHeight)';
+  searchBar.style.gridTemplateColumns = 'var(--MenuHeight) 0 0';
+  searchCloseButton.style.display = 'none';
   //Logic
   searchBarInput.blur();
 };
 
 export default function FMSearch() {
   createEffect(() => {
-    if (menuState() === "searchOpen") {
+    if (menuState() === 'searchOpen') {
       openSearch();
     } else {
       closeSearch();
     }
   });
+
   return (
     <>
       <div classList={{ menuItemContainer: true }}>
@@ -37,7 +37,7 @@ export default function FMSearch() {
           ref={searchBar}
           classList={{ button: true }}
           onClick={() => {
-            if (menuState() !== "searchOpen") {
+            if (menuState() !== 'searchOpen') {
               searchBarInput.focus();
             }
           }}
@@ -50,7 +50,10 @@ export default function FMSearch() {
             value="Start searching"
             type="text"
             onFocusIn={() => {
-              setMenuState("searchOpen");
+              setMenuState('searchOpen');
+            }}
+            onFocusOut={() => {
+              setMenuState('loading');
             }}
           />
           <div
@@ -58,7 +61,7 @@ export default function FMSearch() {
             ref={searchCloseButton}
             onClick={() => {
               setTimeout(() => {
-                setMenuState("homeOpen");
+                setMenuState('loading');
                 searchBarInput.blur();
               }, 1);
             }}

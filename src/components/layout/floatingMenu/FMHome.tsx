@@ -1,5 +1,5 @@
-import { createEffect } from "solid-js";
-import { menuState, setMenuState, windowScroll } from "./FloatingMenu";
+import { createEffect } from 'solid-js';
+import { menuState, setMenuState, windowScroll } from './FloatingMenu';
 
 let homeButton: HTMLAnchorElement;
 let homeTitle: HTMLDivElement;
@@ -7,20 +7,20 @@ let initTitleWidth = () => window.getComputedStyle(homeTitle).width;
 
 const openHome = () => {
   homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${initTitleWidth()})`;
-  homeButton.style.gridTemplateColumns = "var(--MenuHeight) 1fr";
+  homeButton.style.gridTemplateColumns = 'var(--MenuHeight) 1fr';
 };
 
 const closeHome = () => {
-  homeButton.style.width = "var(--MenuHeight)";
-  homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
+  homeButton.style.width = 'var(--MenuHeight)';
+  homeButton.style.gridTemplateColumns = 'var(--MenuHeight) 0';
 };
 
 export default function FMHome() {
   createEffect(() => {
-    if (menuState() !== "homeOpen") {
-      closeHome();
-    } else {
+    if (menuState() === 'homeOpen') {
       openHome();
+    } else {
+      closeHome();
     }
   });
 
@@ -35,11 +35,11 @@ export default function FMHome() {
           }}
           ref={homeButton}
           onFocusIn={() => {
-            setMenuState("homeOpen");
+            setMenuState('homeOpen');
           }}
         >
           <div id="FMHomeIcon"></div>
-          <div style={"display: flex"}>
+          <div style={'display: flex'}>
             <div classList={{ fmHomeTitle: true }} ref={homeTitle}>
               Sylvan Archive
             </div>

@@ -1,26 +1,26 @@
-import { createEffect } from "solid-js";
-import { menuState, setMenuState } from "./FloatingMenu";
-import HomeButton from "../headerMenu/homeButton.astro";
+import { createEffect } from 'solid-js';
+import { menuState, setMenuState } from './FloatingMenu';
+import HomeButton from '../headerMenu/homeButton.astro';
 
 let bookmarkBar: HTMLAnchorElement;
 let bookmarkCloseButton: HTMLDivElement;
 
 const openBookmark = () => {
   bookmarkBar.style.width =
-    "calc(var(--MenuHeight) * 2.2 + var(--BookmarkBarWidth))";
+    'calc(var(--MenuHeight) * 2.2 + var(--BookmarkBarWidth))';
   bookmarkBar.style.gridTemplateColumns =
-    "var(--MenuHeight) 1fr var(--MenuHeight)";
-  bookmarkCloseButton.style.display = "grid";
+    'var(--MenuHeight) 1fr var(--MenuHeight)';
+  bookmarkCloseButton.style.display = 'grid';
 };
 const closeBookmark = () => {
-  bookmarkBar.style.width = "var(--MenuHeight)";
-  bookmarkBar.style.gridTemplateColumns = "var(--MenuHeight) 0 0";
-  bookmarkCloseButton.style.display = "none";
+  bookmarkBar.style.width = 'var(--MenuHeight)';
+  bookmarkBar.style.gridTemplateColumns = 'var(--MenuHeight) 0 0';
+  bookmarkCloseButton.style.display = 'none';
 };
 
 export default function FMBookmark() {
   createEffect(() => {
-    if (menuState() === "bookmarkOpen") {
+    if (menuState() === 'bookmarkOpen') {
       openBookmark();
     } else {
       closeBookmark();
@@ -35,7 +35,12 @@ export default function FMBookmark() {
           classList={{ button: true }}
           tabIndex="0"
           onFocusIn={() => {
-            setMenuState("bookmarkOpen");
+            setMenuState('bookmarkOpen');
+          }}
+          onFocusOut={() => {
+            if (menuState() === 'bookmarkOpen') {
+              setMenuState('homeOpen');
+            }
           }}
         >
           <div id="FMBookmarkIcon"></div>
@@ -45,7 +50,7 @@ export default function FMBookmark() {
             ref={bookmarkCloseButton}
             onClick={() => {
               setTimeout(() => {
-                setMenuState("homeOpen");
+                setMenuState('homeOpen');
                 bookmarkBar.blur();
               }, 1);
             }}
