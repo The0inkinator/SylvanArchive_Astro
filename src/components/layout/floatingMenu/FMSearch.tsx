@@ -22,6 +22,7 @@ const closeSearch = () => {
 };
 
 export default function FMSearch() {
+  // Visually adjusts based on menuState
   createEffect(() => {
     if (menuState() === "searchOpen") {
       openSearch();
@@ -36,6 +37,7 @@ export default function FMSearch() {
         <div
           ref={searchBar}
           classList={{ button: true }}
+          //Focuses correct element when component is clicked
           onClick={() => {
             if (menuState() !== "searchOpen") {
               searchBarInput.focus();
@@ -59,6 +61,7 @@ export default function FMSearch() {
           <div
             id="searchCloseButton"
             ref={searchCloseButton}
+            //Timeout added to trigger after the onclick & focus listners above
             onClick={() => {
               setTimeout(() => {
                 setMenuState("loading");

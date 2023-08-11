@@ -16,12 +16,7 @@ const closeHome = () => {
 };
 
 export default function FMHome() {
-  // createEffect(() => {
-  //   window.addEventListener("scroll", () => {
-  //     setMenuState("loading");
-  //   });
-  // });
-
+  // Set menuState to "loading" whenever user scrolls
   function ScrollCheck() {
     const setLoading = () => {
       setMenuState("loading");
@@ -41,6 +36,7 @@ export default function FMHome() {
 
   ScrollCheck();
 
+  // Converts "loading" menuState based on scroll position
   createEffect(() => {
     if (menuState() === "loading") {
       if (window.scrollY === 0) {
@@ -51,6 +47,7 @@ export default function FMHome() {
     }
   });
 
+  // Visually adjusts based on menuState
   createEffect(() => {
     if (menuState() === "homeOpen") {
       openHome();

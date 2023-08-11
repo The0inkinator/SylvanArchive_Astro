@@ -19,6 +19,7 @@ const closeBookmark = () => {
 };
 
 export default function FMBookmark() {
+  // Visually adjusts based on menuState
   createEffect(() => {
     if (menuState() === "bookmarkOpen") {
       openBookmark();
@@ -38,9 +39,7 @@ export default function FMBookmark() {
             setMenuState("bookmarkOpen");
           }}
           onFocusOut={() => {
-            if (menuState() === "bookmarkOpen") {
-              setMenuState("loading");
-            }
+            setMenuState("loading");
           }}
         >
           <div id="FMBookmarkIcon"></div>
@@ -48,6 +47,7 @@ export default function FMBookmark() {
           <div
             id="bookmarkCloseButton"
             ref={bookmarkCloseButton}
+            //Timeout added to trigger after the onclick & focus listners above
             onClick={() => {
               setTimeout(() => {
                 setMenuState("loading");
