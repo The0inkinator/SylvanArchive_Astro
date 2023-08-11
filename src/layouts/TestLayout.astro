@@ -3,7 +3,7 @@ import "../styles/zaGlobal.css";
 import BaseHeader from "../components/layout/BaseHeader.astro";
 ---
 
-<html lang="en">
+<html id="docroot" lang="en">
   <head>
     <meta charset="utf-8" />
     <link
@@ -39,7 +39,7 @@ import BaseHeader from "../components/layout/BaseHeader.astro";
   </head>
 
   <body>
-    <BaseHeader client:visible />
+    <BaseHeader />
     <div class="contContainer">
       <slot />
     </div>
