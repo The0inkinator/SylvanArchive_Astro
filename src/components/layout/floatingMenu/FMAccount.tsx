@@ -9,7 +9,7 @@ export default function FMAccount() {
           classList={{ button: true }}
           tabIndex="0"
           onFocusIn={() => {
-            setMenuState("homeOpen");
+            setMenuState("loading");
           }}
         >
           <div id="FMAccountIcon"></div>
