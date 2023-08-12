@@ -2,6 +2,7 @@
 import NavCardGrid from "../components/grids/NavCardGrid.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TestLayout from "../layouts/TestLayout.astro";
+import GridCard from "../components/groupings/Grid Card/GridCard";
 import { startSearchingList } from "../scripts/navCardLists";
 const pageTitle = "Sylvan Archive";
 const NavCardList = startSearchingList;
@@ -11,7 +12,8 @@ const NavCardList = startSearchingList;
   <NavCardGrid NavCardList={NavCardList} />
 </BaseLayout> -->
 <TestLayout pageTitle="pageTitle">
-  <NavCardGrid NavCardList={NavCardList} />
+  <GridCard />
 </TestLayout>
 
 <style></style>
+../components/groupings/Grid Card/GridCard
