@@ -1,18 +1,9 @@
-.gridCardBookmark {
-  width: 15%;
-  aspect-ratio: 1/2.5;
-  background-image: url("../../graphics/bookmarkOff.svg");
-  background-size: cover;
-  background-position: center;
-  position: absolute;
-  right: 0;
-  margin-right: 10%;
-  top: 0;
-}
 .gridCardContainer {
-  width: var(--gridCardSize);
-  max-width: calc(var(--gridCardSize) * 1.4);
+  margin: auto;
+  width: var(--GridCardSize);
+  aspect-ratio: 1/1.4;
   display: grid;
+  background-color: red;
 }
 
 .gridCardContainer > * {
@@ -22,24 +13,26 @@
   justify-self: center;
 }
 
-.fullgridCard {
-  width: 85%;
-  aspect-ratio: 1/1.7;
-  font-size: var(--gridCardTitleSize);
+.fullGridCard {
+  width: 90%;
+  height: 90%;
+  font-size: var(--GridCardTitleSize);
   transform-origin: center;
+  transition: height 0.5s, width 0.5s, transform 0.5s;
+  position: relative;
 }
 
 .gridCardBox {
   width: 100%;
-  height: 85%;
+  height: 100%;
   clip-path: inset(0% round 8% 8% 8% 8%);
   display: grid;
-  position: relative;
 }
 .gridCardBox > * {
   grid-column: 1;
   grid-row: 1;
   align-self: center;
+  justify-self: center;
 }
 
 .gridCardImage {
@@ -51,7 +44,9 @@
   transform-origin: center center;
   filter: blur(0.5px) grayscale(20%);
   transition: transform 0.5s, filter 0.25s;
+  background-image: url("https://cards.scryfall.io/art_crop/front/8/c/8c2996d9-3287-4480-8c04-7a378e37e3cf.jpg?1571667973");
 }
+
 .overlay {
   height: 110%;
   width: 110%;
@@ -65,13 +60,12 @@
 
 .gridCardTitle {
   width: 100%;
-  padding-inline: calc(var(--gridCardSize) * 0.08);
+  padding-inline: calc(var(--GridCardSize) * 0.08);
   align-self: end;
   margin-bottom: 7%;
-  font-size: calc(var(--gridCardSize) * 0.1);
+  font-size: calc(var(--GridCardSize) * 0.1);
   font-family: var(--SubHeadingFont);
   text-overflow: ellipsis;
-  /* text-transform: uppercase; */
   text-align: center;
   color: var(--BackgroundColor);
   transition: margin-bottom 0.5s;
@@ -82,20 +76,13 @@
   height: 100%;
 }
 
-.gridCardSubtitle {
-  width: 100%;
-  height: 13%;
-  text-align: center;
-  padding-top: 3.5%;
-  padding-inline: 5%;
-  color: var(--ShadowGreen);
-  overflow: clip;
-  font-size: calc(var(--gridCardSize) * 0.07);
-  font-family: var(--BodyFont);
-  line-height: 1;
-}
-
 /*Hover Transforms*/
+
+.fullGridCard:hover {
+  width: 88%;
+  height: 88%;
+  transform: translateY(calc((var(--GridCardSize) * 0.05)));
+}
 
 .gridCardBox:hover {
   cursor: pointer;
@@ -107,7 +94,7 @@
 }
 
 .gridCardBox:hover > .gridCardTitle {
-  margin-bottom: 9%;
+  /* margin-bottom: 9%; */
 }
 
 .gridCardBox:hover > .overlay {

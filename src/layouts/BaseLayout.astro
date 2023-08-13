@@ -41,40 +41,22 @@ import BaseFooter from "../components/layout/BaseFooter.astro";
 
   <body>
     <BaseHeader />
-    <div class="page">
-      <div class="upperMargin"></div>
-      <div id="contentContainer">
-        <slot />
-      </div>
+    <div class="upperMargin"></div>
+    <div id="contentContainer">
+      <slot />
     </div>
+    <div class="bottomMargin"></div>
   </body>
 
   <style>
-    .gradOverlay {
-      position: fixed;
-      bottom: 0;
-      width: 100svw;
-      height: 100svh;
-      background: linear-gradient(
-        to bottom,
-        rgba(41, 163, 94, 0) 80%,
-        rgba(41, 163, 94, 0.1) 90%,
-        rgba(41, 163, 94, 0.3) 95%,
-        rgba(41, 163, 94, 0.7)
-      );
-      z-index: 5;
-      pointer-events: none;
-    }
-    .page {
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-    }
-
     #contentContainer {
       display: flex;
       flex-direction: column;
       margin: auto;
+      min-height: 100svh;
+    }
+    .bottomMargin {
+      height: 200rem;
     }
   </style>
 

@@ -19,6 +19,8 @@
 }
 /*SITEWIDE VALUES*/
 :root {
+  /* Test */
+  --TestVar: 12rem;
   /*Colors*/
   --ShadowGreen: hsl(146 59.8% 10%);
   --DefaultGreen: hsl(120, 63%, 37%);
@@ -27,7 +29,7 @@
 
   /*Sizes*/
   --MagicCardSize: 12rem;
-  --NavCardSize: clamp(12rem, 20vw, 15rem);
+  --GridCardSize: 12rem;
   --HeaderHeight: calc(100vh / 7);
   --FooterHeight: 7rem;
   --MenuHeight: 3rem;
@@ -38,7 +40,7 @@
   --ContContainUpperMargin: calc(var(--MenuHeight) * 2.5)
     /* ^^^ this var must remain in the format: ((number) (multiplied by) (number)) */;
   /* Fonts & Font Variables */
-  --NavCardTitleSize: 1.5rem;
+  --GridCardTitleSize: 1.5rem;
   --HeadingFont: Satisfy, Roboto;
   --SubHeadingFont: Josefin Sans, Arial, sans-serif;
   --BodyFont: Modern Sans, Arial, sans-serif;
@@ -69,11 +71,11 @@
     --NavGridMargin: 95vw;
 
     /* Sizes */
-    --NavCardSize: clamp(10rem, 20vw, 15rem);
+    --GridCardSize: 12rem;
     --SearchBarWidth: calc(100vw - (var(--MenuHeight) * 4));
     --BookmarkBarWidth: calc(100vw - (var(--MenuHeight) * 4));
 
     /* Font Variables */
-    --NavCardTitleSize: 1.2rem;
+    --GridCardTitleSize: 1.2rem;
   }
 }

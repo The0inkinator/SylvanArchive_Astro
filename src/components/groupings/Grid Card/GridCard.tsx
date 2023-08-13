@@ -1,18 +1,48 @@
 import "./gridCardStyles.css";
+import "./popUpStyles.css";
+import "../../../styles/zaGlobal.css";
+import { createSignal, createEffect } from "solid-js";
+
+let popUp1: HTMLDivElement;
+
+const [gridCardHovered, setGridCardHovered] = createSignal<boolean>(false);
 
 export default function GridCard() {
+  const popUpAnimate = () => {
+    popUp1.style.transform = "translateY(12rem)";
+  };
+
+  createEffect(() => {
+    if (gridCardHovered() === true) {
+      popUpAnimate();
+      console.log("pop up Animate");
+    }
+  });
+
   return (
     <>
       <div class="gridCardContainer">
         <div class="fullGridCard">
-          <div class="gridCardBox">
+          <div
+            class="gridCardBox"
+            onmouseenter={() => {
+              setGridCardHovered(true);
+            }}
+            onmouseleave={() => {
+              setGridCardHovered(false);
+            }}
+          >
             <div class="gridCardImage"></div>
             <div class="overlay"></div>
             <div class="gridCardTitle">Title</div>
             <a class="link"></a>
-            <div class="gridCardBookmark"></div>
           </div>
-          <p class="gridCardSubtitle">Subtitle</p>
+
+          <div class="popUpContainer">
+            <div class="popUpCard" ref={popUp1}></div>
+            <div class="popUpCard"></div>
+            <div class="popUpCard"></div>
+          </div>
         </div>
       </div>
     </>
