@@ -1,0 +1,43 @@
+.popUpContainer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform: translateY(-98%);
+  pointer-events: none;
+  z-index: -2;
+}
+
+.popUpCard {
+  width: 50%;
+  height: 50%;
+  transform: translateX(calc(var(--GridCardSize) * 0.23));
+  position: absolute;
+  transition: transform 0.25s;
+}
+
+.popUpContainer > :nth-child(1) {
+  background-color: green;
+}
+.popUpContainer > :nth-child(2) {
+  background-color: blue;
+}
+.popUpContainer > :nth-child(3) {
+  background-color: purple;
+}
+
+/* HOVER ANIMATION */
+
+.gridCardBox:hover ~ .popUpContainer > :nth-child(1) {
+  transform: translateY(calc(var(--GridCardSize) * -0.1))
+    translateX(calc(var(--GridCardSize) * -0.05)) rotate(-18deg);
+}
+
+.gridCardBox:hover ~ .popUpContainer > :nth-child(2) {
+  transform: translateY(calc(var(--GridCardSize) * -0.17))
+    translateX(calc(var(--GridCardSize) * 0.23)) rotate(-1deg);
+}
+
+.gridCardBox:hover ~ .popUpContainer > :nth-child(3) {
+  transform: translateY(calc(var(--GridCardSize) * -0.1))
+    translateX(calc(var(--GridCardSize) * 0.5)) rotate(18deg);
+}

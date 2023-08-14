@@ -1,0 +1,107 @@
+.gridCardContainer {
+  margin: auto;
+  width: var(--GridCardSize);
+  aspect-ratio: 1/1.4;
+  display: grid;
+}
+
+.gridCardContainer > * {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: center;
+  justify-self: center;
+}
+
+.fullGridCard {
+  width: 90%;
+  height: 90%;
+  font-size: var(--GridCardTitleSize);
+  transform-origin: center;
+  transition: height 0.35s, width 0.35s, transform 0.35s;
+  position: relative;
+}
+
+.gridCardBox {
+  width: 100%;
+  height: 100%;
+  clip-path: inset(0% round 8% 8% 8% 8%);
+  display: grid;
+}
+.gridCardBox > * {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  justify-self: center;
+}
+
+.gridCardImage {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  transform-origin: center center;
+  filter: blur(0.5px) grayscale(20%);
+  transition: transform 0.5s, filter 0.25s;
+  background-image: url("https://cards.scryfall.io/art_crop/front/8/c/8c2996d9-3287-4480-8c04-7a378e37e3cf.jpg?1571667973");
+}
+
+.overlay {
+  height: 110%;
+  width: 110%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.5) 70%,
+    rgba(0, 0, 0, 0.95) 90%
+  );
+}
+
+.gridCardTitle {
+  width: 100%;
+  padding-inline: calc(var(--GridCardSize) * 0.08);
+  align-self: end;
+  margin-bottom: 7%;
+  font-size: calc(var(--GridCardSize) * 0.1);
+  font-family: var(--SubHeadingFont);
+  text-overflow: ellipsis;
+  text-align: center;
+  color: var(--BackgroundColor);
+  transition: margin-bottom 0.5s;
+}
+
+.link {
+  width: 100%;
+  height: 100%;
+}
+
+/*Hover Transforms*/
+
+.fullGridCard:hover {
+  width: 88%;
+  height: 88%;
+  transform: translateY(calc((var(--GridCardSize) * 0.05)));
+  z-index: 10;
+}
+
+.gridCardBox:hover {
+  cursor: pointer;
+}
+
+.gridCardBox:hover > .gridCardImage {
+  transform: scale(1.05);
+  filter: blur(0px) grayscale(0%) saturate(115%);
+}
+
+.gridCardBox:hover > .gridCardTitle {
+  /* margin-bottom: 9%; */
+}
+
+.gridCardBox:hover > .overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.5) 70%,
+    rgba(0, 0, 0, 0.95) 90%
+  );
+}

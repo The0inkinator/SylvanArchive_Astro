@@ -1,15 +1,14 @@
 ---
-import NavCardGrid from "../components/grids/NavCardGrid.astro";
+import GroupingGrid from "../components/groupings/GroupingGrid.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import TestLayout from "../layouts/TestLayout.astro";
+import GridCard from "../components/groupings/Grid Card/GridCard";
 import { startSearchingList } from "../scripts/navCardLists";
 const pageTitle = "Sylvan Archive";
 const NavCardList = startSearchingList;
 ---
 
-<!-- <BaseLayout pageTitle={pageTitle}>
-  <NavCardGrid NavCardList={NavCardList} />
-</BaseLayout> -->
-<TestLayout />
+<BaseLayout pageTitle={pageTitle}>
+  <GridCard client:visible />
+</BaseLayout>
 
 <style></style>

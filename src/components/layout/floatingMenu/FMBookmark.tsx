@@ -1,6 +1,5 @@
 import { createEffect } from "solid-js";
 import { menuState, setMenuState } from "./FloatingMenu";
-import HomeButton from "../headerMenu/homeButton.astro";
 
 let bookmarkBar: HTMLAnchorElement;
 let bookmarkCloseButton: HTMLDivElement;
