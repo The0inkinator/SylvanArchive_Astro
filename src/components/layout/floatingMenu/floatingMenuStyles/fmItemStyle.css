@@ -1,7 +1,7 @@
 #FMHomeIcon {
   height: 80%;
   aspect-ratio: 1/1;
-  background-image: url("../../logos/sylvanArchiveLogo.svg");
+  background-image: url('../../logos/sylvanArchiveLogo.svg');
   margin: auto;
   grid-column: 1;
 }
@@ -21,7 +21,7 @@
   height: 70%;
   aspect-ratio: 1/1;
   margin: auto;
-  background-image: url("../../logos/searchIcon.svg");
+  background-image: url('../../logos/searchIcon.svg');
   grid-column: 1;
 }
 
@@ -65,7 +65,7 @@
 #FMBookmarkIcon {
   height: 75%;
   aspect-ratio: 1/1;
-  background-image: url("../../logos/bookmarksIcon.svg");
+  background-image: url('../../logos/bookmarksIcon.svg');
   margin: auto;
   grid-column: 1;
 }
@@ -95,11 +95,19 @@
   transform: rotate(-45deg);
 }
 
+#bookmarkCloseButton:hover ~ #bookmarkCloseButton > :nth-child(1) {
+  background-color: red;
+}
+
+#bookmarkCloseButton > :nth-child(1) {
+  transform: rotate(45deg);
+}
+
 /* ACCOUNT BUTTON STYLING */
 
 #FMAccountIcon {
   height: 75%;
   aspect-ratio: 1/1;
-  background-image: url("../../logos/accountIcon.svg");
+  background-image: url('../../logos/accountIcon.svg');
   margin: auto;
 }
