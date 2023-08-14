@@ -24,6 +24,14 @@ export default function FMHome() {
     };
 
     createEffect(() => {
+      window.addEventListener('resize', setLoading);
+
+      onCleanup(() => {
+        window.removeEventListener('resize', setLoading);
+      });
+    });
+
+    createEffect(() => {
       window.addEventListener('scroll', () => {
         setLoading();
       });

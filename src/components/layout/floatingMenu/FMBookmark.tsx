@@ -1,5 +1,6 @@
 import { createEffect } from 'solid-js';
 import { menuState, setMenuState } from './FloatingMenu';
+import { screenSize } from '../../../scripts/screenSizeCalc';
 
 let bookmarkBar: HTMLAnchorElement;
 let bookmarkCloseButton: HTMLDivElement;
