@@ -1,5 +1,6 @@
-import { createEffect } from "solid-js";
-import { menuState, setMenuState } from "./FloatingMenu";
+import { createEffect, onCleanup } from 'solid-js';
+import { menuState, setMenuState } from './FloatingMenu';
+import { CurrentScreenSize, screenSize } from '../../../scripts/screenSizeCalc';
 
 let homeButton: HTMLAnchorElement;
 let homeTitle: HTMLDivElement;
@@ -7,49 +8,57 @@ let initTitleWidth = () => window.getComputedStyle(homeTitle).width;
 
 const openHome = () => {
   homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${initTitleWidth()})`;
-  homeButton.style.gridTemplateColumns = "var(--MenuHeight) 1fr";
+  homeButton.style.gridTemplateColumns = 'var(--MenuHeight) 1fr';
 };
 
 const closeHome = () => {
-  homeButton.style.width = "var(--MenuHeight)";
-  homeButton.style.gridTemplateColumns = "var(--MenuHeight) 0";
+  homeButton.style.width = 'var(--MenuHeight)';
+  homeButton.style.gridTemplateColumns = 'var(--MenuHeight) 0';
 };
 
 export default function FMHome() {
-  // Set menuState to "loading" whenever user scrolls
-  function ScrollCheck() {
+  // Set menuState to "loading" whenever user scrolls or window is resized
+  function StateCheck() {
     const setLoading = () => {
-      setMenuState("loading");
+      setMenuState('loading');
     };
 
     createEffect(() => {
-      window.addEventListener("scroll", () => {
+      window.addEventListener('resize', setLoading);
+
+      onCleanup(() => {
+        window.removeEventListener('resize', setLoading);
+      });
+    });
+
+    createEffect(() => {
+      window.addEventListener('scroll', () => {
         setLoading();
       });
-      return () => {
-        window.removeEventListener("scroll", () => {
+      onCleanup(() => {
+        window.removeEventListener('scroll', () => {
           setLoading();
         });
-      };
+      });
     });
   }
 
-  ScrollCheck();
+  StateCheck();
 
-  // Converts "loading" menuState based on scroll position
+  // Converts "loading" menuState based on scroll position & screen size
   createEffect(() => {
-    if (menuState() === "loading") {
-      if (window.scrollY === 0) {
-        setMenuState("homeOpen");
+    if (menuState() === 'loading') {
+      if (window.scrollY === 0 && screenSize() !== 'Mobile') {
+        setMenuState('homeOpen');
       } else {
-        setMenuState("allClosed");
+        setMenuState('allClosed');
       }
     }
   });
 
   // Visually adjusts based on menuState
   createEffect(() => {
-    if (menuState() === "homeOpen") {
+    if (menuState() === 'homeOpen') {
       openHome();
     } else {
       closeHome();
@@ -67,11 +76,11 @@ export default function FMHome() {
           }}
           ref={homeButton}
           onFocusIn={() => {
-            setMenuState("homeOpen");
+            setMenuState('homeOpen');
           }}
         >
           <div id="FMHomeIcon"></div>
-          <div style={"display: flex"}>
+          <div style={'display: flex'}>
             <div classList={{ fmHomeTitle: true }} ref={homeTitle}>
               Sylvan Archive
             </div>

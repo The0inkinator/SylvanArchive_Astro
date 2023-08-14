@@ -1,7 +1,7 @@
-import "./gridCardStyles.css";
-import "./popUpStyles.css";
-import "../../../styles/zaGlobal.css";
-import { createSignal, createEffect } from "solid-js";
+import './gridCardStyles.css';
+import './popUpStyles.css';
+import '../../../styles/zaGlobal.css';
+import { createSignal, createEffect } from 'solid-js';
 
 const [gridCardHovered, setGridCardHovered] = createSignal<boolean>(false);
 
@@ -9,7 +9,7 @@ export default function GridCard() {
   return (
     <>
       <div class="gridCardContainer">
-        <div class="fullGridCard">
+        <div class="fullGridCard" tabindex="0">
           <div
             class="gridCardBox"
             onmouseenter={() => {
