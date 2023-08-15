@@ -1,17 +1,17 @@
 import './fmStyle.css';
-import { createEffect, createSignal, onCleanup } from 'solid-js';
+import { createEffect, createSignal, onCleanup, Switch, Match } from 'solid-js';
 import { CurrentScreenSize, screenSize } from '../../../scripts/screenSizeCalc';
 
 // Establish Types
 type MenuStates =
   | 'allClosed'
-  | 'homeOpen'
+  | 'default'
   | 'searchOpen'
   | 'bookmarkOpen'
   | 'loading';
 
 //Establish States
-export const [menuState, setMenuState] = createSignal<MenuStates>('loading');
+export const [menuState, setMenuState] = createSignal<MenuStates>('default');
 
 //Solid-Ref definitions for typescript
 
@@ -83,7 +83,7 @@ function FMHome() {
           }}
           ref={homeButton}
           onFocusIn={() => {
-            setMenuState('homeOpen');
+            setMenuState('default');
           }}
         >
           <div id="FMHomeIcon"></div>
@@ -203,24 +203,6 @@ function FMAccount() {
 }
 
 export default function FloatingMenu() {
-  // Visually adjusts bookmark based on menuState
-  createEffect(() => {
-    if (menuState() === 'bookmarkOpen') {
-      openBookmark();
-    } else {
-      closeBookmark();
-    }
-  });
-
-  // Visually adjusts searchbar based on menuState
-  createEffect(() => {
-    if (menuState() === 'searchOpen') {
-      openSearch();
-    } else {
-      closeSearch();
-    }
-  });
-
   //Start scren size tracking script
   CurrentScreenSize();
 
@@ -257,20 +239,27 @@ export default function FloatingMenu() {
 
   StateCheck();
 
-  // Converts "loading" menuState based on scroll position & screen size
+  // Visually adjusts bookmark based on menuState
   createEffect(() => {
-    if (menuState() === 'loading') {
-      if (window.scrollY === 0 && screenSize() !== 'Mobile') {
-        setMenuState('homeOpen');
-      } else {
-        setMenuState('allClosed');
-      }
+    if (menuState() === 'bookmarkOpen') {
+      openBookmark();
+    } else {
+      closeBookmark();
     }
   });
 
-  // Visually adjusts based on menuState
+  // Visually adjusts searchbar based on menuState
   createEffect(() => {
-    if (menuState() === 'homeOpen') {
+    if (menuState() === 'searchOpen') {
+      openSearch();
+    } else {
+      closeSearch();
+    }
+  });
+
+  // Visually adjusts homebutton based on menuState
+  createEffect(() => {
+    if (menuState() === 'default') {
       openHome();
     } else if (menuState() === 'searchOpen') {
       closeHome();
@@ -279,14 +268,42 @@ export default function FloatingMenu() {
     }
   });
 
+  // Converts "loading" menuState based on scroll position & screen size
+  createEffect(() => {
+    if (menuState() === 'loading') {
+      if (window.scrollY === 0 && screenSize() !== 'Mobile') {
+        setMenuState('default');
+      } else {
+        setMenuState('allClosed');
+      }
+    }
+  });
+
   return (
     <>
-      <div class="floatingMenuContainer">
-        <FMHome />
-        <FMSearch />
-        <FMBookmark />
-        <FMAccount />
-      </div>
+      <Switch
+        fallback={
+          <div class="floatingMenuContainer">
+            <FMHome />
+            <FMSearch />
+            <FMBookmark />
+            <FMAccount />
+          </div>
+        }
+      >
+        <Match when={screenSize() === 'Mobile' && menuState() === 'searchOpen'}>
+          <div class="floatingMenuContainer">
+            <FMSearch />
+          </div>
+        </Match>
+        <Match
+          when={screenSize() === 'Mobile' && menuState() === 'bookmarkOpen'}
+        >
+          <div class="floatingMenuContainer">
+            <FMBookmark />
+          </div>
+        </Match>
+      </Switch>
     </>
   );
 }
