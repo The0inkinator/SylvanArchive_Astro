@@ -30,6 +30,8 @@
   box-shadow: 0 0 0 3px var(--FocusGreen);
 }
 
+/* HOME BUTTON STYLING */
+
 #FMHomeIcon {
   height: 80%;
   aspect-ratio: 1/1;
