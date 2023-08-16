@@ -3,12 +3,7 @@ import { createEffect, createSignal, onCleanup, Switch, Match } from 'solid-js';
 import { CurrentScreenSize, screenSize } from '../../../scripts/screenSizeCalc';
 
 // Establish Types
-type MenuStates =
-  | 'allClosed'
-  | 'default'
-  | 'searchOpen'
-  | 'bookmarkOpen'
-  | 'loading';
+type MenuStates = 'default' | 'searchOpen' | 'bookmarkOpen';
 
 //Establish States
 export const [menuState, setMenuState] = createSignal<MenuStates>('default');
@@ -22,10 +17,12 @@ let initTitleWidth = () => window.getComputedStyle(homeTitle).width;
 //Searchbar
 let searchBar: HTMLDivElement;
 let searchBarInput: HTMLInputElement;
-let searchCloseButton: HTMLDivElement;
+let searchCloseButton: HTMLButtonElement;
 //BookmarkBar
 let bookmarkBar: HTMLAnchorElement;
 let bookmarkCloseButton: HTMLDivElement;
+//Accountbutton
+let accountButton: HTMLAnchorElement;
 
 //Styling Adjust Functions
 
@@ -46,6 +43,7 @@ const openSearch = () => {
     'calc(var(--MenuHeight) * 2.2 + var(--SearchBarWidth))';
   searchBar.style.gridTemplateColumns =
     'var(--MenuHeight) 1fr var(--MenuHeight)';
+
   searchBarInput.style.cursor = 'text';
   searchCloseButton.style.display = 'grid';
 };
@@ -53,8 +51,6 @@ const closeSearch = () => {
   searchBar.style.width = 'var(--MenuHeight)';
   searchBar.style.gridTemplateColumns = 'var(--MenuHeight) 0 0';
   searchCloseButton.style.display = 'none';
-  //Logic
-  searchBarInput.blur();
 };
 
 //Bookmark Bar
@@ -70,6 +66,8 @@ const closeBookmark = () => {
   bookmarkBar.style.gridTemplateColumns = 'var(--MenuHeight) 0 0';
   bookmarkCloseButton.style.display = 'none';
 };
+
+//Home button Component
 
 function FMHome() {
   return (
@@ -98,53 +96,49 @@ function FMHome() {
   );
 }
 
+//Searchbar Component
+
 function FMSearch() {
+  const [searchTabIndex, setSearchTabIndex] = createSignal(0);
+  const [inputTabIndex, setInputTabIndex] = createSignal(-1);
+
   return (
     <>
       <div classList={{ menuItemContainer: true }}>
         <div
           ref={searchBar}
           classList={{ button: true }}
-          //Focuses correct element when component is clicked
-          onClick={() => {
-            if (menuState() !== 'searchOpen') {
-              searchBarInput.focus();
-            }
+          tabindex={searchTabIndex()}
+          onfocus={() => {
+            setSearchTabIndex(-1);
+            setInputTabIndex(0);
+            searchBarInput.select();
+            setMenuState('searchOpen');
           }}
         >
           <div id="FMSearchIcon"></div>
           <input
             ref={searchBarInput}
-            tabindex="0"
+            tabIndex={inputTabIndex()}
             id="searchInput"
             value="Start searching"
             type="text"
-            onFocusIn={() => {
-              setMenuState('searchOpen');
-            }}
-            onFocusOut={() => {
-              setMenuState('loading');
+            onfocusout={() => {
+              setSearchTabIndex(0);
+              setInputTabIndex(-1);
             }}
           />
-          <div
-            id="searchCloseButton"
-            ref={searchCloseButton}
-            //Timeout added to trigger after the onclick & focus listners above
-            onClick={() => {
-              setMenuState('loading');
-              setTimeout(() => {
-                searchBarInput.blur();
-              }, 30);
-            }}
-          >
+          <button id="searchCloseButton" ref={searchCloseButton}>
             <div></div>
             <div></div>
-          </div>
+          </button>
         </div>
       </div>
     </>
   );
 }
+
+//Bookmark Bar Component
 
 function FMBookmark() {
   return (
@@ -157,23 +151,10 @@ function FMBookmark() {
           onFocusIn={() => {
             setMenuState('bookmarkOpen');
           }}
-          onFocusOut={() => {
-            setMenuState('loading');
-          }}
         >
           <div id="FMBookmarkIcon"></div>
           <div classList={{ fmHomeTitle: true }}>Bookmarks</div>
-          <div
-            id="bookmarkCloseButton"
-            ref={bookmarkCloseButton}
-            //Timeout added to trigger after the onclick & focus listners above
-            onClick={() => {
-              setMenuState('loading');
-              setTimeout(() => {
-                bookmarkBar.blur();
-              }, 30);
-            }}
-          >
+          <div id="bookmarkCloseButton" ref={bookmarkCloseButton}>
             <div></div>
             <div></div>
           </div>
@@ -183,16 +164,19 @@ function FMBookmark() {
   );
 }
 
+//Account button component
+
 function FMAccount() {
   return (
     <>
       <div classList={{ menuItemContainer: true }}>
         <a
+          ref={accountButton}
           href="/Account"
           classList={{ button: true }}
           tabIndex="0"
           onFocusIn={() => {
-            setMenuState('loading');
+            setMenuState('default');
           }}
         >
           <div id="FMAccountIcon"></div>
@@ -202,83 +186,77 @@ function FMAccount() {
   );
 }
 
+//Full menu component
+
 export default function FloatingMenu() {
-  //Start scren size tracking script
+  //Start screen size tracking script
   CurrentScreenSize();
 
-  //Log Current Menu State
+  //Log MenuState
   createEffect(() => {
     console.log(menuState());
   });
 
-  // Set menuState to "loading" whenever user scrolls or window is resized
+  // Set menuState to "default" whenever user scrolls or window is resized
   function StateCheck() {
-    const setLoading = () => {
-      setMenuState('loading');
+    //Function
+    const updateDefault = () => {
+      setMenuState('default');
+      //Update home button visual on mobile/scroll
+      if (screenSize() === 'Mobile' || window.scrollY > 0) {
+        closeHome();
+      } else {
+        openHome();
+      }
+      //Unfocus menu items
+      homeButton.blur();
+      searchBar.blur();
+      searchBarInput.blur();
+      bookmarkBar.blur();
+      accountButton.blur();
     };
 
     createEffect(() => {
-      window.addEventListener('resize', setLoading);
+      window.addEventListener('resize', updateDefault);
 
       onCleanup(() => {
-        window.removeEventListener('resize', setLoading);
+        window.removeEventListener('resize', updateDefault);
       });
     });
 
     createEffect(() => {
-      window.addEventListener('scroll', () => {
-        setLoading();
-      });
+      window.addEventListener('scroll', updateDefault);
       onCleanup(() => {
-        window.removeEventListener('scroll', () => {
-          setLoading();
-        });
+        window.removeEventListener('scroll', updateDefault);
       });
     });
   }
 
   StateCheck();
 
-  // Visually adjusts bookmark based on menuState
+  //Visual switching based on menuState
+
   createEffect(() => {
-    if (menuState() === 'bookmarkOpen') {
+    if (menuState() === 'searchOpen') {
+      closeHome();
+      openSearch();
+      closeBookmark();
+    } else if (menuState() === 'bookmarkOpen') {
+      closeHome();
+      closeSearch();
       openBookmark();
+    } else if (screenSize() === 'Mobile' || window.scrollY > 0) {
+      closeHome();
+      closeSearch();
+      closeBookmark();
     } else {
+      openHome();
+      closeSearch();
       closeBookmark();
     }
   });
 
-  // Visually adjusts searchbar based on menuState
-  createEffect(() => {
-    if (menuState() === 'searchOpen') {
-      openSearch();
-    } else {
-      closeSearch();
-    }
-  });
-
-  // Visually adjusts homebutton based on menuState
-  createEffect(() => {
-    if (menuState() === 'default') {
-      openHome();
-    } else if (menuState() === 'searchOpen') {
-      closeHome();
-    } else {
-      closeHome();
-    }
-  });
-
-  // Converts "loading" menuState based on scroll position & screen size
-  createEffect(() => {
-    if (menuState() === 'loading') {
-      if (window.scrollY === 0 && screenSize() !== 'Mobile') {
-        setMenuState('default');
-      } else {
-        setMenuState('allClosed');
-      }
-    }
-  });
-
+  //Switch function hides components
   return (
     <>
       <Switch
