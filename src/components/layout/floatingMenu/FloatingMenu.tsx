@@ -1,5 +1,12 @@
 import './fmStyle.css';
-import { createEffect, createSignal, onCleanup, Switch, Match } from 'solid-js';
+import {
+  createEffect,
+  createSignal,
+  onCleanup,
+  Switch,
+  Match,
+  onMount,
+} from 'solid-js';
 import { CurrentScreenSize, screenSize } from '../../../scripts/screenSizeCalc';
 
 // Establish Types
@@ -198,12 +205,8 @@ function FMAccount() {
 
 export default function FloatingMenu() {
   //Start screen size tracking script
-  CurrentScreenSize();
 
-  //Log MenuState
-  createEffect(() => {
-    console.log(menuState());
-  });
+  CurrentScreenSize();
 
   // Set menuState to "default" whenever user scrolls or window is resized
   function StateCheck() {
