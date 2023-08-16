@@ -20,7 +20,7 @@ let searchBarInput: HTMLInputElement;
 let searchCloseButton: HTMLButtonElement;
 //BookmarkBar
 let bookmarkBar: HTMLAnchorElement;
-let bookmarkCloseButton: HTMLDivElement;
+let bookmarkCloseButton: HTMLButtonElement;
 //Accountbutton
 let accountButton: HTMLAnchorElement;
 
@@ -128,7 +128,11 @@ function FMSearch() {
               setInputTabIndex(-1);
             }}
           />
-          <button id="searchCloseButton" ref={searchCloseButton}>
+          <button
+            id="searchCloseButton"
+            ref={searchCloseButton}
+            onclick={() => setMenuState('default')}
+          >
             <div></div>
             <div></div>
           </button>
@@ -154,10 +158,14 @@ function FMBookmark() {
         >
           <div id="FMBookmarkIcon"></div>
           <div classList={{ fmHomeTitle: true }}>Bookmarks</div>
-          <div id="bookmarkCloseButton" ref={bookmarkCloseButton}>
+          <button
+            id="bookmarkCloseButton"
+            ref={bookmarkCloseButton}
+            onclick={() => setMenuState('default')}
+          >
             <div></div>
             <div></div>
-          </div>
+          </button>
         </a>
       </div>
     </>

@@ -72,15 +72,16 @@
 #searchCloseButton {
   all: unset;
   display: none;
-  height: 80%;
+  height: 70%;
   aspect-ratio: 1/1;
   place-items: center;
   grid-column: 3;
+  border-radius: calc(var(--MenuHeight) / 5);
 }
 
 #searchCloseButton > * {
-  width: 70%;
-  height: 10%;
+  width: 80%;
+  height: 13%;
   background-color: lightgrey;
   grid-row: 1;
   grid-column: 1;
@@ -92,6 +93,18 @@
 }
 #searchCloseButton > :nth-child(2) {
   transform: rotate(-45deg);
+}
+
+#searchCloseButton:focus,
+#searchCloseButton:hover {
+  background-color: var(--FocusGreen);
+}
+
+#searchCloseButton:hover > * {
+  background-color: var(--BackgroundColor);
+}
+#searchCloseButton:focus > * {
+  background-color: var(--BackgroundColor);
 }
 
 /* BOOKMARK STYLING */
@@ -107,15 +120,16 @@
 #bookmarkCloseButton {
   all: unset;
   display: none;
-  height: 80%;
+  height: 70%;
   aspect-ratio: 1/1;
   place-items: center;
   grid-column: 3;
+  border-radius: calc(var(--MenuHeight) / 5);
 }
 
 #bookmarkCloseButton > * {
-  width: 70%;
-  height: 10%;
+  width: 80%;
+  height: 13%;
   background-color: lightgrey;
   grid-row: 1;
   grid-column: 1;
@@ -129,12 +143,16 @@
   transform: rotate(-45deg);
 }
 
-#bookmarkCloseButton:hover ~ #bookmarkCloseButton > :nth-child(1) {
-  background-color: red;
+#bookmarkCloseButton:focus,
+#bookmarkCloseButton:hover {
+  background-color: var(--FocusGreen);
 }
 
-#bookmarkCloseButton > :nth-child(1) {
-  transform: rotate(45deg);
+#bookmarkCloseButton:hover > * {
+  background-color: var(--BackgroundColor);
+}
+#bookmarkCloseButton:focus > * {
+  background-color: var(--BackgroundColor);
 }
 
 /* ACCOUNT BUTTON STYLING */
