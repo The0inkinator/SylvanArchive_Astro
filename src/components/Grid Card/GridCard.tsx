@@ -1,11 +1,19 @@
 import './gridCardStyles.css';
 import './popUpStyles.css';
-import '../../../styles/zaGlobal.css';
-import { createSignal, createEffect } from 'solid-js';
+import { createSignal, createEffect, onMount } from 'solid-js';
+import MTGCardArt from '../../backend/MTGCardArt';
+
+// let cardArt: string;
 
 const [gridCardHovered, setGridCardHovered] = createSignal<boolean>(false);
 
 export default function GridCard() {
+  onMount(() => {
+    console.log(MTGCardArt('Goblin Guide'));
+  });
+
+  console.log(MTGCardArt('Goblin Guide'));
+
   return (
     <>
       <div class="gridCardContainer">
@@ -19,7 +27,10 @@ export default function GridCard() {
               setGridCardHovered(false);
             }}
           >
-            <div class="gridCardImage"></div>
+            <div
+              class="gridCardImage"
+              // style={`background-image: url("${cardArt}")`}
+            ></div>
             <div class="overlay"></div>
             <div class="gridCardTitle">Title</div>
             <a class="link"></a>

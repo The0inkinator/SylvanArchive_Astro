@@ -1,16 +1,18 @@
 ---
-import GroupingGrid from "../components/groupings/GroupingGrid.astro";
+import GroupingGrid from "../components/GroupingGrid.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import GridCard from "../components/groupings/Grid Card/GridCard";
-import { startSearchingList } from "../scripts/navCardLists";
-const pageTitle = "Sylvan Archive";
-const NavCardList = startSearchingList;
+import GridCard from "../components/Grid Card/GridCard";
+import CardFetcher from "../backend/FetchRandomCard"
+import APITester from "../components/APITester"
+const pageTitle = "Sylvan Archive"
+
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <GridCard client:visible />
   <GridCard client:visible />
   <GridCard client:visible />
+  <APITester client:visible/>
 </BaseLayout>
 
 <style></style>
