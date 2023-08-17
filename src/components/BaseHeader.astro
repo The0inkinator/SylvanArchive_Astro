@@ -1,0 +1,32 @@
+---
+import HeaderMenu from "./headerMenu/HeaderMenu.astro";
+import FloatingMenu from "./floatingMenu/FloatingMenu";
+---
+
+<header>
+  <div class="headerBar">
+    <FloatingMenu client:visible />
+  </div>
+</header>
+
+<style>
+  .headerBar {
+    position: fixed;
+    width: 100%;
+    height: var(--ContContainUpperMargin);
+    z-index: 20;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .headerBar > * {
+    pointer-events: auto;
+  }
+
+  .menu {
+    margin: auto;
+    display: flex;
+    gap: calc(var(--MenuHeight) / 4);
+  }
+</style>
