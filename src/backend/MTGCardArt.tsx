@@ -1,7 +1,7 @@
 import { createSignal } from 'solid-js';
 
 export default function MTGCardArt(name: string) {
-  const [cardData, setCardData] = createSignal(null);
+  const [cardData, setCardData] = createSignal<string | null | JSON>(null);
 
   const fetchCardArt = async () => {
     try {
