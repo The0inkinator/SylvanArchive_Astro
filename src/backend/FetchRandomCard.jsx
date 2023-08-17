@@ -3,15 +3,17 @@ import { createSignal, onCleanup } from 'solid-js';
 function CardFetcher() {
   const [cardData, setCardData] = createSignal(null);
 
-  onCleanup(() => {
-    // Cleanup code if needed
-  });
-
   const fetchRandomCard = async () => {
     try {
+      console.log('Fetching random card...');
       const response = await fetch('https://api.scryfall.com/cards/random');
+      console.log('Response received:', response);
+
       const data = await response.json();
+      console.log('Card data:', data);
+
       setCardData(data);
+      console.log('Card data set:', cardData());
     } catch (error) {
       console.error('Error fetching card data:', error);
     }
