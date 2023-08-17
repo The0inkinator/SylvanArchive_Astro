@@ -7,16 +7,16 @@ import {
   Match,
   onMount,
 } from 'solid-js';
-import { CurrentScreenSize, screenSize } from '../../../scripts/screenSizeCalc';
 
 // Establish Types
 type MenuStates = 'default' | 'searchOpen' | 'bookmarkOpen';
+type ScreenSizes = 'Desktop' | 'LaptopTablet' | 'Mobile';
 
 //Establish States
 export const [menuState, setMenuState] = createSignal<MenuStates>('default');
+export const [screenSize, setScreenSize] = createSignal('Desktop');
 
 //Solid-Ref definitions for typescript
-
 //Homebutton
 let homeButton: HTMLAnchorElement;
 let homeTitle: HTMLDivElement;
@@ -31,8 +31,19 @@ let bookmarkCloseButton: HTMLButtonElement;
 //Accountbutton
 let accountButton: HTMLAnchorElement;
 
-//Styling Adjust Functions
+//Converts screen width to screensize
 
+function getScreenSize(width: number): ScreenSizes {
+  if (width >= 1025) {
+    return 'Desktop';
+  } else if (width >= 481) {
+    return 'LaptopTablet';
+  } else {
+    return 'Mobile';
+  }
+}
+
+//Styling Adjust Functions
 //Home Button
 const openHome = () => {
   homeButton.style.width = `calc((var(--MenuHeight) * 1.2) + ${initTitleWidth()})`;
@@ -109,6 +120,16 @@ function FMSearch() {
   const [searchTabIndex, setSearchTabIndex] = createSignal(0);
   const [inputTabIndex, setInputTabIndex] = createSignal(-1);
 
+  //Triggers opening animation in mobile layout
+  onMount(() => {
+    closeSearch();
+    setTimeout(() => {
+      if (menuState() === 'searchOpen') {
+        openSearch();
+      }
+    }, 1);
+  });
+
   return (
     <>
       <div classList={{ menuItemContainer: true }}>
@@ -152,6 +173,15 @@ function FMSearch() {
 //Bookmark Bar Component
 
 function FMBookmark() {
+  //Triggers opening animation in mobile layout
+  onMount(() => {
+    closeBookmark();
+    setTimeout(() => {
+      if (menuState() === 'bookmarkOpen') {
+        openBookmark();
+      }
+    }, 1);
+  });
   return (
     <>
       <div classList={{ menuItemContainer: true }}>
@@ -204,13 +234,27 @@ function FMAccount() {
 //Full menu component
 
 export default function FloatingMenu() {
-  //Start screen size tracking script
+  //Set initial screensize
+  onMount(() => {
+    setScreenSize(getScreenSize(window.innerWidth));
+  });
 
-  CurrentScreenSize();
+  //Track screen size changes
+  createEffect(() => {
+    const handleScreenSize = () => {
+      setScreenSize(getScreenSize(window.innerWidth));
+    };
+
+    window.addEventListener('resize', handleScreenSize);
+
+    onCleanup(() => {
+      window.removeEventListener('resize', handleScreenSize);
+    });
+  });
 
   // Set menuState to "default" whenever user scrolls or window is resized
   function StateCheck() {
-    //Function
+    //Setter function
     const updateDefault = () => {
       setMenuState('default');
       //Update home button visual on mobile/scroll
