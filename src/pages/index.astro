@@ -2,7 +2,6 @@
 import GroupingGrid from "../components/GroupingGrid.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GridCard from "../components/Grid Card/GridCard";
-import CardFetcher from "../backend/FetchRandomCard";
 import APITester from "../components/APITester";
 const pageTitle = "Sylvan Archive";
 ---
@@ -11,7 +10,11 @@ const pageTitle = "Sylvan Archive";
   <GridCard client:visible />
   <GridCard client:visible />
   <GridCard client:visible />
-  <APITester cardName="Golbin Guide" client:visible />
+  <APITester
+    cardNameA="Goblin Guide"
+    cardNameB="Lightning Bolt"
+    client:visible
+  />
 </BaseLayout>
 
 <style></style>

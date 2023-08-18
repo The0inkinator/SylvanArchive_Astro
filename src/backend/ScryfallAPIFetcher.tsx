@@ -1,13 +1,13 @@
 import { createSignal, createEffect } from "solid-js";
 
-export function CardArt(cardName: string): Promise<string | null> {
+export function CardArtFetcher(cardName: string): Promise<string | null> {
   return new Promise<string | null>(async (resolve) => {
     const [cardArtUrl, setCardArtUrl] = createSignal<string | null>(null);
 
     createEffect(async () => {
       try {
         const response = await fetch(
-          `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(
+          `https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(
             cardName
           )}`
         );
