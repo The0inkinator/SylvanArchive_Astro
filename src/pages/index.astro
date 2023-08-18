@@ -7,14 +7,32 @@ const pageTitle = "Sylvan Archive";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <GridCard client:visible />
-  <GridCard client:visible />
-  <GridCard client:visible />
-  <APITester
+  <GridCard
+    displayArt="emrakul, the aeons torn"
+    bgCard1="endbringer"
+    bgCard2="eldrazi displacer"
+    bgCard3="thought-knot seer"
+    client:visible
+  />
+  <GridCard
+    displayArt="flooded strand"
+    bgCard1="polluted delta"
+    bgCard2="wooded foothills"
+    bgCard3="windswept heath"
+    client:visible
+  />
+  <GridCard
+    displayArt="orcish bowmasters"
+    bgCard1="the one ring"
+    bgCard2="eagles of the north"
+    bgCard3="lembas"
+    client:visible
+  />
+  <!-- <APITester
     cardNameA="Goblin Guide"
     cardNameB="Lightning Bolt"
     client:visible
-  />
+  /> -->
 </BaseLayout>
 
 <style></style>
