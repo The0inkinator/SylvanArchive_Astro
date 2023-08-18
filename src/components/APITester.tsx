@@ -4,7 +4,9 @@ import { createEffect, createSignal } from 'solid-js';
 export default function APITester() {
   const [cardArtUrl_A, setCardArtUrl_A] = createSignal<string | null>(null);
   createEffect(async () => {
-    const url = await CardArtFetcherA('abundant harvest', 'sta', '');
+    const url = await CardArtFetcherA('abundant harvest', {
+      cardSet: 'sta',
+    });
     setCardArtUrl_A(url);
   });
 
