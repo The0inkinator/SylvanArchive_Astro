@@ -1,14 +1,18 @@
-import { MTGCardArt } from "../backend/MTGCardArt";
-import { createSignal } from "solid-js";
+import { CardArt } from "../backend/CardArt";
+import { createEffect, createSignal } from "solid-js";
 
-export default function APITester() {
-  const cardArtUrl = MTGCardArt("Goblin Guide");
+export default function APITester({ cardName }: { cardName: string }) {
+  const [cardArtUrl, setCardArtUrl] = createSignal<string | null>(null);
+  createEffect(async () => {
+    const url = await CardArt(cardName);
+    setCardArtUrl(url);
+  });
 
   return (
     <>
       <button
         onClick={() => {
-          console.log(cardArtUrl);
+          console.log(cardArtUrl());
         }}
       >
         Run API Test
