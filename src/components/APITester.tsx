@@ -1,21 +1,26 @@
-import MTGCardArt from '../backend/MTGCardArt';
-import { createSignal } from 'solid-js';
-
-const [image, setImage] = createSignal();
+import { MTGCardArt } from "../backend/MTGCardArt";
+import { createSignal } from "solid-js";
 
 export default function APITester() {
+  const cardArtUrl = MTGCardArt("Goblin Guide");
+
   return (
     <>
       <button
         onClick={() => {
-          console.log('running API Test');
-          MTGCardArt('Goblin Guide');
-          console.log(MTGCardArt('Goblin Guide'));
+          console.log(cardArtUrl);
         }}
       >
         Run API Test
       </button>
-      <div style={'width: 12rem; height: 12rem; background-color: red'}></div>
+      <div
+        style={{
+          "background-color": "red",
+          width: "12rem",
+          height: "12rem",
+          "background-image": cardArtUrl() ? `url(${cardArtUrl()})` : "none",
+        }}
+      ></div>
     </>
   );
 }
