@@ -1,21 +1,56 @@
-import MTGCardArt from '../backend/MTGCardArt';
-import { createSignal } from 'solid-js';
+import { CardArtFetcher } from "../backend/ScryfallAPIFetcher";
+import { createEffect, createSignal } from "solid-js";
 
-const [image, setImage] = createSignal();
+export default function APITester({
+  cardNameA,
+  cardNameB,
+}: {
+  cardNameA: string;
+  cardNameB: string;
+}) {
+  const [cardArtUrl_A, setCardArtUrl_A] = createSignal<string | null>(null);
+  const [cardArtUrl_B, setCardArtUrl_B] = createSignal<string | null>(null);
+  const [cardArtUrl_C, setCardArtUrl_C] = createSignal<string | null>(null);
+  const [cardArtUrl_D, setCardArtUrl_D] = createSignal<string | null>(null);
+  createEffect(async () => {
+    const url = await CardArtFetcher(cardNameA);
+    setCardArtUrl_A(url);
+  });
 
-export default function APITester() {
+  createEffect(async () => {
+    const url = await CardArtFetcher(cardNameB);
+    setCardArtUrl_B(url);
+  });
+
   return (
     <>
       <button
         onClick={() => {
-          console.log('running API Test');
-          MTGCardArt('Goblin Guide');
-          console.log(MTGCardArt('Goblin Guide'));
+          console.log(cardArtUrl_A());
         }}
       >
         Run API Test
       </button>
-      <div style={'width: 12rem; height: 12rem; background-color: red'}></div>
+      <div
+        style={{
+          "background-color": "red",
+          width: "12rem",
+          height: "12rem",
+          "background-image": cardArtUrl_B()
+            ? `url(${cardArtUrl_A()})`
+            : "none",
+        }}
+      ></div>
+      <div
+        style={{
+          "background-color": "red",
+          width: "12rem",
+          height: "12rem",
+          "background-image": cardArtUrl_B()
+            ? `url(${cardArtUrl_B()})`
+            : "none",
+        }}
+      ></div>
     </>
   );
 }

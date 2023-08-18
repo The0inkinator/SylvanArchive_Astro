@@ -16,25 +16,22 @@
 }
 
 .popUpContainer > :nth-child(1) {
-  background-color: green;
+  background-color: white;
   clip-path: inset(0% round 4% 4% 4% 4%);
   background-size: cover;
   background-position: center;
-  background-image: url('https://cards.scryfall.io/png/front/f/2/f29ba16f-c8fb-42fe-aabf-87089cb214a7.png?1673147852');
 }
 .popUpContainer > :nth-child(2) {
-  background-color: blue;
+  background-color: lightgrey;
   clip-path: inset(0% round 4% 4% 4% 4%);
   background-size: cover;
   background-position: center;
-  background-image: url('https://cards.scryfall.io/png/front/5/2/52042404-12db-4914-bfa0-8249a5942088.png?1674674379');
 }
 .popUpContainer > :nth-child(3) {
-  background-color: purple;
+  background-color: darkgray;
   clip-path: inset(0% round 4% 4% 4% 4%);
   background-size: cover;
   background-position: center;
-  background-image: url('https://cards.scryfall.io/png/front/8/b/8bbcfb77-daa1-4ce5-b5f9-48d0a8edbba9.png?1592765148');
 }
 
 /* HOVER ANIMATION */
