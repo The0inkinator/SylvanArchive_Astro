@@ -20,7 +20,10 @@ export default function GridCard({
   const [bgCard3Url, setBgCard3Url] = createSignal<string | null>(null);
 
   createEffect(async () => {
-    const url = await CardArtFetcher(displayArt);
+    const url = await CardArtFetcher(displayArt, {
+      cardSet: "2xm",
+      cardCollectNum: 575,
+    });
     setDisplayArtUrl(url);
   });
 
