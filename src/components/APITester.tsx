@@ -1,12 +1,12 @@
-import { CardArtFetcher, CardArtFetcherA } from "../backend/ScryfallAPIFetcher";
+import { CardArtFetcher } from "../backend/ScryfallAPIFetcher";
 import { createEffect, createSignal } from "solid-js";
 
 export default function APITester() {
   const [cardArtUrl_A, setCardArtUrl_A] = createSignal<string | null>(null);
   createEffect(async () => {
-    const url = await CardArtFetcherA("thing in the ice", {
-      cardSet: "pr23",
-      cardFace: "back",
+    const url = await CardArtFetcher("lightning bolt", {
+      cardCollectNum: 401,
+      cardFace: "front",
     });
     setCardArtUrl_A(url);
   });
