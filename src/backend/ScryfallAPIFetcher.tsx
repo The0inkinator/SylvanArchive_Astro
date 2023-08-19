@@ -1,4 +1,87 @@
-import { createSignal, createEffect } from "solid-js";
+import { createSignal, createEffect } from 'solid-js';
+
+interface CardIdOptions {
+  cardSet?: string;
+  cardCollectNum?: number;
+  cardFace?: 'front' | 'back';
+}
+
+export function CardArtFetcherA(
+  cardName: string,
+  options: CardIdOptions = {}
+): Promise<string | null> {
+  return new Promise<string | null>(async (resolve) => {
+    //Destructures typescript properties for easy referenece
+    const { cardSet, cardCollectNum, cardFace } = options;
+    //State for selected cardface
+    const [selectedCardFace, setSelectedCardFace] =
+      createSignal<typeof cardFace>('front');
+    //Property denoting if the card is doublefaced
+    const [doubleFaced, setDoubleFaced] = createSignal<boolean>(true);
+
+    //Sets which face of the card is selected - defaults to front - selects back if cardFace property = back
+
+    if (cardFace === 'back') {
+      setSelectedCardFace('back');
+      console.log(`card ${selectedCardFace()} selected`);
+    } else {
+      setSelectedCardFace('front');
+      console.log(`card ${selectedCardFace()} selected`);
+    }
+
+    createEffect(async () => {
+      try {
+        //Takes cardName prop and returns data
+        const inputCardName = await fetch(
+          `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(
+            cardName
+          )}`
+        );
+        //Returns card data as a json object
+        const initCard = await inputCardName.json();
+        console.log(initCard);
+        //Uses card object to find data of all versions of card
+        const cardListFetch = await fetch(
+          ` https://api.scryfall.com/cards/search?q=${initCard.name}%20unique%3Aprints
+          `
+        );
+        const cardListObj = await cardListFetch.json();
+        //creates an array where each item is a card version as an object
+        const cardVersions = cardListObj.data;
+
+        // if (cardCollectNum) {
+        //   console.log('Collector number input:', cardCollectNum);
+        // } else if (cardSet) {
+        //   for (let listPos = 0; listPos < cardListObj.data.length; listPos++) {
+        //     const card = cardListObj.data[listPos];
+
+        //     if (card.set === cardSet) {
+        //       if (
+        //         cardListObj.data[listPos].image_uris &&
+        //         cardListObj.data[listPos].image_uris.art_crop
+        //       ) {
+        //         resolve(cardListObj.data[listPos].image_uris.art_crop);
+        //       }
+        //       break;
+        //     }
+        //   }
+        // } else {
+        //   //Just a cardname is input and a match is found - if statement checks for art
+        //   if (initCard.image_uris && initCard.image_uris.art_crop) {
+        //     resolve(initCard.image_uris.art_crop);
+        //   }
+        // }
+
+        //Either there is an error or a name is input that is not found. Makes function always output fblthp art
+        resolve(
+          'https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349'
+        );
+      } catch (error) {
+        console.error(`Error fetching card image for "${cardName}"`, error);
+      }
+    });
+  });
+}
 
 export function CardArtFetcher(cardName: string): Promise<string | null> {
   return new Promise<string | null>(async (resolve) => {
@@ -19,7 +102,7 @@ export function CardArtFetcher(cardName: string): Promise<string | null> {
           resolve(data.image_uris.art_crop);
         } else {
           resolve(
-            "https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349"
+            'https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349'
           );
         }
       } catch (error) {
@@ -48,7 +131,7 @@ export function CardFetcher(cardName: string): Promise<string | null> {
           resolve(data.image_uris.normal);
         } else {
           resolve(
-            "https://cards.scryfall.io/png/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.png?1559959349"
+            'https://cards.scryfall.io/png/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.png?1559959349'
           );
         }
       } catch (error) {
