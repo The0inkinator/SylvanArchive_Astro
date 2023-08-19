@@ -1,9 +1,9 @@
-import { createSignal, createEffect } from 'solid-js';
+import { createSignal, createEffect } from "solid-js";
 
 interface CardIdOptions {
   cardSet?: string;
   cardCollectNum?: number;
-  cardFace?: 'front' | 'back';
+  cardFace?: "front" | "back";
 }
 
 export function CardArtFetcherA(
@@ -14,19 +14,15 @@ export function CardArtFetcherA(
     //Destructures typescript properties for easy referenece
     const { cardSet, cardCollectNum, cardFace } = options;
     //State for selected cardface
-    const [selectedCardFace, setSelectedCardFace] =
-      createSignal<typeof cardFace>('front');
+    const [selectedCardFace, setSelectedCardFace] = createSignal<number>(0);
     //Property denoting if the card is doublefaced
-    const [doubleFaced, setDoubleFaced] = createSignal<boolean>(true);
+    const [doubleFaced, setDoubleFaced] = createSignal<boolean>(false);
 
     //Sets which face of the card is selected - defaults to front - selects back if cardFace property = back
-
-    if (cardFace === 'back') {
-      setSelectedCardFace('back');
-      console.log(`card ${selectedCardFace()} selected`);
+    if (cardFace === "back") {
+      setSelectedCardFace(1);
     } else {
-      setSelectedCardFace('front');
-      console.log(`card ${selectedCardFace()} selected`);
+      setSelectedCardFace(0);
     }
 
     createEffect(async () => {
@@ -45,9 +41,39 @@ export function CardArtFetcherA(
           ` https://api.scryfall.com/cards/search?q=${initCard.name}%20unique%3Aprints
           `
         );
+        //check if card is double faced
+        if (initCard.card_faces) {
+          setDoubleFaced(true);
+        }
         const cardListObj = await cardListFetch.json();
         //creates an array where each item is a card version as an object
         const cardVersions = cardListObj.data;
+
+        //Chooses art based on inputed factors
+        if (
+          !cardSet &&
+          !cardCollectNum &&
+          !cardFace &&
+          doubleFaced() === false
+        ) {
+          if (initCard.image_uris && initCard.image_uris.art_crop) {
+            resolve(initCard.image_uris.art_crop);
+          }
+        } else if (
+          !cardSet &&
+          !cardCollectNum &&
+          !cardFace &&
+          doubleFaced() === true
+        ) {
+          if (
+            initCard.card_faces[selectedCardFace()].image_uris &&
+            initCard.card_faces[selectedCardFace()].image_uris.art_crop
+          ) {
+            resolve(
+              initCard.card_faces[selectedCardFace()].image_uris.art_crop
+            );
+          }
+        }
 
         // if (cardCollectNum) {
         //   console.log('Collector number input:', cardCollectNum);
@@ -74,7 +100,7 @@ export function CardArtFetcherA(
 
         //Either there is an error or a name is input that is not found. Makes function always output fblthp art
         resolve(
-          'https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349'
+          "https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349"
         );
       } catch (error) {
         console.error(`Error fetching card image for "${cardName}"`, error);
@@ -102,7 +128,7 @@ export function CardArtFetcher(cardName: string): Promise<string | null> {
           resolve(data.image_uris.art_crop);
         } else {
           resolve(
-            'https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349'
+            "https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349"
           );
         }
       } catch (error) {
@@ -131,7 +157,7 @@ export function CardFetcher(cardName: string): Promise<string | null> {
           resolve(data.image_uris.normal);
         } else {
           resolve(
-            'https://cards.scryfall.io/png/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.png?1559959349'
+            "https://cards.scryfall.io/png/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.png?1559959349"
           );
         }
       } catch (error) {

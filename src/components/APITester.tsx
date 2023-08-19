@@ -1,18 +1,16 @@
-import { CardArtFetcher, CardArtFetcherA } from '../backend/ScryfallAPIFetcher';
-import { createEffect, createSignal } from 'solid-js';
+import { CardArtFetcher, CardArtFetcherA } from "../backend/ScryfallAPIFetcher";
+import { createEffect, createSignal } from "solid-js";
 
 export default function APITester() {
   const [cardArtUrl_A, setCardArtUrl_A] = createSignal<string | null>(null);
   createEffect(async () => {
-    const url = await CardArtFetcherA('abundant harvest', {
-      cardSet: 'sta',
-    });
+    const url = await CardArtFetcherA("thing in the ice");
     setCardArtUrl_A(url);
   });
 
   return (
     <>
-      <div style={'display: flex; flex-direction: column'}>
+      <div style={"display: flex; flex-direction: column"}>
         <button
           onClick={() => {
             console.log(cardArtUrl_A());
@@ -22,14 +20,14 @@ export default function APITester() {
         </button>
         <div
           style={{
-            'background-color': 'red',
-            width: '12rem',
-            height: '12rem',
-            'background-size': 'cover',
-            'background-position': 'center',
-            'background-image': cardArtUrl_A()
+            "background-color": "red",
+            width: "12rem",
+            height: "12rem",
+            "background-size": "cover",
+            "background-position": "center",
+            "background-image": cardArtUrl_A()
               ? `url(${cardArtUrl_A()})`
-              : 'none',
+              : "none",
           }}
         ></div>
       </div>
