@@ -21,8 +21,6 @@ export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
   const [gridCardHovered, setGridCardHovered] = createSignal<boolean>(false);
   const [gridCardFocused, setGridCardFocused] = createSignal<boolean>(false);
 
-  console.log(CardFetcher("garruck"));
-
   //Inputs primary display art url
 
   createEffect(async () => {
