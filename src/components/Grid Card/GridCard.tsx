@@ -6,6 +6,7 @@ import { CardArtFetcher, CardFetcher } from "../../backend/ScryfallAPIFetcher";
 interface Identifiers {
   cardSet?: string;
   cardCollectNum?: number;
+  cardFace?: "front" | "back";
 }
 
 type bgCard = {
@@ -16,7 +17,7 @@ type bgCard = {
 // type bgCardsArray =
 interface cardInputs {
   displayArt: string;
-  identifiers?: Identifiers;
+  mainArtIdentifiers?: Identifiers;
   bgCards?: (bgCard | string)[];
   title: string;
 }
@@ -25,7 +26,7 @@ let popUpContainer: HTMLDivElement;
 export default function GridCard({
   displayArt,
   bgCards,
-  identifiers,
+  mainArtIdentifiers,
   title,
 }: cardInputs) {
   let bgCardArray: any[] = [];
@@ -42,8 +43,9 @@ export default function GridCard({
 
   createEffect(async () => {
     const url = await CardArtFetcher(displayArt, {
-      cardSet: identifiers?.cardSet,
-      cardCollectNum: identifiers?.cardCollectNum,
+      cardSet: mainArtIdentifiers?.cardSet,
+      cardCollectNum: mainArtIdentifiers?.cardCollectNum,
+      cardFace: mainArtIdentifiers?.cardFace,
     });
     setDisplayArtUrl(url);
   });
@@ -57,17 +59,20 @@ export default function GridCard({
           let cardInfo: string;
           let mapCardSet: any;
           let mapCardCollectNum: any;
+          let mapCardFace: any;
           if (typeof card === "string") {
             cardInfo = card;
           } else {
             cardInfo = card.bgCard;
             mapCardSet = card.identifiers?.cardSet;
             mapCardCollectNum = card.identifiers?.cardCollectNum;
+            mapCardFace = card.identifiers?.cardFace;
           }
 
           return await CardFetcher(cardInfo, {
             cardSet: `${mapCardSet}`,
             cardCollectNum: mapCardCollectNum,
+            cardFace: mapCardFace,
           });
         })
       );
