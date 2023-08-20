@@ -19,6 +19,7 @@ export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
   const [gridCardHovered, setGridCardHovered] = createSignal<boolean>(false);
+  const [gridCardFocused, setGridCardFocused] = createSignal<boolean>(false);
 
   //Inputs primary display art url
 
@@ -62,7 +63,16 @@ export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
   return (
     <>
       <div class="gridCardContainer">
-        <div class="fullGridCard" tabindex="0">
+        <div
+          class="fullGridCard"
+          tabindex="0"
+          onfocusin={() => {
+            setGridCardFocused(true);
+          }}
+          onFocusOut={() => {
+            setGridCardFocused(false);
+          }}
+        >
           <div class="gridCardBox">
             <div
               class="gridCardImage"
@@ -93,7 +103,7 @@ export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
                   style={{
                     "background-image": card ? `url(${card})` : "none",
                     transform:
-                      gridCardHovered() === true
+                      gridCardHovered() === true || gridCardFocused() === true
                         ? bgCardPositions[index + 1]
                         : bgCardPositions[0],
                   }}
