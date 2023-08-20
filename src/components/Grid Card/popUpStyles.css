@@ -15,21 +15,9 @@
   transition: transform 0.15s;
 }
 
-.popUpContainer > :nth-child(1) {
-  background-color: white;
+.popUpContainer > * {
   clip-path: inset(0% round 4% 4% 4% 4%);
-  background-size: cover;
-  background-position: center;
-}
-.popUpContainer > :nth-child(2) {
-  background-color: lightgrey;
-  clip-path: inset(0% round 4% 4% 4% 4%);
-  background-size: cover;
-  background-position: center;
-}
-.popUpContainer > :nth-child(3) {
-  background-color: darkgray;
-  clip-path: inset(0% round 4% 4% 4% 4%);
+  background-color: red;
   background-size: cover;
   background-position: center;
 }

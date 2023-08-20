@@ -1,23 +1,22 @@
 import "./gridCardStyles.css";
 import "./popUpStyles.css";
-import { createSignal, createEffect, onMount } from "solid-js";
+import { createSignal, createEffect, Switch, Match } from "solid-js";
 import { CardArtFetcher, CardFetcher } from "../../backend/ScryfallAPIFetcher";
 
-export default function GridCard({
-  displayArt,
-  bgCard1,
-  bgCard2,
-  bgCard3,
-}: {
+interface cardInputs {
   displayArt: string;
-  bgCard1: string;
-  bgCard2: string;
-  bgCard3: string;
-}) {
+  bgCards?: any[];
+  title: string;
+}
+
+let popUpCardA: HTMLDivElement;
+let popUpCardB: HTMLDivElement;
+let popUpCardC: HTMLDivElement;
+
+export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
-  const [bgCard1Url, setBgCard1Url] = createSignal<string | null>(null);
-  const [bgCard2Url, setBgCard2Url] = createSignal<string | null>(null);
-  const [bgCard3Url, setBgCard3Url] = createSignal<string | null>(null);
+  const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
+  const bgCardArray: any[] = [];
 
   createEffect(async () => {
     const url = await CardArtFetcher(displayArt, {
@@ -28,18 +27,18 @@ export default function GridCard({
   });
 
   createEffect(async () => {
-    const url = await CardFetcher(bgCard1);
-    setBgCard1Url(url);
-  });
-
-  createEffect(async () => {
-    const url = await CardFetcher(bgCard2);
-    setBgCard2Url(url);
-  });
-
-  createEffect(async () => {
-    const url = await CardFetcher(bgCard3);
-    setBgCard3Url(url);
+    if (bgCards) {
+      const tempBgCardArray = await Promise.all(
+        bgCards.map(async (card) => {
+          return await CardFetcher(card);
+        })
+      );
+      bgCardArray.length = 0;
+      tempBgCardArray.map((arrayItem, index) => {
+        bgCardArray[index] = arrayItem;
+      });
+      setBgCardUrls(tempBgCardArray);
+    }
   });
 
   return (
@@ -56,35 +55,77 @@ export default function GridCard({
               }}
             ></div>
             <div class="overlay"></div>
-            <div class="gridCardTitle">Title</div>
-            <a class="link"></a>
+            <div class="gridCardTitle">{title}</div>
+            <a
+              class="link"
+              onclick={() => {
+                console.log(bgCardArray.length);
+              }}
+            ></a>
           </div>
 
           <div class="popUpContainer">
-            <div
-              class="popUpCard"
-              style={{
-                "background-image": bgCard1Url()
-                  ? `url(${bgCard1Url()})`
-                  : "none",
-              }}
-            ></div>
-            <div
-              class="popUpCard"
-              style={{
-                "background-image": bgCard2Url()
-                  ? `url(${bgCard2Url()})`
-                  : "none",
-              }}
-            ></div>
-            <div
-              class="popUpCard"
-              style={{
-                "background-image": bgCard3Url()
-                  ? `url(${bgCard3Url()})`
-                  : "none",
-              }}
-            ></div>
+            <Switch
+              fallback={
+                <>
+                  <div
+                    class="popUpCard"
+                    style={{
+                      "background-image": bgCardUrls()[1]
+                        ? `url(${bgCardUrls()[1]})`
+                        : "none",
+                    }}
+                  ></div>
+                  <div
+                    class="popUpCard"
+                    style={{
+                      "background-image": bgCardUrls()[0]
+                        ? `url(${bgCardUrls()[0]})`
+                        : "none",
+                    }}
+                  ></div>
+                  <div
+                    class="popUpCard"
+                    style={{
+                      "background-image": bgCardUrls()[2]
+                        ? `url(${bgCardUrls()[2]})`
+                        : "none",
+                    }}
+                  ></div>
+                </>
+              }
+            >
+              <Match when={bgCardArray.length == 1}>
+                <div
+                  class="popUpCard"
+                  style={{
+                    "background-image": bgCardUrls()[0]
+                      ? `url(${bgCardUrls()[0]})`
+                      : "none",
+                  }}
+                ></div>
+              </Match>
+              <Match when={bgCardArray.length == 2}>
+                <div
+                  class="popUpCard"
+                  style={{
+                    "background-image": bgCardUrls()[0]
+                      ? `url(${bgCardUrls()[0]})`
+                      : "none",
+                  }}
+                ></div>
+              </Match>
+              <Match when={bgCardArray.length > 2}>
+                <div
+                  class="popUpCard"
+                  style={{
+                    "background-image": bgCardUrls()[0]
+                      ? `url(${bgCardUrls()[0]})`
+                      : "none",
+                  }}
+                ></div>
+              </Match>
+            </Switch>
           </div>
         </div>
       </div>
