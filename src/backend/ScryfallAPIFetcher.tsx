@@ -113,6 +113,9 @@ export function CardArtFetcher(
           "https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349"
         );
       } catch (error) {
+        resolve(
+          "https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349"
+        );
         console.error(`Error fetching card image for ${cardName}`, error);
       }
     });
@@ -223,9 +226,12 @@ export function CardFetcher(
 
         //Either there is an error or a name is input that is not found. Makes function always output fblthp art
         resolve(
-          "https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349"
+          "https://cards.scryfall.io/png/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.png?1559959349"
         );
       } catch (error) {
+        resolve(
+          "https://cards.scryfall.io/png/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.png?1559959349"
+        );
         console.error(`Error fetching card image for ${cardName}`, error);
       }
     });
