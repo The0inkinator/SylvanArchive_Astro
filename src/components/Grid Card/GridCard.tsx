@@ -8,15 +8,19 @@ interface cardInputs {
   bgCards?: any[];
   title: string;
 }
-
-let popUpCardA: HTMLDivElement;
-let popUpCardB: HTMLDivElement;
-let popUpCardC: HTMLDivElement;
+let popUpContainer: HTMLDivElement;
 
 export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
+  let bgCardArray: any[] = [];
+  let bgCardPositions: string[] = [
+    "translateY(calc(var(--GridCardSize) * 0)) translateX(calc(var(--GridCardSize) * .23)) rotate(0deg)",
+  ];
+  let bgCardRotation: number = 0;
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
-  const bgCardArray: any[] = [];
+  const [gridCardHovered, setGridCardHovered] = createSignal<boolean>(false);
+
+  //Inputs primary display art url
 
   createEffect(async () => {
     const url = await CardArtFetcher(displayArt, {
@@ -26,18 +30,32 @@ export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
     setDisplayArtUrl(url);
   });
 
+  //Inputs background card urls art into an array
+
   createEffect(async () => {
     if (bgCards) {
-      const tempBgCardArray = await Promise.all(
+      bgCardArray = await Promise.all(
         bgCards.map(async (card) => {
           return await CardFetcher(card);
         })
       );
-      bgCardArray.length = 0;
-      tempBgCardArray.map((arrayItem, index) => {
-        bgCardArray[index] = arrayItem;
-      });
-      setBgCardUrls(tempBgCardArray);
+      setBgCardUrls(bgCardArray);
+    }
+  });
+
+  createEffect(() => {
+    if (bgCardUrls().length > 2) {
+      bgCardRotation = 18;
+      bgCardPositions[1] = `translateY(calc(var(--GridCardSize) * -0.1)) translateX(calc(var(--GridCardSize) * -0.05)) rotate(-${bgCardRotation}deg)`;
+      bgCardPositions[2] = `translateY(calc(var(--GridCardSize) * -0.17)) translateX(calc(var(--GridCardSize) * 0.23)) rotate(-1deg)`;
+      bgCardPositions[3] = `translateY(calc(var(--GridCardSize) * -0.1)) translateX(calc(var(--GridCardSize) * 0.5)) rotate(${bgCardRotation}deg)`;
+    } else if (bgCardUrls().length === 2) {
+      bgCardRotation = 10;
+      bgCardPositions[1] = `translateY(calc(var(--GridCardSize) * -0.17)) translateX(calc(var(--GridCardSize) * .07)) rotate(-${bgCardRotation}deg)`;
+      bgCardPositions[2] = `translateY(calc(var(--GridCardSize) * -0.17)) translateX(calc(var(--GridCardSize) * 0.4)) rotate(${bgCardRotation}deg)`;
+    } else if (bgCardUrls().length === 1) {
+      bgCardPositions[1] =
+        "translateY(calc(var(--GridCardSize) * -.17)) translateX(calc(var(--GridCardSize) * .23)) rotate(0deg)";
     }
   });
 
@@ -58,74 +76,30 @@ export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
             <div class="gridCardTitle">{title}</div>
             <a
               class="link"
-              onclick={() => {
-                console.log(bgCardArray.length);
+              onmouseenter={() => {
+                setGridCardHovered(true);
+              }}
+              onmouseleave={() => {
+                setGridCardHovered(false);
               }}
             ></a>
           </div>
 
-          <div class="popUpContainer">
-            <Switch
-              fallback={
-                <>
-                  <div
-                    class="popUpCard"
-                    style={{
-                      "background-image": bgCardUrls()[1]
-                        ? `url(${bgCardUrls()[1]})`
-                        : "none",
-                    }}
-                  ></div>
-                  <div
-                    class="popUpCard"
-                    style={{
-                      "background-image": bgCardUrls()[0]
-                        ? `url(${bgCardUrls()[0]})`
-                        : "none",
-                    }}
-                  ></div>
-                  <div
-                    class="popUpCard"
-                    style={{
-                      "background-image": bgCardUrls()[2]
-                        ? `url(${bgCardUrls()[2]})`
-                        : "none",
-                    }}
-                  ></div>
-                </>
-              }
-            >
-              <Match when={bgCardArray.length == 1}>
+          <div class="popUpContainer" ref={popUpContainer}>
+            {bgCardUrls().map((card: any, index: number) => {
+              return (
                 <div
                   class="popUpCard"
                   style={{
-                    "background-image": bgCardUrls()[0]
-                      ? `url(${bgCardUrls()[0]})`
-                      : "none",
+                    "background-image": card ? `url(${card})` : "none",
+                    transform:
+                      gridCardHovered() === true
+                        ? bgCardPositions[index + 1]
+                        : bgCardPositions[0],
                   }}
                 ></div>
-              </Match>
-              <Match when={bgCardArray.length == 2}>
-                <div
-                  class="popUpCard"
-                  style={{
-                    "background-image": bgCardUrls()[0]
-                      ? `url(${bgCardUrls()[0]})`
-                      : "none",
-                  }}
-                ></div>
-              </Match>
-              <Match when={bgCardArray.length > 2}>
-                <div
-                  class="popUpCard"
-                  style={{
-                    "background-image": bgCardUrls()[0]
-                      ? `url(${bgCardUrls()[0]})`
-                      : "none",
-                  }}
-                ></div>
-              </Match>
-            </Switch>
+              );
+            })}
           </div>
         </div>
       </div>

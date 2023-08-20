@@ -23,7 +23,7 @@
 }
 
 /* HOVER ANIMATION */
-
+/* 
 .gridCardBox:hover ~ .popUpContainer > :nth-child(1) {
   transform: translateY(calc(var(--GridCardSize) * -0.1))
     translateX(calc(var(--GridCardSize) * -0.05)) rotate(-18deg);
@@ -52,4 +52,4 @@
 .fullGridCard:focus > .popUpContainer > :nth-child(3) {
   transform: translateY(calc(var(--GridCardSize) * -0.1))
     translateX(calc(var(--GridCardSize) * 0.5)) rotate(18deg);
-}
+} */
