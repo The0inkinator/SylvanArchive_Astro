@@ -13,43 +13,12 @@
   transform: translateX(calc(var(--GridCardSize) * 0.23));
   position: absolute;
   transition: transform 0.15s;
+  image-rendering: crisp-edges;
 }
 
 .popUpContainer > * {
   clip-path: inset(0% round 4% 4% 4% 4%);
-  background-color: red;
   background-size: cover;
   background-position: center;
+  image-rendering: crisp-edges;
 }
-
-/* HOVER ANIMATION */
-/* 
-.gridCardBox:hover ~ .popUpContainer > :nth-child(1) {
-  transform: translateY(calc(var(--GridCardSize) * -0.1))
-    translateX(calc(var(--GridCardSize) * -0.05)) rotate(-18deg);
-}
-
-.gridCardBox:hover ~ .popUpContainer > :nth-child(2) {
-  transform: translateY(calc(var(--GridCardSize) * -0.17))
-    translateX(calc(var(--GridCardSize) * 0.23)) rotate(-1deg);
-}
-
-.gridCardBox:hover ~ .popUpContainer > :nth-child(3) {
-  transform: translateY(calc(var(--GridCardSize) * -0.1))
-    translateX(calc(var(--GridCardSize) * 0.5)) rotate(18deg);
-}
-
-.fullGridCard:focus > .popUpContainer > :nth-child(1) {
-  transform: translateY(calc(var(--GridCardSize) * -0.1))
-    translateX(calc(var(--GridCardSize) * -0.05)) rotate(-18deg);
-}
-
-.fullGridCard:focus > .popUpContainer > :nth-child(2) {
-  transform: translateY(calc(var(--GridCardSize) * -0.17))
-    translateX(calc(var(--GridCardSize) * 0.23)) rotate(-1deg);
-}
-
-.fullGridCard:focus > .popUpContainer > :nth-child(3) {
-  transform: translateY(calc(var(--GridCardSize) * -0.1))
-    translateX(calc(var(--GridCardSize) * 0.5)) rotate(18deg);
-} */
