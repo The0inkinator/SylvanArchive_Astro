@@ -9,7 +9,15 @@ const pageTitle = "Sylvan Archive";
 <BaseLayout pageTitle={pageTitle}>
   <GridCard
     displayArt="flooded strand"
-    bgCards={["temple garden", "frontier bivouac", "castle locthwain"]}
+    identifiers={{ cardSet: "exp", cardCollectNum: 17 }}
+    bgCards={[
+      {
+        bgCard: "temple garden",
+        identifiers: { cardSet: "unf", cardCollectNum: 532 },
+      },
+      "frontier bivouac",
+      "castle locthwain",
+    ]}
     title="Fixing Lands"
     client:visible
   />

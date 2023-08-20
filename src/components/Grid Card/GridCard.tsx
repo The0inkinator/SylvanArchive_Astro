@@ -3,14 +3,31 @@ import "./popUpStyles.css";
 import { createSignal, createEffect, Switch, Match } from "solid-js";
 import { CardArtFetcher, CardFetcher } from "../../backend/ScryfallAPIFetcher";
 
+interface Identifiers {
+  cardSet?: string;
+  cardCollectNum?: number;
+}
+
+type bgCard = {
+  bgCard: string;
+  identifiers?: Identifiers;
+};
+
+// type bgCardsArray =
 interface cardInputs {
   displayArt: string;
-  bgCards?: any[];
+  identifiers?: Identifiers;
+  bgCards?: (bgCard | string)[];
   title: string;
 }
 let popUpContainer: HTMLDivElement;
 
-export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
+export default function GridCard({
+  displayArt,
+  bgCards,
+  identifiers,
+  title,
+}: cardInputs) {
   let bgCardArray: any[] = [];
   let bgCardPositions: string[] = [
     "translateY(calc(var(--GridCardSize) * 0)) translateX(calc(var(--GridCardSize) * .23)) rotate(0deg)",
@@ -25,8 +42,8 @@ export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
 
   createEffect(async () => {
     const url = await CardArtFetcher(displayArt, {
-      cardSet: "2xm",
-      cardCollectNum: 575,
+      cardSet: identifiers?.cardSet,
+      cardCollectNum: identifiers?.cardCollectNum,
     });
     setDisplayArtUrl(url);
   });
@@ -37,7 +54,21 @@ export default function GridCard({ displayArt, bgCards, title }: cardInputs) {
     if (bgCards) {
       bgCardArray = await Promise.all(
         bgCards.map(async (card) => {
-          return await CardFetcher(card);
+          let cardInfo: string;
+          let mapCardSet: any;
+          let mapCardCollectNum: any;
+          if (typeof card === "string") {
+            cardInfo = card;
+          } else {
+            cardInfo = card.bgCard;
+            mapCardSet = card.identifiers?.cardSet;
+            mapCardCollectNum = card.identifiers?.cardCollectNum;
+          }
+
+          return await CardFetcher(cardInfo, {
+            cardSet: `${mapCardSet}`,
+            cardCollectNum: mapCardCollectNum,
+          });
         })
       );
       setBgCardUrls(bgCardArray);
