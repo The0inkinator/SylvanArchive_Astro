@@ -8,26 +8,34 @@ const pageTitle = "Sylvan Archive";
 
 <BaseLayout pageTitle={pageTitle}>
   <GridCard
-    displayArt="huntmaster of the fells"
+    displayArt="young pyromancer"
     mainArtIdentifiers={{
       cardSet: "sld",
       cardCollectNum: 17,
       cardFace: "back",
     }}
-    bgCards={["thing in the ice", "frontier bivouac", "castle locthwain"]}
-    title="Fixing Lands"
+    bgCards={["lightning bolt", "counterspell"]}
+    title="Izzet Spells"
     client:visible
   />
   <GridCard
-    displayArt="Curious Obsession"
-    bgCards={["merfolk trickster", "counterspell", "pteramander"]}
-    title="Mono Blue"
+    displayArt="reanimate"
+    bgCards={[
+      "entomb",
+      { bgCard: "dark ritual", identifiers: { cardSet: "ema" } },
+      "griselbrand",
+    ]}
+    title="Reanimator"
     client:visible
   />
   <GridCard
-    displayArt="craterhoof behemoth"
-    bgCards={["llanowar elves", "natural order", "garruk wildspeaker"]}
-    title="Mono Green"
+    displayArt="hogaak, arisen necropolis"
+    bgCards={[
+      "satyr wayfinder",
+      { bgCard: "altar of dementia", identifiers: { cardSet: "mh2" } },
+      { bgCard: "bridge from below", identifiers: { cardSet: "uma" } },
+    ]}
+    title="Dredge"
     client:visible
   />
   <!-- <APITester
