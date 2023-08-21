@@ -20,16 +20,14 @@ interface Identifiers {
   cardFace?: "front" | "back";
 }
 
-type bgCard = {
+type BgCard = {
   bgCard: string;
   identifiers?: Identifiers;
 };
-
-// type bgCardsArray =
-interface cardInputs {
+interface GridCardInputs {
   displayArt: string;
   mainArtIdentifiers?: Identifiers;
-  bgCards?: (bgCard | string)[];
+  bgCards?: (BgCard | string)[];
   title: string;
 }
 
@@ -40,7 +38,7 @@ export default function GridCard({
   bgCards,
   mainArtIdentifiers,
   title,
-}: cardInputs) {
+}: GridCardInputs) {
   let bgCardArray: any[] = [];
   let bgCardPositions: string[] = [
     "translateY(calc(var(--GridCardSize) * 0)) translateX(calc(var(--GridCardSize) * .23)) rotate(0deg)",

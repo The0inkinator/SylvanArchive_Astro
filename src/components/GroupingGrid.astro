@@ -1,10 +1,40 @@
 ---
 import GridCard from "./Grid Card/GridCard";
+import TestList from "../lists/testList";
 ---
 
 <div class="groupingGrid">
-  <GridCard client:visible />
-  <GridCard client:visible />
+  {
+    TestList.map((gridCard, gridCardIndex) => {
+      let BgCard: any;
+      let TestArray: any[];
+      const bgCards: (typeof BgCard)[] = gridCard.bgCards?.map(
+        (item, index) => {
+          TestArray[index] = {
+            cardName: item.cardName,
+            cardSet: item.cardSet,
+            cardCollectNum: item.cardCollectNum,
+            cardFace: item.cardFace,
+          };
+          return TestArray;
+        }
+      );
+
+      return (
+        <GridCard
+          title={gridCard.title}
+          displayArt={gridCard.displayArt.cardName}
+          mainArtIdentifiers={{
+            cardSet: gridCard.displayArt.cardSet,
+            cardCollectNum: gridCard.displayArt.cardCollectNum,
+            cardFace: gridCard.displayArt.cardFace,
+          }}
+          bgCards={bgCards}
+          client:visible
+        />
+      );
+    })
+  }
 </div>
 
 <style>
