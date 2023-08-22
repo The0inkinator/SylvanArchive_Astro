@@ -114,7 +114,9 @@
 .popUpCard {
   width: 65%;
   height: 65%;
-  transform: translateX(calc(var(--GridCardSize) * 0.1));
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   position: absolute;
   transition: transform 0.15s;
   image-rendering: crisp-edges;
@@ -122,6 +124,7 @@
 
 .popUpContainer > * {
   clip-path: inset(0% round 4% 4% 4% 4%);
+  transform-origin: center;
   background-size: cover;
   background-position: center;
   image-rendering: crisp-edges;
