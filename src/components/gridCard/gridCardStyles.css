@@ -47,7 +47,7 @@
   filter: blur(0.5px) grayscale(50%);
   transition: filter 0.2s;
   background-color: var(--DefaultGreen);
-  background-image: url("https://cards.scryfall.io/art_crop/front/8/c/8c2996d9-3287-4480-8c04-7a378e37e3cf.jpg?1571667973");
+  background-image: url('https://cards.scryfall.io/art_crop/front/8/c/8c2996d9-3287-4480-8c04-7a378e37e3cf.jpg?1571667973');
 }
 
 .overlay {
@@ -112,9 +112,9 @@
 }
 
 .popUpCard {
-  width: 60%;
-  height: 60%;
-  transform: translateX(calc(var(--GridCardSize) * 0.23));
+  width: 65%;
+  height: 65%;
+  transform: translateX(calc(var(--GridCardSize) * 0.1));
   position: absolute;
   transition: transform 0.15s;
   image-rendering: crisp-edges;

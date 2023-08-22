@@ -9,16 +9,20 @@
 // base on how many are passed to it, these also use the art fetcher and require a
 // minimum of a card name for each
 
-import "./gridCardStyles.css";
-import { createSignal, createEffect, Switch, Match } from "solid-js";
-import { CardArtFetcher, CardFetcher } from "../../backend/ScryfallAPIFetcher";
+import './gridCardStyles.css';
+import { createSignal, createEffect, Switch, Match } from 'solid-js';
+import {
+  CardArtFetcher,
+  CardFetcher,
+  SmallCardFetcher,
+} from '../../backend/ScryfallAPIFetcher';
 
 //TYPING
 interface CardFetcherInputs {
   cardName: string;
   cardSet?: string;
   cardCollectNum?: number;
-  cardFace?: "front" | "back";
+  cardFace?: 'front' | 'back';
 }
 interface GridCardInputs {
   displayArt: CardFetcherInputs;
@@ -33,11 +37,13 @@ export default function GridCard({
   bgCards,
   title,
 }: GridCardInputs) {
+  //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
   let bgCardPositions: string[] = [
-    "translateY(calc(var(--GridCardSize) * 0)) translateX(calc(var(--GridCardSize) * .23)) rotate(0deg)",
+    'translateY(calc(var(--GridCardSize) * 0)) translateX(calc(var(--GridCardSize) * .23)) rotate(0deg)',
   ];
   let bgCardRotation: number = 0;
+  let bgCardSize: number = 65;
   //State to asynchronously pass elements card art/images
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
@@ -64,7 +70,7 @@ export default function GridCard({
           let mapCardSet: any;
           let mapCardCollectNum: any;
           let mapCardFace: any;
-          if (typeof card === "string") {
+          if (typeof card === 'string') {
             cardInfo = card;
           } else {
             cardInfo = card.cardName;
@@ -73,7 +79,7 @@ export default function GridCard({
             mapCardFace = card.cardFace;
           }
 
-          return await CardFetcher(cardInfo, {
+          return await SmallCardFetcher(cardInfo, {
             cardSet: `${mapCardSet}`,
             cardCollectNum: mapCardCollectNum,
             cardFace: mapCardFace,
@@ -97,7 +103,8 @@ export default function GridCard({
       bgCardPositions[2] = `translateY(calc(var(--GridCardSize) * -0.2)) translateX(calc(var(--GridCardSize) * 0.36)) rotate(${bgCardRotation}deg)`;
     } else if (bgCardUrls().length === 1) {
       bgCardPositions[1] =
-        "translateY(calc(var(--GridCardSize) * -.17)) translateX(calc(var(--GridCardSize) * .23)) rotate(0deg)";
+        'translateY(calc(var(--GridCardSize) * -.17)) translateX(calc(var(--GridCardSize) * .23)) rotate(0deg)';
+      bgCardSize = 85;
     }
   });
 
@@ -118,9 +125,9 @@ export default function GridCard({
             <div
               class="gridCardImage"
               style={{
-                "background-image": displayArtUrl()
+                'background-image': displayArtUrl()
                   ? `url(${displayArtUrl()})`
-                  : "none",
+                  : 'none',
               }}
             ></div>
             <div class="overlay"></div>
@@ -142,11 +149,19 @@ export default function GridCard({
                 <div
                   class="popUpCard"
                   style={{
-                    "background-image": card ? `url(${card})` : "none",
+                    'background-image': card ? `url(${card})` : 'none',
                     transform:
                       gridCardHovered() === true || gridCardFocused() === true
                         ? bgCardPositions[index + 1]
                         : bgCardPositions[0],
+                    width:
+                      gridCardHovered() === true || gridCardFocused() === true
+                        ? `${bgCardSize}%`
+                        : `$50%`,
+                    height:
+                      gridCardHovered() === true || gridCardFocused() === true
+                        ? `${bgCardSize}%`
+                        : `$50%`,
                   }}
                 ></div>
               );
