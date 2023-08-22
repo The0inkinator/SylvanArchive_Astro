@@ -1,5 +1,6 @@
 .gridCardContainer {
   min-width: var(--GridCardSize);
+  max-width: var(--GridCardSize);
   height: calc(var(--GridCardSize) * 1.4);
   display: grid;
 }

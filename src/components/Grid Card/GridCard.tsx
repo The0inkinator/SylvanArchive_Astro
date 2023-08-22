@@ -14,20 +14,15 @@ import { createSignal, createEffect, Switch, Match } from "solid-js";
 import { CardArtFetcher, CardFetcher } from "../../backend/ScryfallAPIFetcher";
 
 //TYPING
-interface Identifiers {
+interface CardFetcherInputs {
+  cardName: string;
   cardSet?: string;
   cardCollectNum?: number;
   cardFace?: "front" | "back";
 }
-
-type BgCard = {
-  bgCard: string;
-  identifiers?: Identifiers;
-};
 interface GridCardInputs {
-  displayArt: string;
-  mainArtIdentifiers?: Identifiers;
-  bgCards?: (BgCard | string)[];
+  displayArt: CardFetcherInputs;
+  bgCards?: CardFetcherInputs[];
   title: string;
 }
 
@@ -36,7 +31,6 @@ let popUpContainer: HTMLDivElement;
 export default function GridCard({
   displayArt,
   bgCards,
-  mainArtIdentifiers,
   title,
 }: GridCardInputs) {
   let bgCardArray: any[] = [];
@@ -53,10 +47,10 @@ export default function GridCard({
 
   //Inputs primary display art
   createEffect(async () => {
-    const url = await CardArtFetcher(displayArt, {
-      cardSet: mainArtIdentifiers?.cardSet,
-      cardCollectNum: mainArtIdentifiers?.cardCollectNum,
-      cardFace: mainArtIdentifiers?.cardFace,
+    const url = await CardArtFetcher(displayArt.cardName, {
+      cardSet: displayArt?.cardSet,
+      cardCollectNum: displayArt?.cardCollectNum,
+      cardFace: displayArt?.cardFace,
     });
     setDisplayArtUrl(url);
   });
@@ -73,10 +67,10 @@ export default function GridCard({
           if (typeof card === "string") {
             cardInfo = card;
           } else {
-            cardInfo = card.bgCard;
-            mapCardSet = card.identifiers?.cardSet;
-            mapCardCollectNum = card.identifiers?.cardCollectNum;
-            mapCardFace = card.identifiers?.cardFace;
+            cardInfo = card.cardName;
+            mapCardSet = card.cardSet;
+            mapCardCollectNum = card.cardCollectNum;
+            mapCardFace = card.cardFace;
           }
 
           return await CardFetcher(cardInfo, {
