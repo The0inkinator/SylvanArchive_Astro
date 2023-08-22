@@ -29,7 +29,7 @@
 
   /*Sizes*/
   --MagicCardSize: 12rem;
-  --GridCardSize: 12rem;
+  --BinderSize: 12rem;
   --HeaderHeight: calc(100vh / 7);
   --FooterHeight: 7rem;
   --MenuHeight: 3rem;
@@ -40,7 +40,7 @@
   --ContContainUpperMargin: calc(var(--MenuHeight) * 2.5)
     /* ^^^ this var must remain in the format: ((number) (multiplied by) (number)) */;
   /* Fonts & Font Variables */
-  --GridCardTitleSize: 1.5rem;
+  --BinderTitleSize: 1.5rem;
   --HeadingFont: Satisfy, Roboto;
   --SubHeadingFont: Josefin Sans, Arial, sans-serif;
   --BodyFont: Modern Sans, Arial, sans-serif;
@@ -71,11 +71,11 @@
     --NavGridMargin: 95vw;
 
     /* Sizes */
-    --GridCardSize: 12rem;
+    --BinderSize: 12rem;
     --SearchBarWidth: calc(100vw - (var(--MenuHeight) * 4));
     --BookmarkBarWidth: calc(100vw - (var(--MenuHeight) * 4));
 
     /* Font Variables */
-    --GridCardTitleSize: 1.2rem;
+    --BinderTitleSize: 1.2rem;
   }
 }

@@ -1,4 +1,4 @@
-//Gridcard is the component that visually an functionally links from
+//Binder is the component that visually an functionally links from
 //the current grouping to a sub grouping or card list
 //when defining the object it will need a minimum of:
 // - link - a link to th page it represents
@@ -9,7 +9,7 @@
 // base on how many are passed to it, these also use the art fetcher and require a
 // minimum of a card name for each
 
-import './gridCardStyles.css';
+import './binderStyles.css';
 import { createSignal, createEffect, Switch, Match } from 'solid-js';
 import {
   CardArtFetcher,
@@ -24,7 +24,7 @@ interface CardFetcherInputs {
   cardCollectNum?: number;
   cardFace?: 'front' | 'back';
 }
-interface GridCardInputs {
+interface BinderInputs {
   displayArt: CardFetcherInputs;
   bgCards?: CardFetcherInputs[];
   title: string;
@@ -32,11 +32,7 @@ interface GridCardInputs {
 
 let popUpContainer: HTMLDivElement;
 //Main function
-export default function GridCard({
-  displayArt,
-  bgCards,
-  title,
-}: GridCardInputs) {
+export default function Binder({ displayArt, bgCards, title }: BinderInputs) {
   //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
   let bgCardPositions: string[] = ['translate(-50%, -50%)'];
@@ -46,8 +42,8 @@ export default function GridCard({
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
   //States tracking if the card is hovered or focused
-  const [gridCardHovered, setGridCardHovered] = createSignal<boolean>(false);
-  const [gridCardFocused, setGridCardFocused] = createSignal<boolean>(false);
+  const [BinderHovered, setBinderHovered] = createSignal<boolean>(false);
+  const [BinderFocused, setBinderFocused] = createSignal<boolean>(false);
 
   //Inputs primary display art
   createEffect(async () => {
@@ -110,20 +106,20 @@ export default function GridCard({
 
   return (
     <>
-      <div class="gridCardContainer">
+      <div class="binderContainer">
         <div
-          class="fullGridCard"
+          class="fullbinder"
           tabindex="0"
           onfocusin={() => {
-            setGridCardFocused(true);
+            setBinderFocused(true);
           }}
           onFocusOut={() => {
-            setGridCardFocused(false);
+            setBinderFocused(false);
           }}
         >
-          <div class="gridCardBox">
+          <div class="binderBox">
             <div
-              class="gridCardImage"
+              class="binderImage"
               style={{
                 'background-image': displayArtUrl()
                   ? `url(${displayArtUrl()})`
@@ -131,14 +127,14 @@ export default function GridCard({
               }}
             ></div>
             <div class="overlay"></div>
-            <div class="gridCardTitle">{title}</div>
+            <div class="binderTitle">{title}</div>
             <a
               class="link"
               onmouseenter={() => {
-                setGridCardHovered(true);
+                setBinderHovered(true);
               }}
               onmouseleave={() => {
-                setGridCardHovered(false);
+                setBinderHovered(false);
               }}
             ></a>
           </div>
@@ -151,15 +147,15 @@ export default function GridCard({
                   style={{
                     'background-image': card ? `url(${card})` : 'none',
                     transform:
-                      gridCardHovered() === true || gridCardFocused() === true
+                      BinderHovered() === true || BinderFocused() === true
                         ? bgCardPositions[index + 1]
                         : bgCardPositions[0],
                     width:
-                      gridCardHovered() === true || gridCardFocused() === true
+                      BinderHovered() === true || BinderFocused() === true
                         ? `${bgCardSize}%`
                         : `$50%`,
                     height:
-                      gridCardHovered() === true || gridCardFocused() === true
+                      BinderHovered() === true || BinderFocused() === true
                         ? `${bgCardSize}%`
                         : `$50%`,
                   }}
