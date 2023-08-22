@@ -6,20 +6,6 @@ import TestList from "../lists/testList";
 <div class="groupingGrid">
   {
     TestList.map((gridCard, gridCardIndex) => {
-      let BgCard: any;
-      let TestArray: any[];
-      const bgCards: (typeof BgCard)[] = gridCard.bgCards?.map(
-        (item, index) => {
-          TestArray[index] = {
-            cardName: item.cardName,
-            cardSet: item.cardSet,
-            cardCollectNum: item.cardCollectNum,
-            cardFace: item.cardFace,
-          };
-          return TestArray;
-        }
-      );
-
       return (
         <GridCard
           title={gridCard.title}
@@ -29,7 +15,6 @@ import TestList from "../lists/testList";
             cardCollectNum: gridCard.displayArt.cardCollectNum,
             cardFace: gridCard.displayArt.cardFace,
           }}
-          bgCards={bgCards}
           client:visible
         />
       );
