@@ -6,15 +6,24 @@ import TestList from "../lists/testList";
 <div class="groupingGrid">
   {
     TestList.map((gridCard, gridCardIndex) => {
+      const tempBgCardList = gridCard.bgCards?.map((bgCard) => {
+        return {
+          cardName: bgCard.cardName,
+          cardSet: bgCard.cardSet,
+          cardCollectNum: bgCard.cardCollectNum,
+          cardFace: bgCard.cardFace,
+        };
+      });
       return (
         <GridCard
           title={gridCard.title}
-          displayArt={gridCard.displayArt.cardName}
-          mainArtIdentifiers={{
-            cardSet: gridCard.displayArt.cardSet,
-            cardCollectNum: gridCard.displayArt.cardCollectNum,
-            cardFace: gridCard.displayArt.cardFace,
+          displayArt={{
+            cardName: gridCard.displayArt.cardName,
+            cardSet: gridCard.displayArt?.cardSet,
+            cardCollectNum: gridCard.displayArt?.cardCollectNum,
+            cardFace: gridCard.displayArt?.cardFace,
           }}
+          bgCards={tempBgCardList}
           client:visible
         />
       );
