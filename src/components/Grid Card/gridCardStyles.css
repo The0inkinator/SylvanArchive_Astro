@@ -112,8 +112,8 @@
 }
 
 .popUpCard {
-  width: 50%;
-  height: 50%;
+  width: 60%;
+  height: 60%;
   transform: translateX(calc(var(--GridCardSize) * 0.23));
   position: absolute;
   transition: transform 0.15s;

@@ -7,32 +7,6 @@ const pageTitle = "Sylvan Archive";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <GridCard
-    displayArt={{ cardName: "young pyromancer" }}
-    bgCards={[
-      { cardName: "lightning bolt" },
-      { cardName: "counterspell" },
-      { cardName: "expressive iteration" },
-    ]}
-    title="Izzet Spells"
-    client:visible
-  />
-  <GridCard
-    displayArt={{ cardName: "reanimate", cardSet: "uma" }}
-    bgCards={[
-      { cardName: "entomb", cardSet: "ema" },
-      { cardName: "dark ritual", cardSet: "sta" },
-      { cardName: "griselbrand" },
-    ]}
-    title="Reanimator"
-    client:visible
-  />
-  <GridCard
-    displayArt={{ cardName: "the one ring" }}
-    bgCards={[{ cardName: "the one ring" }]}
-    title="Literally the one ring"
-    client:visible
-  />
   <GroupingGrid />
 
   <style></style>
