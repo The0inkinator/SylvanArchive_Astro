@@ -46,7 +46,7 @@
   transform-origin: center center;
   filter: blur(0.5px) grayscale(50%);
   transition: filter 0.2s;
-  background-color: var(--DefaultGreen);
+  background-color: lightgray;
   background-image: url('https://cards.scryfall.io/art_crop/front/8/c/8c2996d9-3287-4480-8c04-7a378e37e3cf.jpg?1571667973');
 }
 
@@ -88,9 +88,9 @@
   z-index: 10;
 }
 
-.binderBox:hover {
+/* .binderBox:hover {
   cursor: pointer;
-}
+} */
 
 .binderBox:hover > .binderImage {
   filter: blur(0px) grayscale(0%) saturate(120%);
