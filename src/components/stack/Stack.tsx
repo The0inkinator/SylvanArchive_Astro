@@ -6,46 +6,37 @@ import { createSignal, createEffect, onMount } from 'solid-js';
 let stackHandle: HTMLDivElement;
 
 const [handleHovered, setHandleHovered] = createSignal<boolean>(false);
-const [handleClicked, setHandleClicked] = createSignal<boolean>(false);
+const [handlePosition, setHandlePosition] = createSignal<number>(0);
+const [isDragging, setIsDragging] = createSignal<Boolean>(false);
 
 export default function Stack() {
-  onMount(() => {
-    createEffect(() => {
-      if (handleHovered()) {
-        stackHandle.style.cursor = 'grab';
-      } else {
-        stackHandle.style.cursor = 'auto';
-      }
-    });
-
-    createEffect(() => {
-      if (handleClicked()) {
-        stackHandle.style.cursor = 'grabbing';
-      } else {
-        if (handleHovered()) {
-          stackHandle.style.cursor = 'grab';
-        } else {
-          stackHandle.style.cursor = 'auto';
-        }
-      }
-    });
-  });
+  const handleMouseMove = (event: any) => {
+    if (isDragging() && handleHovered()) {
+      const newPosition = event.clientX;
+      setHandlePosition(newPosition);
+      console.log(newPosition);
+    }
+  };
 
   return (
     <div
       class="stackHandle"
       ref={stackHandle}
-      onMouseEnter={() => {
+      onmouseenter={() => {
         setHandleHovered(true);
       }}
       onmouseleave={() => {
         setHandleHovered(false);
       }}
-      onmousedown={() => {
-        setHandleClicked(true);
+      onMouseDown={() => {
+        setIsDragging(true);
       }}
-      onmouseup={() => {
-        setHandleClicked(false);
+      onMouseUp={() => {
+        setIsDragging(false);
+      }}
+      onmousemove={handleMouseMove}
+      style={{
+        left: `${handlePosition()}px`,
       }}
     >
       <div class="collisionBox">

@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/react": "^2.1.1",
     "@astrojs/solid-js": "^2.1.0",
+    "@solid-primitives/mouse": "^2.0.15",
     "@solid-primitives/scroll": "^2.0.14",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
