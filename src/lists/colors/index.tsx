@@ -13,13 +13,53 @@ interface GridCardInputs {
 }
 const FixingLands: GridCardInputs[] = [
   {
-    title: 'Title',
+    title: 'White',
     link: '',
-    displayArt: { cardName: 'DiplayArt' },
+    displayArt: { cardName: 'swords to plowshares', cardSet: 'ema' },
     bgCards: [
-      { cardName: 'Bg Card 1' },
-      { cardName: 'Bg Card  2' },
-      { cardName: 'Bg Card  3' },
+      { cardName: 'thraben inspector' },
+      { cardName: 'thalia, guardian of thraben' },
+      { cardName: 'armageddon' },
+    ],
+  },
+  {
+    title: 'Blue',
+    link: '',
+    displayArt: { cardName: 'counterspell', cardSet: 'ema' },
+    bgCards: [
+      { cardName: 'preordain' },
+      { cardName: 'thassas oracle' },
+      { cardName: 'as foretold' },
+    ],
+  },
+  {
+    title: 'Black',
+    link: '',
+    displayArt: { cardName: 'thoughtseize' },
+    bgCards: [
+      { cardName: 'fatal push' },
+      { cardName: 'dark confidant' },
+      { cardName: 'necropotence' },
+    ],
+  },
+  {
+    title: 'Red',
+    link: '',
+    displayArt: { cardName: 'fiery emancipation' },
+    bgCards: [
+      { cardName: 'goblin guide' },
+      { cardName: 'searing blaze' },
+      { cardName: 'chandra torch of defiance' },
+    ],
+  },
+  {
+    title: 'Green',
+    link: '',
+    displayArt: { cardName: 'craterhoof behemoth' },
+    bgCards: [
+      { cardName: 'Elvish Mystic' },
+      { cardName: 'farseek' },
+      { cardName: 'Natural Order' },
     ],
   },
 ];

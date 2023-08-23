@@ -15,8 +15,8 @@ const FixingLands: GridCardInputs[] = [
   {
     title: 'Lands',
     link: '',
-    displayArt: { cardName: 'Evolving Wilds', cardSet: 'bfz' },
-    bgCards: [{ cardName: 'City of Brass' }, { cardName: 'Rishadan Port' }],
+    displayArt: { cardName: 'flooded strand', cardSet: 'bfz' },
+    bgCards: [{ cardName: 'field of ruin' }, { cardName: 'Rishadan Port' }],
   },
   {
     title: 'Creatures',

@@ -13,13 +13,33 @@ interface GridCardInputs {
 }
 const FixingLands: GridCardInputs[] = [
   {
-    title: 'Title',
+    title: 'Artifacts',
     link: '',
-    displayArt: { cardName: 'DiplayArt' },
+    displayArt: { cardName: 'emry lurker of the loch' },
     bgCards: [
-      { cardName: 'Bg Card 1' },
-      { cardName: 'Bg Card  2' },
-      { cardName: 'Bg Card  3' },
+      { cardName: 'tinker', cardSet: 'v09' },
+      { cardName: 'goblin welder' },
+      { cardName: 'mindstone' },
+    ],
+  },
+  {
+    title: 'Spells',
+    link: '',
+    displayArt: { cardName: 'expressive iteration' },
+    bgCards: [
+      { cardName: 'young pyromancer', cardCollectNum: 364 },
+      { cardName: 'ponder' },
+      { cardName: 'faithless looting' },
+    ],
+  },
+  {
+    title: 'Aristocrats',
+    link: '',
+    displayArt: { cardName: 'bloodghast' },
+    bgCards: [
+      { cardName: 'blood artist' },
+      { cardName: 'goblin bombardment' },
+      { cardName: 'woe strider' },
     ],
   },
 ];

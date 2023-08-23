@@ -13,13 +13,23 @@ interface GridCardInputs {
 }
 const FixingLands: GridCardInputs[] = [
   {
-    title: 'Title',
+    title: 'Fixing Lands',
     link: '',
-    displayArt: { cardName: 'DiplayArt' },
+    displayArt: { cardName: 'Flooded Strand' },
     bgCards: [
-      { cardName: 'Bg Card 1' },
-      { cardName: 'Bg Card  2' },
-      { cardName: 'Bg Card  3' },
+      { cardName: 'Underground sea', cardSet: 'vma' },
+      { cardName: 'copperline gorge', cardSet: 'som' },
+      { cardName: 'Temple garden' },
+    ],
+  },
+  {
+    title: 'Utility Lands',
+    link: '',
+    displayArt: { cardName: 'Field of ruin' },
+    bgCards: [
+      { cardName: 'rishadan port' },
+      { cardName: 'Wasteland' },
+      { cardName: 'Ancient Tomb' },
     ],
   },
 ];
