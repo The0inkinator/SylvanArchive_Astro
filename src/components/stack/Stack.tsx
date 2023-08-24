@@ -100,7 +100,7 @@ export default function Stack() {
       setHandlePosition(newHandlePosition());
       setTimeout(() => {
         setHandleDrift(newHandlePosition());
-      }, 200);
+      }, 2);
     }
   };
 
