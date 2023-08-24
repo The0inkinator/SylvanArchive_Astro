@@ -1,25 +1,19 @@
-import "./stackStyles.css";
-import Binder from "../binder/Binder";
-import { default as MapList } from "../../lists/colors";
-import { createSignal, createEffect, onMount } from "solid-js";
+import './stackStyles.css';
+import Binder from '../binder/Binder';
+import { default as MapList } from '../../lists/colors';
+import { createSignal, createEffect, onMount } from 'solid-js';
 
 let stackHandle: HTMLDivElement;
 let time = 24;
-type direction = "right" | "left" | "none";
-type speed = number;
-type time = number;
-type momentumInputs = direction | speed | time;
 
-const [handlePosition, setHandlePosition] = createSignal<number>(0);
-const [newHandlePosition, setNewHandlePosition] = createSignal<number>(0);
-const [handleDrift, setHandleDrift] = createSignal<number>(0);
-const [handleMomentum, setHandleMomentum] = createSignal<momentumInputs[]>([
-  "none",
-  0,
-  24,
-]);
-const [handleHovered, setHandleHovered] = createSignal<boolean>(false);
-const [handleDragging, setHandleDragging] = createSignal<boolean>(false);
+const [stackPosition, setStackPosition] = createSignal<number>(0);
+const [newStackPosition, setNewStackPosition] = createSignal<number>(0);
+const [stackDrift, setStackDrift] = createSignal<number>(0);
+const [stackDriftSpeed, setStackDriftSpeed] = createSignal<number>(0);
+const [stackHovered, setStackHovered] = createSignal<boolean>(false);
+const [stackDragging, setStackDragging] = createSignal<
+  'still' | 'dragging' | 'drifting'
+>('still');
 const [stackOffsetX, setStackOffsetX] = createSignal<number>(0);
 const [stackWidth, setStackWidth] = createSignal<number>(0);
 const [binderSize, setBinderSize] = createSignal<number>(0);
@@ -30,7 +24,7 @@ export default function Stack() {
     const rootStyles = getComputedStyle(stackHandle);
     const remSize = 16;
     setBinderSize(
-      parseInt(rootStyles.getPropertyValue("--BinderSize")) * remSize
+      parseInt(rootStyles.getPropertyValue('--BinderSize')) * remSize
     );
     setStackWidth(MapList.length * binderSize());
     const stackStartingPos = () => {
@@ -40,67 +34,95 @@ export default function Stack() {
         return (stackWidth() - windowWidth) / -2;
       }
     };
-    setHandlePosition(stackStartingPos);
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    setStackPosition(stackStartingPos);
+    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
   });
 
-  const handleMouseDown = (event: MouseEvent) => {
-    if (handleHovered()) {
-      setHandleDragging(true);
-      setStackOffsetX(event.clientX - handlePosition());
-    }
-  };
-
-  const slide = () => {
+  function slide() {
     function loop() {
-      if ((handleMomentum()[2] as number) > 0) {
-        const newNum = (handleMomentum()[2] as number) - 1;
-        const newPos = () => {
-          if (handleMomentum()[0] === "right") {
-            return handlePosition() + parseInt(handleMomentum()[2] as string);
-          } else if (handleMomentum()[0] === "left") {
-            return handlePosition() - parseInt(handleMomentum()[2] as string);
-          } else {
-            return handlePosition();
-          }
-        };
-        handleMomentum()[2] = newNum;
-        setHandlePosition(newPos);
-        setTimeout(loop, 10);
+      if (stackDragging() === 'dragging') {
+        setStackDriftSpeed(stackDrift() - stackPosition());
+        const newStackDrift = stackPosition();
+        setStackDrift(newStackDrift);
+        setTimeout(loop, 20);
+      } else if (stackDragging() === 'drifting') {
+        if (Math.abs(stackDriftSpeed()) > 1) {
+          const newStackSpeed = stackDriftSpeed() - stackDriftSpeed() / 4;
+          const newStackPos = (() => {
+            if (newStackSpeed > 0) {
+              return stackPosition() - Math.abs(newStackSpeed);
+            } else if (newStackSpeed < 0) {
+              return stackPosition() + Math.abs(newStackSpeed);
+            }
+          })();
+          console.log(newStackPos);
+          setStackPosition(newStackPos as number);
+          setStackDriftSpeed(newStackSpeed);
+          setTimeout(loop, 20);
+        } else if (stackDragging() === 'drifting' && stackDriftSpeed() < 1) {
+          setStackDragging('still');
+          setStackDriftSpeed(0);
+        }
       }
     }
     loop();
+  }
+
+  const handleMouseDown = (event: MouseEvent) => {
+    if (stackHovered()) {
+      setStackDragging('dragging');
+      setStackOffsetX(event.clientX - stackPosition());
+      slide();
+    }
   };
 
+  // const slide = () => {
+  //   function loop() {
+  //     if ((handleMomentum()[2] as number) > 0) {
+  //       const newNum = (handleMomentum()[2] as number) - 1;
+  //       const newPos = () => {
+  //         if (handleMomentum()[0] === "right") {
+  //           return handlePosition() + parseInt(handleMomentum()[2] as string);
+  //         } else if (handleMomentum()[0] === "left") {
+  //           return handlePosition() - parseInt(handleMomentum()[2] as string);
+  //         } else {
+  //           return handlePosition();
+  //         }
+  //       };
+  //       handleMomentum()[2] = newNum;
+  //       setHandlePosition(newPos);
+  //       setTimeout(loop, 10);
+  //     }
+  //   }
+  //   loop();
+  // };
+
   const handleMouseUp = (event: MouseEvent) => {
-    setHandleDragging(false);
+    setStackDragging('drifting');
 
-    handleMomentum()[0] = (() => {
-      if (handleDrift() - handlePosition() > 0) {
-        return "left";
-      } else if (handleDrift() - handlePosition() < 0) {
-        return "right";
-      } else {
-        return "none";
-      }
-    })();
-    handleMomentum()[1] = Math.abs(handleDrift() - handlePosition());
-    handleMomentum()[2] = 24;
-    console.log(handleMomentum());
+    // handleMomentum()[0] = (() => {
+    //   if (handleDrift() - handlePosition() > 0) {
+    //     return "left";
+    //   } else if (handleDrift() - handlePosition() < 0) {
+    //     return "right";
+    //   } else {
+    //     return "none";
+    //   }
+    // })();
+    // handleMomentum()[1] = Math.abs(handleDrift() - handlePosition());
+    // handleMomentum()[2] = 24;
+    // console.log(handleMomentum());
 
-    slide();
+    // slide();
   };
 
   const handleMouseMove = (event: MouseEvent) => {
-    if (handleDragging()) {
+    if (stackDragging() === 'dragging') {
       const mousePosX = event.clientX;
-      setNewHandlePosition(mousePosX - stackOffsetX());
-      setHandlePosition(newHandlePosition());
-      setTimeout(() => {
-        setHandleDrift(newHandlePosition());
-      }, 2);
+      setNewStackPosition(mousePosX - stackOffsetX());
+      setStackPosition(newStackPosition());
     }
   };
 
@@ -109,13 +131,13 @@ export default function Stack() {
       class="stackHandle"
       ref={stackHandle}
       onmouseenter={() => {
-        setHandleHovered(true);
+        setStackHovered(true);
       }}
       onmouseleave={() => {
-        setHandleHovered(false);
+        setStackHovered(false);
       }}
       style={{
-        left: `${handlePosition()}px`,
+        left: `${stackPosition()}px`,
         width: `${stackWidth()}px`,
       }}
     >
