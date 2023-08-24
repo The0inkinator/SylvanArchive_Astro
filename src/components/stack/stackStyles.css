@@ -1,22 +1,13 @@
 .stackHandle {
   outline: solid purple;
   position: absolute;
-  transform: translateX(-50%);
+
   left: 50%;
   z-index: 1;
   width: calc(var(--BinderSize) * 5);
   height: calc(var(--BinderSize) * 1.4);
 }
 
-.collisionBox {
-  position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
-  outline: solid green;
-  z-index: 0;
-  width: calc(var(--BinderSize) * 4);
-  height: 100%;
-}
 .test {
   position: absolute;
   transform: translateX(-50%);
