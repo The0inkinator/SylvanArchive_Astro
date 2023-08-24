@@ -6,7 +6,16 @@ const pageTitle = "Sylvan Archive";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
+<div class="contContainer">
   <Shelf client:visible/>
+  <Shelf client:visible/>
+</div>
 
-  <style></style>
 </BaseLayout>
+
+  <style>
+  .contContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  </style>
