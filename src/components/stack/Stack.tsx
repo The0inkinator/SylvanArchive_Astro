@@ -1,11 +1,22 @@
 import './stackStyles.css';
 import Binder from '../binder/Binder';
 import { default as MapList } from '../../lists/colors';
-import { createSignal, createEffect, onMount } from 'solid-js';
+import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
+import {
+  screenSize,
+  setScreenSize,
+  getScreenSize,
+} from '../floatingMenu/FloatingMenu';
+
+interface StackInputs {
+  stackRef: string;
+  stackFrom?: string;
+  stackTo?: string;
+}
 
 let stackHandle: HTMLDivElement;
 
-export default function Stack() {
+export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   const [stackPosition, setStackPosition] = createSignal<number>(0);
   const [newStackPosition, setNewStackPosition] = createSignal<number>(0);
   const [stackDrift, setStackDrift] = createSignal<number>(0);
@@ -22,7 +33,7 @@ export default function Stack() {
   const [stackWidth, setStackWidth] = createSignal<number>(0);
   const [binderSize, setBinderSize] = createSignal<number>(0);
 
-  onMount(() => {
+  function setDefaults() {
     const windowWidth = window.innerWidth;
     const rootStyles = getComputedStyle(stackHandle);
     const remSize = 16;
@@ -41,9 +52,21 @@ export default function Stack() {
     const collisionLeft = windowWidth / 2 - binderSize() / 2;
     const collisionRight = windowWidth / 2 - (stackWidth() - binderSize() / 2);
     setStackCollision({ left: collisionLeft, right: collisionRight });
+  }
+
+  onMount(() => {
+    setDefaults();
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
+  });
+
+  createEffect(() => {
+    window.addEventListener('resize', setDefaults);
+
+    onCleanup(() => {
+      window.removeEventListener('resize', setDefaults);
+    });
   });
 
   function collisionCheck(pos: number) {
@@ -86,6 +109,14 @@ export default function Stack() {
     }
     loop();
   }
+
+  createEffect(() => {
+    if (stackHovered()) {
+      stackHandle.style.cursor = 'grab';
+    } else {
+      stackHandle.style.cursor = 'auto';
+    }
+  });
 
   const handleMouseDown = (event: MouseEvent) => {
     if (stackHovered()) {
