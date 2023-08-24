@@ -33,7 +33,7 @@ let accountButton: HTMLAnchorElement;
 
 //Converts screen width to screensize
 
-function getScreenSize(width: number): ScreenSizes {
+export function getScreenSize(width: number): ScreenSizes {
   if (width >= 1025) {
     return 'Desktop';
   } else if (width >= 481) {

@@ -38,7 +38,9 @@ export default function Stack() {
       }
     };
     setStackPosition(stackStartingPos);
-    setStackCollision({ left: 615, right: -100 });
+    const collisionLeft = windowWidth / 2 - binderSize() / 2;
+    const collisionRight = windowWidth / 2 - (stackWidth() - binderSize() / 2);
+    setStackCollision({ left: collisionLeft, right: collisionRight });
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
