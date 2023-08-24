@@ -1,11 +1,11 @@
 ---
-import GridCard from "./Grid Card/GridCard";
-import TestList from "../lists/testList";
+import Binder from "./binder/Binder";
+import { default as MapList} from "../lists/colors"
 ---
 
 <div class="groupingGrid">
   {
-    TestList.map((gridCard, gridCardIndex) => {
+    MapList.map((gridCard, gridCardIndex) => {
       const tempBgCardList = gridCard.bgCards?.map((bgCard) => {
         return {
           cardName: bgCard.cardName,
@@ -15,7 +15,7 @@ import TestList from "../lists/testList";
         };
       });
       return (
-        <GridCard
+        <Binder
           title={gridCard.title}
           displayArt={{
             cardName: gridCard.displayArt.cardName,

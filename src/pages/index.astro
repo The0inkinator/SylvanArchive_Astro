@@ -1,13 +1,12 @@
 ---
-import GroupingGrid from "../components/GroupingGrid.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import GridCard from "../components/Grid Card/GridCard";
 import APITester from "../components/APITester";
+import Shelf from "../components/shelf/Shelf"
 const pageTitle = "Sylvan Archive";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <GroupingGrid />
+  <Shelf client:visible/>
 
   <style></style>
 </BaseLayout>

@@ -1,4 +1,4 @@
-//Gridcard is the component that visually an functionally links from
+//Binder is the component that visually an functionally links from
 //the current grouping to a sub grouping or card list
 //when defining the object it will need a minimum of:
 // - link - a link to th page it represents
@@ -9,18 +9,22 @@
 // base on how many are passed to it, these also use the art fetcher and require a
 // minimum of a card name for each
 
-import "./gridCardStyles.css";
-import { createSignal, createEffect, Switch, Match } from "solid-js";
-import { CardArtFetcher, CardFetcher } from "../../backend/ScryfallAPIFetcher";
+import './binderStyles.css';
+import { createSignal, createEffect, Switch, Match } from 'solid-js';
+import {
+  CardArtFetcher,
+  CardFetcher,
+  SmallCardFetcher,
+} from '../../backend/ScryfallAPIFetcher';
 
 //TYPING
 interface CardFetcherInputs {
   cardName: string;
   cardSet?: string;
   cardCollectNum?: number;
-  cardFace?: "front" | "back";
+  cardFace?: 'front' | 'back';
 }
-interface GridCardInputs {
+interface BinderInputs {
   displayArt: CardFetcherInputs;
   bgCards?: CardFetcherInputs[];
   title: string;
@@ -28,22 +32,18 @@ interface GridCardInputs {
 
 let popUpContainer: HTMLDivElement;
 //Main function
-export default function GridCard({
-  displayArt,
-  bgCards,
-  title,
-}: GridCardInputs) {
+export default function Binder({ displayArt, bgCards, title }: BinderInputs) {
+  //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
-  let bgCardPositions: string[] = [
-    "translateY(calc(var(--GridCardSize) * 0)) translateX(calc(var(--GridCardSize) * .23)) rotate(0deg)",
-  ];
+  let bgCardPositions: string[] = ['translate(-50%, -50%)'];
   let bgCardRotation: number = 0;
+  let bgCardSize: number = 65;
   //State to asynchronously pass elements card art/images
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
   //States tracking if the card is hovered or focused
-  const [gridCardHovered, setGridCardHovered] = createSignal<boolean>(false);
-  const [gridCardFocused, setGridCardFocused] = createSignal<boolean>(false);
+  const [BinderHovered, setBinderHovered] = createSignal<boolean>(false);
+  const [BinderFocused, setBinderFocused] = createSignal<boolean>(false);
 
   //Inputs primary display art
   createEffect(async () => {
@@ -64,7 +64,7 @@ export default function GridCard({
           let mapCardSet: any;
           let mapCardCollectNum: any;
           let mapCardFace: any;
-          if (typeof card === "string") {
+          if (typeof card === 'string') {
             cardInfo = card;
           } else {
             cardInfo = card.cardName;
@@ -73,7 +73,7 @@ export default function GridCard({
             mapCardFace = card.cardFace;
           }
 
-          return await CardFetcher(cardInfo, {
+          return await SmallCardFetcher(cardInfo, {
             cardSet: `${mapCardSet}`,
             cardCollectNum: mapCardCollectNum,
             cardFace: mapCardFace,
@@ -87,51 +87,54 @@ export default function GridCard({
   //Conditionally sets styling based on the number of Background Cards to be displayed
   createEffect(() => {
     if (bgCardUrls().length > 2) {
-      bgCardRotation = 18;
-      bgCardPositions[1] = `translateY(calc(var(--GridCardSize) * -0.16)) translateX(calc(var(--GridCardSize) * .08)) rotate(-${bgCardRotation}deg)`;
-      bgCardPositions[2] = `translateY(calc(var(--GridCardSize) * -0.2)) translateX(calc(var(--GridCardSize) * 0.23)) rotate(-1deg)`;
-      bgCardPositions[3] = `translateY(calc(var(--GridCardSize) * -0.16)) translateX(calc(var(--GridCardSize) * 0.36)) rotate(${bgCardRotation}deg)`;
+      bgCardRotation = 20;
+      bgCardSize = 75;
+      bgCardPositions[1] = `translate(-65%, -88%) rotate(-${bgCardRotation}deg)`;
+      bgCardPositions[2] = `translate(-50%, -90%) rotate(-1deg)`;
+      bgCardPositions[3] = `translate(-35%, -87%) rotate(${bgCardRotation}deg)`;
     } else if (bgCardUrls().length === 2) {
       bgCardRotation = 15;
-      bgCardPositions[1] = `translateY(calc(var(--GridCardSize) * -0.2)) translateX(calc(var(--GridCardSize) * .08)) rotate(-${bgCardRotation}deg)`;
-      bgCardPositions[2] = `translateY(calc(var(--GridCardSize) * -0.2)) translateX(calc(var(--GridCardSize) * 0.36)) rotate(${bgCardRotation}deg)`;
+      bgCardSize = 78;
+      bgCardPositions[1] = `translate(-65%, -86%) rotate(-${bgCardRotation}deg)`;
+      bgCardPositions[2] = `translate(-35%, -84%) rotate(${bgCardRotation}deg)`;
     } else if (bgCardUrls().length === 1) {
-      bgCardPositions[1] =
-        "translateY(calc(var(--GridCardSize) * -.17)) translateX(calc(var(--GridCardSize) * .23)) rotate(0deg)";
+      bgCardRotation = 0;
+      bgCardSize = 85;
+      bgCardPositions[1] = `translate(-50%, -80%) rotate(-${bgCardRotation}deg)`;
     }
   });
 
   return (
     <>
-      <div class="gridCardContainer">
+      <div class="binderContainer">
         <div
-          class="fullGridCard"
+          class="fullbinder"
           tabindex="0"
           onfocusin={() => {
-            setGridCardFocused(true);
+            setBinderFocused(true);
           }}
           onFocusOut={() => {
-            setGridCardFocused(false);
+            setBinderFocused(false);
           }}
         >
-          <div class="gridCardBox">
+          <div class="binderBox">
             <div
-              class="gridCardImage"
+              class="binderImage"
               style={{
-                "background-image": displayArtUrl()
+                'background-image': displayArtUrl()
                   ? `url(${displayArtUrl()})`
-                  : "none",
+                  : 'none',
               }}
             ></div>
             <div class="overlay"></div>
-            <div class="gridCardTitle">{title}</div>
+            <div class="binderTitle">{title}</div>
             <a
               class="link"
               onmouseenter={() => {
-                setGridCardHovered(true);
+                setBinderHovered(true);
               }}
               onmouseleave={() => {
-                setGridCardHovered(false);
+                setBinderHovered(false);
               }}
             ></a>
           </div>
@@ -142,11 +145,19 @@ export default function GridCard({
                 <div
                   class="popUpCard"
                   style={{
-                    "background-image": card ? `url(${card})` : "none",
+                    'background-image': card ? `url(${card})` : 'none',
                     transform:
-                      gridCardHovered() === true || gridCardFocused() === true
+                      BinderHovered() === true || BinderFocused() === true
                         ? bgCardPositions[index + 1]
                         : bgCardPositions[0],
+                    width:
+                      BinderHovered() === true || BinderFocused() === true
+                        ? `${bgCardSize}%`
+                        : `$50%`,
+                    height:
+                      BinderHovered() === true || BinderFocused() === true
+                        ? `${bgCardSize}%`
+                        : `$50%`,
                   }}
                 ></div>
               );
