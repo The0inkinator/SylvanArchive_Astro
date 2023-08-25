@@ -15,6 +15,7 @@ interface StackInputs {
 }
 
 let stackHandle: HTMLDivElement;
+export const [selectedBinder, setSelectedBinder] = createSignal<number>(0);
 
 export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Property to track the pixel width of cards that the stack is made of
@@ -43,6 +44,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     left: number;
     right: number;
   }>({ left: 0, right: 0 });
+  const [stackActive, setStackActive] = createSignal<boolean>(false);
 
   // let stackHandle: HTMLDivElement | null = null;
 
@@ -67,6 +69,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     const collisionLeft = windowWidth / 2 - binderSize() / 2;
     const collisionRight = windowWidth / 2 - (stackWidth() - binderSize() / 2);
     setStackCollision({ left: collisionLeft, right: collisionRight });
+    setStackActive(true);
   }
 
   //Calls setDefaults and adds event listeners to handle clicking and dragging of the stack
@@ -101,7 +104,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //handles mouseUp
   const handleMouseUp = (event: MouseEvent) => {
     if (!stackHovered) {
-      console.log(stackHovered);
       document.body.style.cursor = "auto";
     } else {
       document.body.style.cursor = "grab";
@@ -209,6 +211,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
                 cardFace: gridCard.displayArt?.cardFace,
               }}
               bgCards={tempBgCardList}
+              binderNum={gridCardIndex + 1}
+              stackDragging={stackDragging()}
             />
           );
         })}
