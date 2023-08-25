@@ -128,7 +128,7 @@ export default function Binder({
       if (fullBinder && stackDragging() === "still") {
         fullBinder.focus();
       }
-    }, 10);
+    }, 30);
   };
 
   return (
