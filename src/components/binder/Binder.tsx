@@ -9,41 +9,52 @@
 // base on how many are passed to it, these also use the art fetcher and require a
 // minimum of a card name for each
 
-import './binderStyles.css';
-import { createSignal, createEffect, Switch, Match } from 'solid-js';
+import "./binderStyles.css";
+import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
 import {
   CardArtFetcher,
-  CardFetcher,
   SmallCardFetcher,
-} from '../../backend/ScryfallAPIFetcher';
+} from "../../backend/ScryfallAPIFetcher";
+import { selectedBinder, setSelectedBinder } from "../stack/Stack";
+import { useCounter } from "../../context/TestContext";
 
 //TYPING
 interface CardFetcherInputs {
   cardName: string;
   cardSet?: string;
   cardCollectNum?: number;
-  cardFace?: 'front' | 'back';
+  cardFace?: "front" | "back";
 }
 interface BinderInputs {
   displayArt: CardFetcherInputs;
   bgCards?: CardFetcherInputs[];
   title: string;
+  binderNum: number;
+  stackDragging: any;
 }
 
 let popUpContainer: HTMLDivElement;
 //Main function
-export default function Binder({ displayArt, bgCards, title }: BinderInputs) {
+export default function Binder(
+  { displayArt, bgCards, title, binderNum }: BinderInputs,
+  props: BinderInputs
+) {
   //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
-  let bgCardPositions: string[] = ['translate(-50%, -50%)'];
+  let bgCardPositions: string[] = ["translate(-50%, -50%)"];
   let bgCardRotation: number = 0;
   let bgCardSize: number = 65;
+  const [count, { increment, decrement }]: any = useCounter();
+  console.log(count());
   //State to asynchronously pass elements card art/images
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
   //States tracking if the card is hovered or focused
   const [BinderHovered, setBinderHovered] = createSignal<boolean>(false);
   const [BinderFocused, setBinderFocused] = createSignal<boolean>(false);
+
+  let binderContainer: HTMLDivElement | null = null;
+  let fullBinder: HTMLDivElement | null = null;
 
   //Inputs primary display art
   createEffect(async () => {
@@ -64,7 +75,7 @@ export default function Binder({ displayArt, bgCards, title }: BinderInputs) {
           let mapCardSet: any;
           let mapCardCollectNum: any;
           let mapCardFace: any;
-          if (typeof card === 'string') {
+          if (typeof card === "string") {
             cardInfo = card;
           } else {
             cardInfo = card.cardName;
@@ -104,39 +115,53 @@ export default function Binder({ displayArt, bgCards, title }: BinderInputs) {
     }
   });
 
+  onMount(() => {
+    if (binderContainer) {
+      binderContainer.addEventListener("click", handleClick);
+    }
+  });
+
+  const handleClick = (event: MouseEvent) => {
+    // console.log(stackDragging);
+    if (fullBinder) {
+      fullBinder.focus();
+      increment();
+      console.log(count());
+    }
+    event.preventDefault();
+  };
+
   return (
     <>
-      <div class="binderContainer">
-        <div
-          class="fullbinder"
-          tabindex="0"
-          onfocusin={() => {
-            setBinderFocused(true);
-          }}
-          onFocusOut={() => {
-            setBinderFocused(false);
-          }}
-        >
+      <div
+        class="binderContainer"
+        ref={(el) => (binderContainer = el)}
+        onfocusin={() => {
+          setBinderFocused(true);
+        }}
+        onFocusOut={() => {
+          setBinderFocused(false);
+        }}
+        onmouseenter={() => {
+          setBinderHovered(true);
+        }}
+        onmouseleave={() => {
+          setBinderHovered(false);
+        }}
+      >
+        <div class="fullbinder" tabindex="0" ref={(el) => (fullBinder = el)}>
           <div class="binderBox">
             <div
               class="binderImage"
               style={{
-                'background-image': displayArtUrl()
+                "background-image": displayArtUrl()
                   ? `url(${displayArtUrl()})`
-                  : 'none',
+                  : "none",
               }}
             ></div>
             <div class="overlay"></div>
             <div class="binderTitle">{title}</div>
-            <a
-              class="link"
-              onmouseenter={() => {
-                setBinderHovered(true);
-              }}
-              onmouseleave={() => {
-                setBinderHovered(false);
-              }}
-            ></a>
+            <a class="link"></a>
           </div>
 
           <div class="popUpContainer" ref={popUpContainer}>
@@ -145,7 +170,7 @@ export default function Binder({ displayArt, bgCards, title }: BinderInputs) {
                 <div
                   class="popUpCard"
                   style={{
-                    'background-image': card ? `url(${card})` : 'none',
+                    "background-image": card ? `url(${card})` : "none",
                     transform:
                       BinderHovered() === true || BinderFocused() === true
                         ? bgCardPositions[index + 1]

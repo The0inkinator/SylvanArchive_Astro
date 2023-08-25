@@ -6,7 +6,7 @@
   height: calc(var(--BinderSize) * 1.4);
 }
 
-.test {
+.stackContainer {
   position: absolute;
   transform: translateX(-50%);
   left: 50%;
