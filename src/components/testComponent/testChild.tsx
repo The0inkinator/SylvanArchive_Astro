@@ -1,10 +1,12 @@
-import { createSignal, createEffect } from "solid-js";
-import "./testComponentStyle.css";
+import { JSX, createEffect } from "solid-js";
 
 interface childProps {
-  hovered: any;
+  hovered?: "one" | "two" | "three";
 }
 
-export default function TestChild({ hovered }: childProps) {
-  return <div>{hovered}</div>;
+export default function TestChild(props: childProps) {
+  createEffect(() => {
+    console.log(props.hovered);
+  });
+  return <div class="testChild"></div>;
 }

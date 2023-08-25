@@ -3,19 +3,19 @@ import "./testComponentStyle.css";
 import TestChild from "./testChild";
 
 export default function TestComponent() {
-  const [hovered, setHovered] = createSignal<boolean>(false);
+  const [hovered, setHovered] = createSignal<"one" | "two" | "three">("one");
 
-  createEffect(() => {
-    console.log(hovered());
-  });
   return (
     <div
       class="testComponent"
       onMouseEnter={() => {
-        setHovered(true);
+        setHovered("one");
       }}
       onmouseleave={() => {
-        setHovered(false);
+        setHovered("two");
+      }}
+      onclick={() => {
+        setHovered("three");
       }}
     >
       <TestChild hovered={hovered()} />
