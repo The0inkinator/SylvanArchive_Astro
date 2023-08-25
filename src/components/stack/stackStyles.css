@@ -1,7 +1,5 @@
 .stackHandle {
-  outline: solid purple;
   position: absolute;
-
   left: 50%;
   z-index: 1;
   width: calc(var(--BinderSize) * 5);
