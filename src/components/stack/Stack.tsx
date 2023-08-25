@@ -24,7 +24,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Property to find the distance from mouse to stack corner
   const [stackOffsetX, setStackOffsetX] = createSignal<number>(0);
   //Tracks if mouse is over stack updated with a create effect in the body of the function
-  const [stackHovered, setStackHovered] = createSignal<boolean>(false);
+  let stackHovered: boolean = false;
   //3 States: Still = no movement
   //Dragging = mouse clicked and component moving, Drifting = mouse unclicked component "slowing down"
   const [stackDragging, setStackDragging] = createSignal<
@@ -79,7 +79,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
   //handles mouseDown
   const handleMouseDown = (event: MouseEvent) => {
-    if (stackHovered()) {
+    if (stackHovered) {
       setStackDragging("dragging");
       setStackOffsetX(event.clientX - stackPosition());
       // setCursorType("grabbing");
@@ -100,8 +100,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
   //handles mouseUp
   const handleMouseUp = (event: MouseEvent) => {
-    if (!stackHovered()) {
-      console.log(stackHovered());
+    if (!stackHovered) {
+      console.log(stackHovered);
       document.body.style.cursor = "auto";
     } else {
       document.body.style.cursor = "grab";
@@ -165,26 +165,21 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     loop();
   }
 
-  //Change cursor style when stack is hovered
-  createEffect(() => {
-    if (stackHovered()) {
-      document.body.style.cursor = "grab";
-    } else {
-      if (stackDragging() === "still") {
-        document.body.style.cursor = "auto";
-      }
-    }
-  });
-
   return (
     <div
       class="stackHandle"
       ref={stackHandle}
       onmouseenter={() => {
-        setStackHovered(true);
+        stackHovered = true;
+        if (stackDragging() !== "dragging") {
+          document.body.style.cursor = "grab";
+        }
       }}
       onmouseleave={() => {
-        setStackHovered(false);
+        stackHovered = false;
+        if (stackDragging() === "still") {
+          document.body.style.cursor = "auto";
+        }
       }}
       style={{
         //This is the property that handles the rendering of the stack position
