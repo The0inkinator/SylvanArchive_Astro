@@ -1,0 +1,7 @@
+.testComponent {
+  width: 12rem;
+  height: 12rem;
+  position: absolute;
+  left: 50%;
+  background-color: red;
+}
