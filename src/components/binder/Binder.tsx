@@ -16,7 +16,8 @@ import {
   SmallCardFetcher,
 } from "../../backend/ScryfallAPIFetcher";
 import { selectedBinder, setSelectedBinder } from "../stack/Stack";
-import type { Props } from "astro";
+import { useCounter } from "../../context/TestContext";
+
 //TYPING
 interface CardFetcherInputs {
   cardName: string;
@@ -34,18 +35,17 @@ interface BinderInputs {
 
 let popUpContainer: HTMLDivElement;
 //Main function
-export default function Binder({
-  displayArt,
-  bgCards,
-  title,
-  binderNum,
-  stackDragging,
-}: BinderInputs) {
+export default function Binder(
+  { displayArt, bgCards, title, binderNum }: BinderInputs,
+  props: BinderInputs
+) {
   //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
   let bgCardPositions: string[] = ["translate(-50%, -50%)"];
   let bgCardRotation: number = 0;
   let bgCardSize: number = 65;
+  const [count, { increment, decrement }]: any = useCounter();
+  console.log(count());
   //State to asynchronously pass elements card art/images
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
@@ -53,7 +53,6 @@ export default function Binder({
   const [BinderHovered, setBinderHovered] = createSignal<boolean>(false);
   const [BinderFocused, setBinderFocused] = createSignal<boolean>(false);
 
-  const parentDragging = stackDragging;
   let binderContainer: HTMLDivElement | null = null;
   let fullBinder: HTMLDivElement | null = null;
 
@@ -116,10 +115,6 @@ export default function Binder({
     }
   });
 
-  createEffect(() => {
-    console.log(parentDragging);
-  });
-
   onMount(() => {
     if (binderContainer) {
       binderContainer.addEventListener("click", handleClick);
@@ -128,8 +123,10 @@ export default function Binder({
 
   const handleClick = (event: MouseEvent) => {
     // console.log(stackDragging);
-    if (fullBinder && stackDragging === "still") {
+    if (fullBinder) {
       fullBinder.focus();
+      increment();
+      console.log(count());
     }
     event.preventDefault();
   };

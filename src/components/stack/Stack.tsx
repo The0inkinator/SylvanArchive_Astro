@@ -2,6 +2,7 @@ import "./stackStyles.css";
 import Binder from "../binder/Binder";
 import { default as MapList } from "../../lists/colors";
 import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
+import { CounterProvider } from "../../context/TestContext";
 import {
   screenSize,
   setScreenSize,
@@ -46,7 +47,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   }>({ left: 0, right: 0 });
   const [stackActive, setStackActive] = createSignal<boolean>(false);
 
-  // let stackHandle: HTMLDivElement | null = null;
+  //testing stuff
 
   //Function that: Sets the stack pixel width, Positions the stack in the screen center, sets the collision boundries for the stack
   //Called both on mount and on screen resize
@@ -202,18 +203,20 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
             };
           });
           return (
-            <Binder
-              title={gridCard.title}
-              displayArt={{
-                cardName: gridCard.displayArt.cardName,
-                cardSet: gridCard.displayArt?.cardSet,
-                cardCollectNum: gridCard.displayArt?.cardCollectNum,
-                cardFace: gridCard.displayArt?.cardFace,
-              }}
-              bgCards={tempBgCardList}
-              binderNum={gridCardIndex + 1}
-              stackDragging={stackDragging()}
-            />
+            <CounterProvider count={1}>
+              <Binder
+                title={gridCard.title}
+                displayArt={{
+                  cardName: gridCard.displayArt.cardName,
+                  cardSet: gridCard.displayArt?.cardSet,
+                  cardCollectNum: gridCard.displayArt?.cardCollectNum,
+                  cardFace: gridCard.displayArt?.cardFace,
+                }}
+                bgCards={tempBgCardList}
+                binderNum={gridCardIndex + 1}
+                stackDragging={stackDragging()}
+              />
+            </CounterProvider>
           );
         })}
       </div>
