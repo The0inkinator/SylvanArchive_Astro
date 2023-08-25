@@ -2,8 +2,7 @@ import "./stackStyles.css";
 import Binder from "../binder/Binder";
 import { default as MapList } from "../../lists/colors";
 import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
-import { CounterProvider } from "../../context/TestContext";
-import { DraggingProvider } from "../../context/DraggingContex";
+import { useDragging } from "../../context/DraggingContex";
 import {
   screenSize,
   setScreenSize,
@@ -30,9 +29,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   let stackHovered: boolean = false;
   //3 States: Still = no movement
   //Dragging = mouse clicked and component moving, Drifting = mouse unclicked component "slowing down"
-  const [stackDragging, setStackDragging] = createSignal<
-    "still" | "dragging" | "drifting"
-  >("still");
+  const [stackDragging, { dragToStill, dragToDragging, dragToDrifting }]: any =
+    useDragging();
   //Number that directly controls where the stack is on screen through its "left" style
   const [stackPosition, setStackPosition] = createSignal<number>(0);
   //Secondary position for the handleMouseMove function
@@ -85,7 +83,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //handles mouseDown
   const handleMouseDown = (event: MouseEvent) => {
     if (stackHovered) {
-      setStackDragging("dragging");
+      dragToDragging();
       setStackOffsetX(event.clientX - stackPosition());
       // setCursorType("grabbing");
       document.body.style.cursor = "grabbing";
@@ -110,7 +108,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     } else {
       document.body.style.cursor = "grab";
     }
-    setStackDragging("drifting");
+    dragToDrifting();
   };
 
   //handles window resize to update all relevant properties
@@ -161,7 +159,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
           setStackDriftSpeed(newStackSpeed);
           setTimeout(loop, 20);
         } else if (stackDragging() === "drifting" && stackDriftSpeed() < 1) {
-          setStackDragging("still");
+          dragToStill();
           setStackDriftSpeed(0);
         }
       }
@@ -204,22 +202,17 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
             };
           });
           return (
-            <DraggingProvider dragState={stackDragging()}>
-              <CounterProvider count={1}>
-                <Binder
-                  title={gridCard.title}
-                  displayArt={{
-                    cardName: gridCard.displayArt.cardName,
-                    cardSet: gridCard.displayArt?.cardSet,
-                    cardCollectNum: gridCard.displayArt?.cardCollectNum,
-                    cardFace: gridCard.displayArt?.cardFace,
-                  }}
-                  bgCards={tempBgCardList}
-                  binderNum={gridCardIndex + 1}
-                  stackDragging={stackDragging()}
-                />
-              </CounterProvider>
-            </DraggingProvider>
+            <Binder
+              title={gridCard.title}
+              displayArt={{
+                cardName: gridCard.displayArt.cardName,
+                cardSet: gridCard.displayArt?.cardSet,
+                cardCollectNum: gridCard.displayArt?.cardCollectNum,
+                cardFace: gridCard.displayArt?.cardFace,
+              }}
+              bgCards={tempBgCardList}
+              binderNum={gridCardIndex + 1}
+            />
           );
         })}
       </div>

@@ -16,7 +16,6 @@ import {
   SmallCardFetcher,
 } from "../../backend/ScryfallAPIFetcher";
 import { selectedBinder, setSelectedBinder } from "../stack/Stack";
-import { useCounter } from "../../context/TestContext";
 import { useDragging } from "../../context/DraggingContex";
 
 //TYPING
@@ -31,25 +30,22 @@ interface BinderInputs {
   bgCards?: CardFetcherInputs[];
   title: string;
   binderNum: number;
-  stackDragging: any;
 }
 
 let popUpContainer: HTMLDivElement;
 //Main function
-export default function Binder(
-  { displayArt, bgCards, title, binderNum }: BinderInputs,
-  props: BinderInputs
-) {
+export default function Binder({
+  displayArt,
+  bgCards,
+  title,
+  binderNum,
+}: BinderInputs) {
   //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
   let bgCardPositions: string[] = ["translate(-50%, -50%)"];
   let bgCardRotation: number = 0;
   let bgCardSize: number = 65;
-  const [count, { increment, decrement }]: any = useCounter();
-  const [stackDragging, { dragToStill, dragToDragging, dragToDrifting }]: any =
-    useDragging();
-  console.log(count());
-  console.log("context dragstate is:", stackDragging());
+  const [stackDragging]: any = useDragging();
 
   //State to asynchronously pass elements card art/images
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
@@ -127,12 +123,12 @@ export default function Binder(
   });
 
   const handleClick = (event: MouseEvent) => {
-    // console.log(stackDragging);
-    if (fullBinder) {
-      fullBinder.focus();
-      console.log(count());
-    }
     event.preventDefault();
+    setTimeout(() => {
+      if (fullBinder && stackDragging() === "still") {
+        fullBinder.focus();
+      }
+    }, 10);
   };
 
   return (
