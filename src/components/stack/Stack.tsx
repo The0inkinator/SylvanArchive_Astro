@@ -3,6 +3,7 @@ import Binder from "../binder/Binder";
 import { default as MapList } from "../../lists/colors";
 import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
 import { CounterProvider } from "../../context/TestContext";
+import { DraggingProvider } from "../../context/DraggingContex";
 import {
   screenSize,
   setScreenSize,
@@ -203,20 +204,22 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
             };
           });
           return (
-            <CounterProvider count={1}>
-              <Binder
-                title={gridCard.title}
-                displayArt={{
-                  cardName: gridCard.displayArt.cardName,
-                  cardSet: gridCard.displayArt?.cardSet,
-                  cardCollectNum: gridCard.displayArt?.cardCollectNum,
-                  cardFace: gridCard.displayArt?.cardFace,
-                }}
-                bgCards={tempBgCardList}
-                binderNum={gridCardIndex + 1}
-                stackDragging={stackDragging()}
-              />
-            </CounterProvider>
+            <DraggingProvider dragState={stackDragging()}>
+              <CounterProvider count={1}>
+                <Binder
+                  title={gridCard.title}
+                  displayArt={{
+                    cardName: gridCard.displayArt.cardName,
+                    cardSet: gridCard.displayArt?.cardSet,
+                    cardCollectNum: gridCard.displayArt?.cardCollectNum,
+                    cardFace: gridCard.displayArt?.cardFace,
+                  }}
+                  bgCards={tempBgCardList}
+                  binderNum={gridCardIndex + 1}
+                  stackDragging={stackDragging()}
+                />
+              </CounterProvider>
+            </DraggingProvider>
           );
         })}
       </div>

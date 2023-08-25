@@ -17,6 +17,7 @@ import {
 } from "../../backend/ScryfallAPIFetcher";
 import { selectedBinder, setSelectedBinder } from "../stack/Stack";
 import { useCounter } from "../../context/TestContext";
+import { useDragging } from "../../context/DraggingContex";
 
 //TYPING
 interface CardFetcherInputs {
@@ -45,7 +46,11 @@ export default function Binder(
   let bgCardRotation: number = 0;
   let bgCardSize: number = 65;
   const [count, { increment, decrement }]: any = useCounter();
+  const [stackDragging, { dragToStill, dragToDragging, dragToDrifting }]: any =
+    useDragging();
   console.log(count());
+  console.log("context dragstate is:", stackDragging());
+
   //State to asynchronously pass elements card art/images
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
@@ -125,7 +130,6 @@ export default function Binder(
     // console.log(stackDragging);
     if (fullBinder) {
       fullBinder.focus();
-      increment();
       console.log(count());
     }
     event.preventDefault();
