@@ -1,21 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import APITester from "../components/APITester";
-import Shelf from "../components/shelf/Shelf"
+import Shelf from "../components/shelf/Shelf";
+import TestComponent from "../components/testComponent/TestComponent";
 const pageTitle = "Sylvan Archive";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-<div class="contContainer">
-  <Shelf shelfRef="one" client:visible/>
-  <Shelf shelfRef="two" client:visible/>
-</div>
-
+  <TestComponent client:visible left={50} ref="numberOne" />
+  <TestComponent client:visible left={60} ref="numberTwo" />
+  <div class="contContainer">
+    <Shelf shelfRef="one" client:visible />
+    <Shelf shelfRef="two" client:visible />
+  </div>
 </BaseLayout>
 
-  <style>
+<style>
   .contContainer {
     display: flex;
     flex-direction: column;
   }
-  </style>
+</style>

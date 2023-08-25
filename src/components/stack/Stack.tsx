@@ -44,6 +44,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     right: number;
   }>({ left: 0, right: 0 });
 
+  // let stackHandle: HTMLDivElement | null = null;
+
   //Function that: Sets the stack pixel width, Positions the stack in the screen center, sets the collision boundries for the stack
   //Called both on mount and on screen resize
   function setDefaults() {
@@ -80,7 +82,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     if (stackHovered()) {
       setStackDragging("dragging");
       setStackOffsetX(event.clientX - stackPosition());
-      stackHandle.style.cursor = "grabbing";
+      // setCursorType("grabbing");
+      document.body.style.cursor = "grabbing";
       //calls slide function which handles the tracking and styling for the ice-rink effect
       slide();
     }
@@ -97,10 +100,13 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
   //handles mouseUp
   const handleMouseUp = (event: MouseEvent) => {
-    setStackDragging("drifting");
-    if (stackHovered() === false) {
-      stackHandle.style.cursor = "auto";
+    if (!stackHovered()) {
+      console.log(stackHovered());
+      document.body.style.cursor = "auto";
+    } else {
+      document.body.style.cursor = "grab";
     }
+    setStackDragging("drifting");
   };
 
   //handles window resize to update all relevant properties
@@ -162,10 +168,10 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Change cursor style when stack is hovered
   createEffect(() => {
     if (stackHovered()) {
-      stackHandle.style.cursor = "grab";
+      document.body.style.cursor = "grab";
     } else {
       if (stackDragging() === "still") {
-        stackHandle.style.cursor = "auto";
+        document.body.style.cursor = "auto";
       }
     }
   });
@@ -185,9 +191,10 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         left: `${collisionCheck(stackPosition())}px`,
         //Stackwidth is set on mount and updated on resize
         width: `${stackWidth()}px`,
+        // cursor: `${cursorType()}`,
       }}
     >
-      <div class="test">
+      <div class="stackContainer">
         {MapList.map((gridCard, gridCardIndex) => {
           const tempBgCardList = gridCard.bgCards?.map((bgCard) => {
             return {
