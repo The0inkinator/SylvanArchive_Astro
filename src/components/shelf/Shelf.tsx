@@ -1,5 +1,6 @@
-import './shelfStyles.css';
-import Stack from '../stack/Stack';
+import "./shelfStyles.css";
+import Stack from "../stack/Stack";
+import { DraggingProvider } from "../../context/DraggingContex";
 
 interface ShelfInputs {
   shelfRef: string;
@@ -9,10 +10,12 @@ interface ShelfInputs {
 
 export default function Shelf({ shelfRef, shelfFrom, shelfTo }: ShelfInputs) {
   return (
-    <div class="shelfContainer">
-      <div class="stackSlider">
-        <Stack stackRef={`${shelfRef}`} />
+    <DraggingProvider dragState={"still"}>
+      <div class="shelfContainer">
+        <div class="stackSlider">
+          <Stack stackRef={`${shelfRef}`} />
+        </div>
       </div>
-    </div>
+    </DraggingProvider>
   );
 }
