@@ -9,21 +9,20 @@
 // base on how many are passed to it, these also use the art fetcher and require a
 // minimum of a card name for each
 
-import "./binderStyles.css";
-import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
+import './binderStyles.css';
+import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import {
   CardArtFetcher,
   SmallCardFetcher,
-} from "../../backend/ScryfallAPIFetcher";
-import { selectedBinder, setSelectedBinder } from "../stack/Stack";
-import { useDragging } from "../../context/DraggingContex";
+} from '../../backend/ScryfallAPIFetcher';
+import { useShelfContext } from '../../context/ShelfContext';
 
 //TYPING
 interface CardFetcherInputs {
   cardName: string;
   cardSet?: string;
   cardCollectNum?: number;
-  cardFace?: "front" | "back";
+  cardFace?: 'front' | 'back';
 }
 interface BinderInputs {
   displayArt: CardFetcherInputs;
@@ -42,10 +41,9 @@ export default function Binder({
 }: BinderInputs) {
   //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
-  let bgCardPositions: string[] = ["translate(-50%, -50%)"];
+  let bgCardPositions: string[] = ['translate(-50%, -50%)'];
   let bgCardRotation: number = 0;
   let bgCardSize: number = 65;
-  const [stackDragging]: any = useDragging();
 
   //State to asynchronously pass elements card art/images
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
@@ -53,6 +51,8 @@ export default function Binder({
   //States tracking if the card is hovered or focused
   const [BinderHovered, setBinderHovered] = createSignal<boolean>(false);
   const [BinderFocused, setBinderFocused] = createSignal<boolean>(false);
+  //Shelf contexts
+  const [stackDragging]: any = useShelfContext();
 
   let binderContainer: HTMLDivElement | null = null;
   let fullBinder: HTMLDivElement | null = null;
@@ -76,7 +76,7 @@ export default function Binder({
           let mapCardSet: any;
           let mapCardCollectNum: any;
           let mapCardFace: any;
-          if (typeof card === "string") {
+          if (typeof card === 'string') {
             cardInfo = card;
           } else {
             cardInfo = card.cardName;
@@ -116,16 +116,32 @@ export default function Binder({
     }
   });
 
+  let handleHover: Function;
+  let handleHoverOut: Function;
   onMount(() => {
     if (binderContainer) {
-      binderContainer.addEventListener("click", handleClick);
+      binderContainer.addEventListener('click', handleClick);
     }
+
+    handleHover = () => {
+      if (fullBinder) {
+        fullBinder.focus();
+      }
+    };
   });
+
+  handleHoverOut = () => {
+    if (fullBinder) {
+      fullBinder.blur();
+    }
+  };
 
   const handleClick = (event: MouseEvent) => {
     event.preventDefault();
+    // selectBinder(1);
+    console.log('selected binder:', selectedBinder());
     setTimeout(() => {
-      if (fullBinder && stackDragging() === "still") {
+      if (fullBinder && stackDragging() === 'still') {
         fullBinder.focus();
       }
     }, 30);
@@ -143,9 +159,11 @@ export default function Binder({
           setBinderFocused(false);
         }}
         onmouseenter={() => {
+          handleHover();
           setBinderHovered(true);
         }}
         onmouseleave={() => {
+          handleHoverOut();
           setBinderHovered(false);
         }}
       >
@@ -154,9 +172,9 @@ export default function Binder({
             <div
               class="binderImage"
               style={{
-                "background-image": displayArtUrl()
+                'background-image': displayArtUrl()
                   ? `url(${displayArtUrl()})`
-                  : "none",
+                  : 'none',
               }}
             ></div>
             <div class="overlay"></div>
@@ -170,7 +188,7 @@ export default function Binder({
                 <div
                   class="popUpCard"
                   style={{
-                    "background-image": card ? `url(${card})` : "none",
+                    'background-image': card ? `url(${card})` : 'none',
                     transform:
                       BinderHovered() === true || BinderFocused() === true
                         ? bgCardPositions[index + 1]
