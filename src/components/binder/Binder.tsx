@@ -48,10 +48,7 @@ export default function Binder({
   //State to asynchronously pass elements card art/images
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
-  //States tracking if the card is hovered or focused
-  const [BinderHovered, setBinderHovered] = createSignal<boolean>(false);
-  const [BinderFocused, setBinderFocused] = createSignal<boolean>(false);
-  //state to handle all visual edits to binder
+  //State to handle all visual edits to binder when it is "active"
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
   //Shelf contexts
   const [stackDragging]: any = useShelfContext();
@@ -153,30 +150,31 @@ export default function Binder({
         class="binderContainer"
         ref={(el) => (binderContainer = el)}
         onfocusin={() => {
-          setBinderFocused(true);
+          setBinderActive(true);
         }}
         onFocusOut={() => {
-          setBinderFocused(false);
+          setBinderActive(false);
         }}
         onmouseenter={() => {
-          handleHover();
-          setBinderHovered(true);
+          setBinderActive(true);
         }}
         onmouseleave={() => {
-          handleHoverOut();
-          setBinderHovered(false);
+          setBinderActive(false);
         }}
       >
         <div
           tabindex="0"
           ref={(el) => (fullBinder = el)}
-          classList={{ binder: true, binderActive: BinderFocused() }}
+          classList={{
+            binder: true,
+            binderActive: binderActive(),
+          }}
         >
           <div class="binderBox">
             <div
               classList={{
                 binderImage: true,
-                binderImageActive: BinderFocused(),
+                binderImageActive: binderActive(),
               }}
               style={{
                 "background-image": displayArtUrl()
@@ -196,18 +194,11 @@ export default function Binder({
                   class="popUpCard"
                   style={{
                     "background-image": card ? `url(${card})` : "none",
-                    transform:
-                      BinderHovered() === true || BinderFocused() === true
-                        ? bgCardPositions[index + 1]
-                        : bgCardPositions[0],
-                    width:
-                      BinderHovered() === true || BinderFocused() === true
-                        ? `${bgCardSize}%`
-                        : `$50%`,
-                    height:
-                      BinderHovered() === true || BinderFocused() === true
-                        ? `${bgCardSize}%`
-                        : `$50%`,
+                    transform: binderActive()
+                      ? bgCardPositions[index + 1]
+                      : bgCardPositions[0],
+                    width: binderActive() ? `${bgCardSize}%` : `$50%`,
+                    height: binderActive() ? `${bgCardSize}%` : `$50%`,
                   }}
                 ></div>
               );

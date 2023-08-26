@@ -89,10 +89,6 @@
   z-index: 10;
 }
 
-.binderBox:hover > .binderImage {
-  filter: blur(0px) grayscale(0%) saturate(120%);
-}
-
 .binderImageActive {
   filter: blur(0px) grayscale(0%) saturate(120%);
 }
