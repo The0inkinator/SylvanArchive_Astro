@@ -1,22 +1,22 @@
-import { createSignal, createContext, useContext } from 'solid-js';
+import { createSignal, createContext, useContext } from "solid-js";
 
 const ShelfContext = createContext();
 
-export function ShelfContextProvider(props: any) {
+export function StackDraggingProvider(props: any) {
   const [stackDragging, setStackDragging] = createSignal<
-      'still' | 'dragging' | 'drifting'
-    >('still'),
+      "still" | "dragging" | "drifting"
+    >("still"),
     stackDragState = [
       stackDragging,
       {
         dragToStill() {
-          setStackDragging('still');
+          setStackDragging("still");
         },
         dragToDragging() {
-          setStackDragging('dragging');
+          setStackDragging("dragging");
         },
         dragToDrifting() {
-          setStackDragging('drifting');
+          setStackDragging("drifting");
         },
       },
     ];

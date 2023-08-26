@@ -15,7 +15,8 @@ import {
   CardArtFetcher,
   SmallCardFetcher,
 } from "../../backend/ScryfallAPIFetcher";
-import { useShelfContext } from "../../context/ShelfContext";
+import { useShelfContext } from "../../context/StackDraggingContext";
+import { useSelectedBinderContext } from "../../context/SelectedBinderContext";
 
 //TYPING
 interface CardFetcherInputs {
@@ -52,9 +53,14 @@ export default function Binder({
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
   //Shelf contexts
   const [stackDragging]: any = useShelfContext();
+  const [selectedBinder]: any = useSelectedBinderContext();
 
+  //Define Unique HTML Elements ro reference
   let binderContainer: HTMLDivElement | null = null;
   let fullBinder: HTMLDivElement | null = null;
+  //Define Empty functions to define on mount
+  let handleHover: Function;
+  let handleHoverOut: Function;
 
   //Inputs primary display art
   createEffect(async () => {
@@ -115,8 +121,6 @@ export default function Binder({
     }
   });
 
-  let handleHover: Function;
-  let handleHoverOut: Function;
   onMount(() => {
     if (binderContainer) {
       binderContainer.addEventListener("click", handleClick);
@@ -139,6 +143,7 @@ export default function Binder({
     event.preventDefault();
     setTimeout(() => {
       if (fullBinder && stackDragging() === "still") {
+        console.log(selectedBinder());
         fullBinder.focus();
       }
     }, 30);
