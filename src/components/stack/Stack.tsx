@@ -47,6 +47,9 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   }>({ left: 0, right: 0 });
   //State for currently selected binder
   const [selectedBinder]: any = useSelectedBinderContext();
+  //State for slide function
+  const [selectedBinderPosition, setSelectedBinderPosition] =
+    createSignal<number>(0);
 
   //testing stuff
 
@@ -168,31 +171,26 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     loop();
   }
 
-  function binderDistanceFromCenter() {
-    let halfBinder = binderSize() / 2;
-    let screenCenter = window.innerWidth / 2;
-    let binderInStack = binderSize() * selectedBinder() - halfBinder;
-    let currentSelectedBinderPos = stackPosition() + binderInStack;
-    return screenCenter - currentSelectedBinderPos;
-  }
+  function slide(ticks: number) {
+    const halfBinder = binderSize() / 2;
 
-  function slide() {
-    let timer = 12;
-    const currentStackPos = stackPosition();
-    const totalDistanceToTravel = binderDistanceFromCenter();
-    const distancePerLoop = totalDistanceToTravel / 12;
+    const screenCenter = window.innerWidth / 2;
 
-    const updatePos = () => {
-      setNewStackPosition(collisionCheck(currentStackPos + distancePerLoop));
-      setStackPosition(collisionCheck(newStackPosition()));
-    };
+    const binderInStack = binderSize() * selectedBinder() - halfBinder;
+
+    setSelectedBinderPosition(stackPosition() + binderInStack);
+
+    let totalDistanceToTravel = screenCenter - selectedBinderPosition();
 
     function loop() {
-      if (timer > 0) {
-        timer = timer - 1;
-        console.log("ticking");
-        updatePos();
-        setTimeout(loop, 10);
+      if (Math.abs(totalDistanceToTravel) > 2) {
+        console.log("total distance to travel:", totalDistanceToTravel);
+        setNewStackPosition(
+          collisionCheck(stackPosition() + totalDistanceToTravel)
+        );
+        setStackPosition(collisionCheck(newStackPosition()));
+        totalDistanceToTravel = screenCenter - selectedBinderPosition();
+        setTimeout(loop, ticks);
       }
     }
 
@@ -201,7 +199,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
   createEffect(() => {
     if (selectedBinder() > 0) {
-      slide();
+      slide(50);
     }
   });
 
