@@ -51,6 +51,8 @@ export default function Binder({
   //States tracking if the card is hovered or focused
   const [BinderHovered, setBinderHovered] = createSignal<boolean>(false);
   const [BinderFocused, setBinderFocused] = createSignal<boolean>(false);
+  //state to handle all visual edits to binder
+  const [binderActive, setBinderActive] = createSignal<boolean>(false);
   //Shelf contexts
   const [stackDragging]: any = useShelfContext();
 
@@ -165,10 +167,17 @@ export default function Binder({
           setBinderHovered(false);
         }}
       >
-        <div class="fullbinder" tabindex="0" ref={(el) => (fullBinder = el)}>
+        <div
+          tabindex="0"
+          ref={(el) => (fullBinder = el)}
+          classList={{ binder: true, binderActive: BinderFocused() }}
+        >
           <div class="binderBox">
             <div
-              class="binderImage"
+              classList={{
+                binderImage: true,
+                binderImageActive: BinderFocused(),
+              }}
               style={{
                 "background-image": displayArtUrl()
                   ? `url(${displayArtUrl()})`
