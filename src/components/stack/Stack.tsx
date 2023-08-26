@@ -2,7 +2,8 @@ import "./stackStyles.css";
 import Binder from "../binder/Binder";
 import { default as MapList } from "../../lists/colors";
 import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
-import { useShelfContext } from "../../context/StackDraggingContext";
+import { useStackDraggingContext } from "../../context/StackDraggingContext";
+import { useSelectedBinderContext } from "../../context/SelectedBinderContext";
 import {
   screenSize,
   setScreenSize,
@@ -30,7 +31,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //3 States: Still = no movement
   //Dragging = mouse clicked and component moving, Drifting = mouse unclicked component "slowing down"
   const [stackDragging, { dragToStill, dragToDragging, dragToDrifting }]: any =
-    useShelfContext();
+    useStackDraggingContext();
   //Number that directly controls where the stack is on screen through its "left" style
   const [stackPosition, setStackPosition] = createSignal<number>(0);
   //Secondary position for the handleMouseMove function
@@ -44,6 +45,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     left: number;
     right: number;
   }>({ left: 0, right: 0 });
+  //State for currently selected binder
+  const [selectedBinder]: any = useSelectedBinderContext();
 
   //testing stuff
 
@@ -85,8 +88,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       setStackOffsetX(event.clientX - stackPosition());
       // setCursorType("grabbing");
       document.body.style.cursor = "grabbing";
-      //calls slide function which handles the tracking and styling for the ice-rink effect
-      slide();
+      //calls drift function which handles the tracking and styling for the ice-rink effect
+      drift();
     }
   };
 
@@ -134,7 +137,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //A. Moves the stack in the direction it was being dragged and then B. Reduces the speed and loops.
   //Once the speed falls below one it will revert the stack state back to "still"
   //This creates an ice-rink like effect
-  function slide() {
+  function drift() {
     function loop() {
       if (stackDragging() === "dragging") {
         setStackDriftSpeed(stackDrift() - stackPosition());
@@ -164,6 +167,43 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     }
     loop();
   }
+
+  function binderDistanceFromCenter() {
+    let halfBinder = binderSize() / 2;
+    let screenCenter = window.innerWidth / 2;
+    let binderInStack = binderSize() * selectedBinder() - halfBinder;
+    let currentSelectedBinderPos = stackPosition() + binderInStack;
+    return screenCenter - currentSelectedBinderPos;
+  }
+
+  function slide() {
+    let timer = 12;
+    const currentStackPos = stackPosition();
+    const totalDistanceToTravel = binderDistanceFromCenter();
+    const distancePerLoop = totalDistanceToTravel / 12;
+
+    const updatePos = () => {
+      setNewStackPosition(collisionCheck(currentStackPos + distancePerLoop));
+      setStackPosition(collisionCheck(newStackPosition()));
+    };
+
+    function loop() {
+      if (timer > 0) {
+        timer = timer - 1;
+        console.log("ticking");
+        updatePos();
+        setTimeout(loop, 10);
+      }
+    }
+
+    loop();
+  }
+
+  createEffect(() => {
+    if (selectedBinder() > 0) {
+      slide();
+    }
+  });
 
   return (
     <div

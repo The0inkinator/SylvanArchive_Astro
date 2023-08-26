@@ -15,7 +15,7 @@ import {
   CardArtFetcher,
   SmallCardFetcher,
 } from "../../backend/ScryfallAPIFetcher";
-import { useShelfContext } from "../../context/StackDraggingContext";
+import { useStackDraggingContext } from "../../context/StackDraggingContext";
 import { useSelectedBinderContext } from "../../context/SelectedBinderContext";
 
 //TYPING
@@ -52,12 +52,13 @@ export default function Binder({
   //State to handle all visual edits to binder when it is "active"
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
   //Shelf contexts
-  const [stackDragging]: any = useShelfContext();
-  const [selectedBinder]: any = useSelectedBinderContext();
+  const [stackDragging]: any = useStackDraggingContext();
+  const [selectedBinder, { SetCurrentBinder }]: any =
+    useSelectedBinderContext();
 
   //Define Unique HTML Elements ro reference
   let binderContainer: HTMLDivElement | null = null;
-  let fullBinder: HTMLDivElement | null = null;
+  let thisBinder: HTMLDivElement | null = null;
   //Define Empty functions to define on mount
   let handleHover: Function;
   let handleHoverOut: Function;
@@ -127,26 +128,25 @@ export default function Binder({
     }
 
     handleHover = () => {
-      if (fullBinder) {
-        fullBinder.focus();
+      if (thisBinder) {
+        thisBinder.focus();
       }
     };
   });
 
   handleHoverOut = () => {
-    if (fullBinder) {
-      fullBinder.blur();
+    if (thisBinder) {
+      thisBinder.blur();
     }
   };
 
   const handleClick = (event: MouseEvent) => {
-    event.preventDefault();
-    setTimeout(() => {
-      if (fullBinder && stackDragging() === "still") {
-        console.log(selectedBinder());
-        fullBinder.focus();
-      }
-    }, 30);
+    // event.preventDefault();
+    // if (thisBinder) {
+    SetCurrentBinder(binderNum);
+    console.log(selectedBinder());
+    //   thisBinder.focus();
+    // }
   };
 
   return (
@@ -169,7 +169,7 @@ export default function Binder({
       >
         <div
           tabindex="0"
-          ref={(el) => (fullBinder = el)}
+          ref={(el) => (thisBinder = el)}
           classList={{
             binder: true,
             binderActive: binderActive(),
