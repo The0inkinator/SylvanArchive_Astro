@@ -1,6 +1,6 @@
 import { createSignal, createContext, useContext } from "solid-js";
 
-const ShelfContext = createContext();
+const StackDraggingContext = createContext();
 
 export function StackDraggingProvider(props: any) {
   const [stackDragging, setStackDragging] = createSignal<
@@ -22,12 +22,12 @@ export function StackDraggingProvider(props: any) {
     ];
 
   return (
-    <ShelfContext.Provider value={stackDragState}>
+    <StackDraggingContext.Provider value={stackDragState}>
       {props.children}
-    </ShelfContext.Provider>
+    </StackDraggingContext.Provider>
   );
 }
 
-export function useShelfContext() {
-  return useContext(ShelfContext);
+export function useStackDraggingContext() {
+  return useContext(StackDraggingContext);
 }
