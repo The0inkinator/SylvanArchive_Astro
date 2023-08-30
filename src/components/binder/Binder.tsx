@@ -144,7 +144,7 @@ export default function Binder({
     // event.preventDefault();
     // if (thisBinder) {
     SetCurrentBinder(binderNum);
-    console.log(selectedBinder());
+    // console.log(selectedBinder());
     //   thisBinder.focus();
     // }
   };

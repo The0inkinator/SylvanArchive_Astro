@@ -50,6 +50,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //State for slide function
   const [selectedBinderPosition, setSelectedBinderPosition] =
     createSignal<number>(0);
+  const [distanceToSlide, setDistanceToSlide] = createSignal<number>(0);
+  const [slideData, setSlideData] = createSignal<number[]>([0, 0]);
 
   //testing stuff
 
@@ -171,25 +173,36 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     loop();
   }
 
+  function currentScreenPos() {
+    return stackPosition() as number;
+  }
+
   function slide(ticks: number) {
+    const screenPos = currentScreenPos();
+
     const halfBinder = binderSize() / 2;
 
     const screenCenter = window.innerWidth / 2;
 
     const binderInStack = binderSize() * selectedBinder() - halfBinder;
 
-    setSelectedBinderPosition(stackPosition() + binderInStack);
+    const onScreenBinderPos = screenPos + binderInStack;
 
-    let totalDistanceToTravel = screenCenter - selectedBinderPosition();
+    // console.log(slideData()[0]);
+
+    // console.log(slideData()[1]);
+    // setSelectedBinderPosition(stackPosition() + binderInStack);
+
+    // setDistanceToSlide(screenCenter - selectedBinderPosition());
 
     function loop() {
-      if (Math.abs(totalDistanceToTravel) > 2) {
-        console.log("total distance to travel:", totalDistanceToTravel);
-        setNewStackPosition(
-          collisionCheck(stackPosition() + totalDistanceToTravel)
-        );
-        setStackPosition(collisionCheck(newStackPosition()));
-        totalDistanceToTravel = screenCenter - selectedBinderPosition();
+      if (null) {
+        // let incrementSlideDistance = distanceToSlide() / 12;
+        // setNewStackPosition(
+        //   collisionCheck(stackPosition() + incrementSlideDistance)
+        // );
+        // setStackPosition(collisionCheck(newStackPosition()));
+
         setTimeout(loop, ticks);
       }
     }
