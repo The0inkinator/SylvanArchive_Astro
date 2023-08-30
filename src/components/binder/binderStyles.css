@@ -13,7 +13,7 @@
   justify-self: center;
 }
 
-.fullbinder {
+.binder {
   all: unset;
   align-self: center;
   justify-self: center;
@@ -82,23 +82,14 @@
 
 /*Hover Transforms*/
 
-.fullbinder:hover,
-.fullbinder:focus {
+.binderActive {
   width: 88%;
   height: 88%;
   transform: translateY(calc((var(--BinderSize) * 0.03)));
   z-index: 10;
 }
 
-/* .binderBox:hover {
-  cursor: pointer;
-} */
-
-.binderBox:hover > .binderImage {
-  filter: blur(0px) grayscale(0%) saturate(120%);
-}
-
-.fullbinder:focus > .binderBox > .binderImage {
+.binderImageActive {
   filter: blur(0px) grayscale(0%) saturate(120%);
 }
 
