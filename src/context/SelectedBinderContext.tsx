@@ -12,7 +12,7 @@ export function SelectedBinderProvider(props: any) {
   const [selectedBinder, setSelectedBinder] = createSignal<binderInfo>({
       number: 0,
       bAddress: null,
-      sAddress: 20,
+      sAddress: null,
     }),
     selectedBinderState = [
       selectedBinder,

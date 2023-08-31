@@ -109,18 +109,17 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
 
-    setCurrentBinder(1);
     setStackAddress(1);
-    console.log('setting selected binder', selectedBinder());
+    // console.log('setting selected binder', selectedBinder());
 
-    function tick() {
-      function loop() {
-        console.log(selectedBinder());
-        setTimeout(loop, 500);
-      }
-      // loop();
-    }
-    tick();
+    // function tick() {
+    //   function loop() {
+    //     console.log(selectedBinder());
+    //     setTimeout(loop, 500);
+    //   }
+    //   loop();
+    // }
+    // tick();
   });
 
   //handles mouseDown
@@ -171,7 +170,11 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     }, 1);
   };
 
-  //Funtion takes in the stack's screen position and prevents it from exceeding the set boundries
+  // createEffect(() => {
+  //   console.log(stackDragging());
+  // });
+
+  //Function takes in the stack's screen position and prevents it from exceeding the set boundries
   function collisionCheck(pos: number) {
     if (pos > stackCollision().left) {
       return stackCollision().left as number;

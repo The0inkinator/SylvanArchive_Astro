@@ -57,6 +57,8 @@ export default function Binder({
   const [selectedBinder, { setCurrentBinder, setBinderAddress }]: any =
     useSelectedBinderContext();
 
+  const [stackDragging]: any = useStackDraggingContext();
+
   //Define Unique HTML Elements ro reference
   let binderContainer: HTMLDivElement | null = null;
   let thisBinder: HTMLDivElement | null = null;
@@ -121,6 +123,10 @@ export default function Binder({
       bgCardSize = 85;
       bgCardPositions[1] = `translate(-50%, -80%) rotate(-${bgCardRotation}deg)`;
     }
+  });
+
+  createEffect(() => {
+    console.log(selectedBinder().number);
   });
 
   onMount(() => {
