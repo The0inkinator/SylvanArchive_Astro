@@ -30,15 +30,16 @@ interface BinderInputs {
   bgCards?: CardFetcherInputs[];
   title: string;
   binderNum: number;
+  binderParent: any;
 }
 
-let popUpContainer: HTMLDivElement;
 //Main function
 export default function Binder({
   displayArt,
   bgCards,
   title,
   binderNum,
+  binderParent,
 }: BinderInputs) {
   //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
@@ -52,8 +53,8 @@ export default function Binder({
   //State to handle all visual edits to binder when it is "active"
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
   //Shelf contexts
-  const [stackDragging]: any = useStackDraggingContext();
-  const [selectedBinder, { SetCurrentBinder }]: any =
+
+  const [selectedBinder, { setCurrentBinder, setBinderAddress }]: any =
     useSelectedBinderContext();
 
   //Define Unique HTML Elements ro reference
@@ -126,27 +127,20 @@ export default function Binder({
     if (binderContainer) {
       binderContainer.addEventListener("click", handleClick);
     }
-
-    handleHover = () => {
-      if (thisBinder) {
-        thisBinder.focus();
-      }
-    };
   });
 
-  handleHoverOut = () => {
-    if (thisBinder) {
-      thisBinder.blur();
-    }
-  };
-
   const handleClick = (event: MouseEvent) => {
-    // event.preventDefault();
-    // if (thisBinder) {
-    SetCurrentBinder(binderNum);
-    // console.log(selectedBinder());
-    //   thisBinder.focus();
-    // }
+    if (selectedBinder().number !== 0.5) {
+      setCurrentBinder(binderNum);
+      setBinderAddress(binderContainer);
+      // if (selectedBinder().sAddress === binderParent) {
+      //   console.log("match");
+      // } else {
+      //   console.log("no match");
+      // }
+      console.log("current address is", selectedBinder().sAddress);
+      // console.log(selectedBinder().bAddress);
+    }
   };
 
   return (
@@ -192,7 +186,7 @@ export default function Binder({
             <a class="link"></a>
           </div>
 
-          <div class="popUpContainer" ref={popUpContainer}>
+          <div class="popUpContainer">
             {bgCardUrls().map((card: any, index: number) => {
               return (
                 <div
