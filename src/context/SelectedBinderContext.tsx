@@ -1,4 +1,4 @@
-import { createSignal, createContext, useContext } from "solid-js";
+import { createSignal, createContext, useContext } from 'solid-js';
 
 const SelectedBinderContext = createContext();
 
@@ -12,7 +12,7 @@ export function SelectedBinderProvider(props: any) {
   const [selectedBinder, setSelectedBinder] = createSignal<binderInfo>({
       number: 0,
       bAddress: null,
-      sAddress: null,
+      sAddress: 20,
     }),
     selectedBinderState = [
       selectedBinder,

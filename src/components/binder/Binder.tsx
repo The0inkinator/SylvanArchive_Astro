@@ -9,21 +9,21 @@
 // base on how many are passed to it, these also use the art fetcher and require a
 // minimum of a card name for each
 
-import "./binderStyles.css";
-import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
+import './binderStyles.css';
+import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import {
   CardArtFetcher,
   SmallCardFetcher,
-} from "../../backend/ScryfallAPIFetcher";
-import { useStackDraggingContext } from "../../context/StackDraggingContext";
-import { useSelectedBinderContext } from "../../context/SelectedBinderContext";
+} from '../../backend/ScryfallAPIFetcher';
+import { useStackDraggingContext } from '../../context/StackDraggingContext';
+import { useSelectedBinderContext } from '../../context/SelectedBinderContext';
 
 //TYPING
 interface CardFetcherInputs {
   cardName: string;
   cardSet?: string;
   cardCollectNum?: number;
-  cardFace?: "front" | "back";
+  cardFace?: 'front' | 'back';
 }
 interface BinderInputs {
   displayArt: CardFetcherInputs;
@@ -43,7 +43,7 @@ export default function Binder({
 }: BinderInputs) {
   //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
-  let bgCardPositions: string[] = ["translate(-50%, -50%)"];
+  let bgCardPositions: string[] = ['translate(-50%, -50%)'];
   let bgCardRotation: number = 0;
   let bgCardSize: number = 65;
 
@@ -83,7 +83,7 @@ export default function Binder({
           let mapCardSet: any;
           let mapCardCollectNum: any;
           let mapCardFace: any;
-          if (typeof card === "string") {
+          if (typeof card === 'string') {
             cardInfo = card;
           } else {
             cardInfo = card.cardName;
@@ -125,7 +125,7 @@ export default function Binder({
 
   onMount(() => {
     if (binderContainer) {
-      binderContainer.addEventListener("click", handleClick);
+      binderContainer.addEventListener('click', handleClick);
     }
   });
 
@@ -133,13 +133,6 @@ export default function Binder({
     if (selectedBinder().number !== 0.5) {
       setCurrentBinder(binderNum);
       setBinderAddress(binderContainer);
-      // if (selectedBinder().sAddress === binderParent) {
-      //   console.log("match");
-      // } else {
-      //   console.log("no match");
-      // }
-      console.log("current address is", selectedBinder().sAddress);
-      // console.log(selectedBinder().bAddress);
     }
   };
 
@@ -176,9 +169,9 @@ export default function Binder({
                 binderImageActive: binderActive(),
               }}
               style={{
-                "background-image": displayArtUrl()
+                'background-image': displayArtUrl()
                   ? `url(${displayArtUrl()})`
-                  : "none",
+                  : 'none',
               }}
             ></div>
             <div class="overlay"></div>
@@ -192,7 +185,7 @@ export default function Binder({
                 <div
                   class="popUpCard"
                   style={{
-                    "background-image": card ? `url(${card})` : "none",
+                    'background-image': card ? `url(${card})` : 'none',
                     transform: binderActive()
                       ? bgCardPositions[index + 1]
                       : bgCardPositions[0],

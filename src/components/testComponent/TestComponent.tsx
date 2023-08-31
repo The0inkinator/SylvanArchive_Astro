@@ -1,24 +1,14 @@
-import { createSignal, createEffect } from "solid-js";
-import "./testComponentStyle.css";
-import TestChild from "./testChild";
+import { createSignal, createEffect } from 'solid-js';
+import './testComponentStyle.css';
+import TestChild from './testChild';
+import { SelectedBinderProvider } from '../../context/SelectedBinderContext';
 
 export default function TestComponent() {
-  const [hovered, setHovered] = createSignal<"one" | "two" | "three">("one");
-
   return (
-    <div
-      class="testComponent"
-      onMouseEnter={() => {
-        setHovered("one");
-      }}
-      onmouseleave={() => {
-        setHovered("two");
-      }}
-      onclick={() => {
-        setHovered("three");
-      }}
-    >
-      <TestChild hovered={hovered()} />
-    </div>
+    <SelectedBinderProvider selectedBinderState={0}>
+      <div class="testComponent" onclick={() => {}}>
+        <TestChild />
+      </div>
+    </SelectedBinderProvider>
   );
 }
