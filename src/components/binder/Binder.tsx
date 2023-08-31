@@ -141,12 +141,9 @@ export default function Binder({
   };
 
   const handleClick = (event: MouseEvent) => {
-    // event.preventDefault();
-    // if (thisBinder) {
-    SetCurrentBinder(binderNum);
-    // console.log(selectedBinder());
-    //   thisBinder.focus();
-    // }
+    if (stackDragging() !== "drifting") {
+      SetCurrentBinder(binderNum);
+    }
   };
 
   return (
