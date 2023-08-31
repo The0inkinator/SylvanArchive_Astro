@@ -4,7 +4,7 @@ const StackDraggingContext = createContext();
 
 export function StackDraggingProvider(props: any) {
   const [stackDragging, setStackDragging] = createSignal<
-      "still" | "dragging" | "drifting" | "sliding"
+      "still" | "dragging" | "drifting" | "sliding" | "checking"
     >("still"),
     stackDragState = [
       stackDragging,
@@ -20,6 +20,9 @@ export function StackDraggingProvider(props: any) {
         },
         dragToSliding() {
           setStackDragging("sliding");
+        },
+        dragToChecking() {
+          setStackDragging("checking");
         },
       },
     ];

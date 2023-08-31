@@ -53,7 +53,7 @@ export default function Binder({
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
   //Shelf contexts
   const [stackDragging]: any = useStackDraggingContext();
-  const [selectedBinder, { SetCurrentBinder }]: any =
+  const [selectedBinder, { setCurrentBinder }]: any =
     useSelectedBinderContext();
 
   //Define Unique HTML Elements ro reference
@@ -127,22 +127,22 @@ export default function Binder({
       binderContainer.addEventListener("click", handleClick);
     }
 
-    handleHover = () => {
-      if (thisBinder) {
-        thisBinder.focus();
-      }
-    };
+    // handleHover = () => {
+    //   if (thisBinder) {
+    //     thisBinder.focus();
+    //   }
+    // };
   });
 
-  handleHoverOut = () => {
-    if (thisBinder) {
-      thisBinder.blur();
-    }
-  };
+  // handleHoverOut = () => {
+  //   if (thisBinder) {
+  //     thisBinder.blur();
+  //   }
+  // };
 
   const handleClick = (event: MouseEvent) => {
-    if (stackDragging() !== "drifting") {
-      SetCurrentBinder(binderNum);
+    if (selectedBinder() !== 0.5) {
+      setCurrentBinder(binderNum);
     }
   };
 

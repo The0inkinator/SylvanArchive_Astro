@@ -32,7 +32,13 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Dragging = mouse clicked and component moving, Drifting = mouse unclicked component "slowing down"
   const [
     stackDragging,
-    { dragToStill, dragToDragging, dragToDrifting, dragToSliding },
+    {
+      dragToStill,
+      dragToDragging,
+      dragToDrifting,
+      dragToSliding,
+      dragToChecking,
+    },
   ]: any = useStackDraggingContext();
   //Number that directly controls where the stack is on screen through its "left" style
   const [stackPosition, setStackPosition] = createSignal<number>(0);
@@ -48,7 +54,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     right: number;
   }>({ left: 0, right: 0 });
   //State for currently selected binder
-  const [selectedBinder]: any = useSelectedBinderContext();
+  const [selectedBinder, { setCurrentBinder }]: any =
+    useSelectedBinderContext();
   //State for slide function
 
   const [distanceToSlide, setDistanceToSlide] = createSignal<number>(0);
@@ -89,17 +96,20 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //handles mouseDown
   const handleMouseDown = (event: MouseEvent) => {
     if (stackHovered) {
-      dragToDragging();
       setStackOffsetX(event.clientX - stackPosition());
-      // setCursorType("grabbing");
       document.body.style.cursor = "grabbing";
+      dragToChecking();
       //calls drift function which handles the tracking and styling for the ice-rink effect
-      drift();
     }
   };
 
   //handles mouseMove
   const handleMouseMove = (event: MouseEvent) => {
+    if (stackDragging() === "checking") {
+      dragToDragging();
+      drift();
+    }
+
     if (stackDragging() === "dragging") {
       const mousePosX = event.clientX;
       setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
@@ -114,11 +124,17 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     } else {
       document.body.style.cursor = "grab";
     }
-    if (stackDriftSpeed() > 1) {
+
+    if (stackDragging() === "dragging") {
       dragToDrifting();
-    } else if (selectedBinder() !== 0) {
-      slide(selectedBinder());
+    } else {
+      dragToStill();
     }
+    setTimeout(() => {
+      if (stackDragging() === "still" && selectedBinder() !== 0.5) {
+        slide(selectedBinder());
+      }
+    }, 30);
   };
 
   //handles window resize to update all relevant properties
@@ -152,12 +168,12 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         setStackDriftSpeed(stackDrift() - stackPosition());
         const newStackDrift = stackPosition();
         setStackDrift(newStackDrift);
-        setTimeout(loop, 20);
+        setTimeout(loop, 1);
       } else if (stackDragging() === "drifting") {
         if (Math.abs(stackDriftSpeed()) > 1) {
           //Adjusting the single integer at the end of newStackSpeed will change the stack's "friction"
           //A higher number means lower "friction" and visa versa. Numbers below 1 will cause no friction
-          const newStackSpeed = stackDriftSpeed() - stackDriftSpeed() / 10;
+          const newStackSpeed = stackDriftSpeed() - stackDriftSpeed() / 20;
           const newStackPos = (() => {
             if (newStackSpeed > 0) {
               return stackPosition() - Math.abs(newStackSpeed);
@@ -167,7 +183,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
           })();
           setStackPosition(collisionCheck(newStackPos as number));
           setStackDriftSpeed(newStackSpeed);
-          setTimeout(loop, 20);
+          setTimeout(loop, 1);
         } else if (stackDragging() === "drifting" && stackDriftSpeed() < 1) {
           dragToStill();
           setStackDriftSpeed(0);
@@ -178,30 +194,29 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   }
 
   function slide(binder: number) {
-    dragToSliding();
+    setCurrentBinder(0.5);
+
     const halfBinder = binderSize() / 2;
 
     const screenCenter = window.innerWidth / 2;
 
-    const binderInStack = binderSize() * selectedBinder() - halfBinder;
+    const binderInStack = binderSize() * binder - halfBinder;
 
     setDistanceToSlide(screenCenter - (stackPosition() + binderInStack));
 
     function loop() {
-      if (
-        Math.abs(distanceToSlide()) > 1 &&
-        selectedBinder() === binder &&
-        stackDragging() === "sliding"
-      ) {
+      if (Math.abs(distanceToSlide()) > 1) {
         let slideIncrement: number;
         setDistanceToSlide(screenCenter - (stackPosition() + binderInStack));
-        slideIncrement = distanceToSlide() / 4;
+        slideIncrement = distanceToSlide() / 8;
         setNewStackPosition(collisionCheck(stackPosition() + slideIncrement));
         setStackPosition(newStackPosition());
 
-        setTimeout(loop, 10);
+        setTimeout(loop, 1);
       } else {
-        console.log("loop ended");
+        dragToStill();
+        setCurrentBinder(binder);
+        console.log(selectedBinder());
       }
     }
 

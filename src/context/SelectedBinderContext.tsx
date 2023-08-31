@@ -7,7 +7,7 @@ export function SelectedBinderProvider(props: any) {
     selectedBinderState = [
       selectedBinder,
       {
-        SetCurrentBinder(number: number) {
+        setCurrentBinder(number: number) {
           setSelectedBinder(number);
         },
       },
