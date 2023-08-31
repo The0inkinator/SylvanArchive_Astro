@@ -59,7 +59,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     right: number;
   }>({ left: 0, right: 0 });
   //State for currently selected binder
-  const [selectedBinder, { setCurrentBinder }]: any =
+  const [selectedBinder, { setCurrentBinder, setStackAddress }]: any =
     useSelectedBinderContext();
   //State for slide function
   const [distanceToSlide, setDistanceToSlide] = createSignal<number>(0);
@@ -134,8 +134,9 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       dragToStill();
     }
     setTimeout(() => {
-      if (stackDragging() === "still" && selectedBinder() !== 0.5) {
-        slide(selectedBinder());
+      if (stackDragging() === "still" && selectedBinder().number !== 0.5) {
+        console.log("SLIDE", selectedBinder().number);
+        slide(selectedBinder().number);
       }
     }, 30);
   };

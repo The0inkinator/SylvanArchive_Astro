@@ -52,8 +52,8 @@ export default function Binder({
   //State to handle all visual edits to binder when it is "active"
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
   //Shelf contexts
-  const [stackDragging]: any = useStackDraggingContext();
-  const [selectedBinder, { setCurrentBinder }]: any =
+
+  const [selectedBinder, { setCurrentBinder, setBinderAddress }]: any =
     useSelectedBinderContext();
 
   //Define Unique HTML Elements ro reference
@@ -141,8 +141,9 @@ export default function Binder({
   // };
 
   const handleClick = (event: MouseEvent) => {
-    if (selectedBinder() !== 0.5) {
+    if (selectedBinder().number !== 0.5) {
       setCurrentBinder(binderNum);
+      console.log(selectedBinder());
     }
   };
 
