@@ -1,14 +1,15 @@
-import "./stackStyles.css";
-import Binder from "../binder/Binder";
-import { default as MapList } from "../../lists/colors";
-import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
-import { useStackDraggingContext } from "../../context/StackDraggingContext";
-import { useSelectedBinderContext } from "../../context/SelectedBinderContext";
+import './stackStyles.css';
+import Binder from '../binder/Binder';
+import { default as MapList } from '../../lists/colors';
+import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
+import { useStackDraggingContext } from '../../context/StackDraggingContext';
+import { useSelectedBinderContext } from '../../context/SelectedBinderContext';
+import { useActiveStackContext } from '../../context/ActiveStackContext';
 import {
   screenSize,
   setScreenSize,
   getScreenSize,
-} from "../floatingMenu/FloatingMenu";
+} from '../floatingMenu/FloatingMenu';
 
 interface StackInputs {
   stackRef: string;
@@ -57,11 +58,14 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     left: number;
     right: number;
   }>({ left: 0, right: 0 });
-  //State for currently selected binder
-  const [selectedBinder, { setCurrentBinder, setStackAddress }]: any =
+  //Context States
+  const [selectedBinder, { setCurrentBinder }]: any =
     useSelectedBinderContext();
+
+  const [activeStack, { changeActiveStack }]: any = useActiveStackContext();
   //State for slide function
   const [distanceToSlide, setDistanceToSlide] = createSignal<number>(0);
+  const [thisStackActive, setThisStackActive] = createSignal<boolean>(true);
 
   //typing for refs
   let thisStack: HTMLDivElement | null = null;
@@ -77,7 +81,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       if (thisStack) {
         const rootStyles = getComputedStyle(thisStack);
         setBinderSize(
-          parseInt(rootStyles.getPropertyValue("--BinderSize")) * remSize
+          parseInt(rootStyles.getPropertyValue('--BinderSize')) * remSize
         );
       }
       setStackWidth(MapList.length * binderSize());
@@ -98,24 +102,34 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     //handles window resize to update all relevant properties
     createEffect(() => {
-      window.addEventListener("resize", setDefaults);
+      window.addEventListener('resize', setDefaults);
 
       onCleanup(() => {
-        window.removeEventListener("resize", setDefaults);
+        window.removeEventListener('resize', setDefaults);
       });
     });
 
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-    setStackAddress(thisStack);
+    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+
+    // console.log('setting selected binder', selectedBinder());
+
+    // function tick() {
+    //   function loop() {
+    //     console.log(selectedBinder());
+    //     setTimeout(loop, 500);
+    //   }
+    //   loop();
+    // }
+    // tick();
   });
 
   //handles mouseDown
   const handleMouseDown = (event: MouseEvent) => {
     if (stackHovered) {
       setStackOffsetX(event.clientX - stackPosition());
-      document.body.style.cursor = "grabbing";
+      document.body.style.cursor = 'grabbing';
       dragToChecking();
       //calls drift function which handles the tracking and styling for the ice-rink effect
     }
@@ -123,12 +137,12 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
   //handles mouseMove
   const handleMouseMove = (event: MouseEvent) => {
-    if (stackDragging() === "checking") {
+    if (stackDragging() === 'checking') {
       dragToDragging();
       drift();
     }
 
-    if (stackDragging() === "dragging") {
+    if (stackDragging() === 'dragging') {
       const mousePosX = event.clientX;
       setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
       setStackPosition(collisionCheck(newStackPosition()));
@@ -138,28 +152,32 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //handles mouseUp
   const handleMouseUp = (event: MouseEvent) => {
     if (!stackHovered) {
-      document.body.style.cursor = "auto";
+      document.body.style.cursor = 'auto';
     } else {
-      document.body.style.cursor = "grab";
+      document.body.style.cursor = 'grab';
     }
 
-    if (stackDragging() === "dragging") {
+    if (stackDragging() === 'dragging') {
       dragToDrifting();
     } else {
       dragToStill();
     }
     setTimeout(() => {
       if (
-        stackDragging() === "still" &&
-        selectedBinder().number !== 0 &&
-        selectedBinder().number !== 0.5
+        stackDragging() === 'still' &&
+        selectedBinder() !== 0 &&
+        selectedBinder() !== 0.5
       ) {
-        slide(selectedBinder().number);
+        slide(selectedBinder());
       }
-    }, 30);
+    }, 1);
   };
 
-  //Funtion takes in the stack's screen position and prevents it from exceeding the set boundries
+  // createEffect(() => {
+  //   console.log(stackDragging());
+  // });
+
+  //Function takes in the stack's screen position and prevents it from exceeding the set boundries
   function collisionCheck(pos: number) {
     if (pos > stackCollision().left) {
       return stackCollision().left as number;
@@ -177,12 +195,12 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //This creates an ice-rink like effect
   function drift() {
     function loop() {
-      if (stackDragging() === "dragging") {
+      if (stackDragging() === 'dragging') {
         setStackDriftSpeed(stackDrift() - stackPosition());
         const newStackDrift = stackPosition();
         setStackDrift(newStackDrift);
         setTimeout(loop, 1);
-      } else if (stackDragging() === "drifting") {
+      } else if (stackDragging() === 'drifting') {
         if (Math.abs(stackDriftSpeed()) > 1) {
           //Adjusting the single integer at the end of newStackSpeed will change the stack's "friction"
           //A higher number means lower "friction" and visa versa. Numbers below 1 will cause no friction
@@ -197,7 +215,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
           setStackPosition(collisionCheck(newStackPos as number));
           setStackDriftSpeed(newStackSpeed);
           setTimeout(loop, 1);
-        } else if (stackDragging() === "drifting" && stackDriftSpeed() < 1) {
+        } else if (stackDragging() === 'drifting' && stackDriftSpeed() < 1) {
           dragToStill();
           setStackDriftSpeed(0);
         }
@@ -229,27 +247,28 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     loop();
   }
+  createEffect(() => {
+    console.log(activeStack());
+  });
 
   return (
     <div
       class={`stackHandle ${stackRef}`}
+      style={{ opacity: thisStackActive() ? '100%' : '50%' }}
       ref={(el) => (thisStack = el)}
       onmouseenter={() => {
         stackHovered = true;
-        if (stackDragging() !== "dragging") {
-          document.body.style.cursor = "grab";
+        if (stackDragging() !== 'dragging') {
+          document.body.style.cursor = 'grab';
         }
       }}
       onclick={() => {
-        if (selectedBinder().sAddress === thisStack) {
-          console.log("match");
-        }
-        // setStackAddress(thisStack);
+        changeActiveStack(1);
       }}
       onmouseleave={() => {
         stackHovered = false;
-        if (stackDragging() === "still") {
-          document.body.style.cursor = "auto";
+        if (stackDragging() === 'still') {
+          document.body.style.cursor = 'auto';
         }
       }}
       style={{
