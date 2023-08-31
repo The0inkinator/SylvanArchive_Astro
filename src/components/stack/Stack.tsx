@@ -21,7 +21,6 @@ interface optionTypes {
   value2?: number;
 }
 
-let stackHandle: HTMLDivElement;
 export const [selectedBinder, setSelectedBinder] = createSignal<number>(0);
 
 export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
@@ -63,37 +62,53 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     useSelectedBinderContext();
   //State for slide function
   const [distanceToSlide, setDistanceToSlide] = createSignal<number>(0);
-  //test state
+
+  //typing for refs
+  let thisStack: HTMLDivElement | null = null;
 
   //Function that: Sets the stack pixel width, Positions the stack in the screen center, sets the collision boundries for the stack
   //Called both on mount and on screen resize
-  function setDefaults() {
-    const windowWidth = window.innerWidth;
-    const rootStyles = getComputedStyle(stackHandle);
-    const remSize = 16;
-    setBinderSize(
-      parseInt(rootStyles.getPropertyValue("--BinderSize")) * remSize
-    );
-    setStackWidth(MapList.length * binderSize());
-    const stackStartingPos = () => {
-      if (windowWidth - stackWidth() >= 0) {
-        return windowWidth / 2 - stackWidth() / 2;
-      } else {
-        return (stackWidth() - windowWidth) / -2;
-      }
-    };
-    setStackPosition(stackStartingPos);
-    const collisionLeft = windowWidth / 2 - binderSize() / 2;
-    const collisionRight = windowWidth / 2 - (stackWidth() - binderSize() / 2);
-    setStackCollision({ left: collisionLeft, right: collisionRight });
-  }
 
   //Calls setDefaults and adds event listeners to handle clicking and dragging of the stack
   onMount(() => {
+    function setDefaults() {
+      const windowWidth = window.innerWidth;
+      const remSize = 16;
+      if (thisStack) {
+        const rootStyles = getComputedStyle(thisStack);
+        setBinderSize(
+          parseInt(rootStyles.getPropertyValue("--BinderSize")) * remSize
+        );
+      }
+      setStackWidth(MapList.length * binderSize());
+      const stackStartingPos = () => {
+        if (windowWidth - stackWidth() >= 0) {
+          return windowWidth / 2 - stackWidth() / 2;
+        } else {
+          return (stackWidth() - windowWidth) / -2;
+        }
+      };
+      setStackPosition(stackStartingPos);
+      const collisionLeft = windowWidth / 2 - binderSize() / 2;
+      const collisionRight =
+        windowWidth / 2 - (stackWidth() - binderSize() / 2);
+      setStackCollision({ left: collisionLeft, right: collisionRight });
+    }
     setDefaults();
+
+    //handles window resize to update all relevant properties
+    createEffect(() => {
+      window.addEventListener("resize", setDefaults);
+
+      onCleanup(() => {
+        window.removeEventListener("resize", setDefaults);
+      });
+    });
+
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
+    setStackAddress(thisStack);
   });
 
   //handles mouseDown
@@ -134,21 +149,15 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       dragToStill();
     }
     setTimeout(() => {
-      if (stackDragging() === "still" && selectedBinder().number !== 0.5) {
-        console.log("SLIDE", selectedBinder().number);
+      if (
+        stackDragging() === "still" &&
+        selectedBinder().number !== 0 &&
+        selectedBinder().number !== 0.5
+      ) {
         slide(selectedBinder().number);
       }
     }, 30);
   };
-
-  //handles window resize to update all relevant properties
-  createEffect(() => {
-    window.addEventListener("resize", setDefaults);
-
-    onCleanup(() => {
-      window.removeEventListener("resize", setDefaults);
-    });
-  });
 
   //Funtion takes in the stack's screen position and prevents it from exceeding the set boundries
   function collisionCheck(pos: number) {
@@ -199,15 +208,10 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
   function slide(binder: number) {
     setCurrentBinder(0.5);
-
     const halfBinder = binderSize() / 2;
-
     const screenCenter = window.innerWidth / 2;
-
     const binderInStack = binderSize() * binder - halfBinder;
-
     setDistanceToSlide(screenCenter - (stackPosition() + binderInStack));
-
     function loop() {
       if (Math.abs(distanceToSlide()) > 1) {
         let slideIncrement: number;
@@ -225,15 +229,22 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     loop();
   }
+
   return (
     <div
-      class="stackHandle"
-      ref={stackHandle}
+      class={`stackHandle ${stackRef}`}
+      ref={(el) => (thisStack = el)}
       onmouseenter={() => {
         stackHovered = true;
         if (stackDragging() !== "dragging") {
           document.body.style.cursor = "grab";
         }
+      }}
+      onclick={() => {
+        if (selectedBinder().sAddress === thisStack) {
+          console.log("match");
+        }
+        // setStackAddress(thisStack);
       }}
       onmouseleave={() => {
         stackHovered = false;
@@ -270,6 +281,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
               }}
               bgCards={tempBgCardList}
               binderNum={gridCardIndex + 1}
+              binderParent={thisStack}
             />
           );
         })}
