@@ -4,6 +4,7 @@ import { default as MapList } from '../../lists/colors';
 import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import { useStackDraggingContext } from '../../context/StackDraggingContext';
 import { useSelectedBinderContext } from '../../context/SelectedBinderContext';
+import { useActiveStackContext } from '../../context/ActiveStackContext';
 import {
   screenSize,
   setScreenSize,
@@ -57,11 +58,14 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     left: number;
     right: number;
   }>({ left: 0, right: 0 });
-  //State for currently selected binder
-  const [selectedBinder, { setCurrentBinder, setStackAddress }]: any =
+  //Context States
+  const [selectedBinder, { setCurrentBinder }]: any =
     useSelectedBinderContext();
+
+  const [activeStack, { changeActiveStack }]: any = useActiveStackContext();
   //State for slide function
   const [distanceToSlide, setDistanceToSlide] = createSignal<number>(0);
+  const [thisStackActive, setThisStackActive] = createSignal<boolean>(true);
 
   //typing for refs
   let thisStack: HTMLDivElement | null = null;
@@ -109,7 +113,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
 
-    setStackAddress(1);
     // console.log('setting selected binder', selectedBinder());
 
     // function tick() {
@@ -162,10 +165,10 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     setTimeout(() => {
       if (
         stackDragging() === 'still' &&
-        selectedBinder().number !== 0 &&
-        selectedBinder().number !== 0.5
+        selectedBinder() !== 0 &&
+        selectedBinder() !== 0.5
       ) {
-        slide(selectedBinder().number);
+        slide(selectedBinder());
       }
     }, 1);
   };
@@ -244,10 +247,14 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     loop();
   }
+  createEffect(() => {
+    console.log(activeStack());
+  });
 
   return (
     <div
       class={`stackHandle ${stackRef}`}
+      style={{ opacity: thisStackActive() ? '100%' : '50%' }}
       ref={(el) => (thisStack = el)}
       onmouseenter={() => {
         stackHovered = true;
@@ -256,10 +263,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         }
       }}
       onclick={() => {
-        if (selectedBinder().sAddress === thisStack) {
-          console.log('match');
-        }
-        // setStackAddress(thisStack);
+        changeActiveStack(1);
       }}
       onmouseleave={() => {
         stackHovered = false;

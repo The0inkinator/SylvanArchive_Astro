@@ -125,10 +125,6 @@ export default function Binder({
     }
   });
 
-  createEffect(() => {
-    console.log(selectedBinder().number);
-  });
-
   onMount(() => {
     if (binderContainer) {
       binderContainer.addEventListener('click', handleClick);
@@ -138,7 +134,7 @@ export default function Binder({
   const handleClick = (event: MouseEvent) => {
     if (selectedBinder().number !== 0.5) {
       setCurrentBinder(binderNum);
-      setBinderAddress(binderContainer);
+      // setBinderAddress(binderContainer);
     }
   };
 
