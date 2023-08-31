@@ -16,6 +16,11 @@ interface StackInputs {
   stackTo?: string;
 }
 
+interface optionTypes {
+  value1?: number;
+  value2?: number;
+}
+
 let stackHandle: HTMLDivElement;
 export const [selectedBinder, setSelectedBinder] = createSignal<number>(0);
 
@@ -57,10 +62,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   const [selectedBinder, { setCurrentBinder }]: any =
     useSelectedBinderContext();
   //State for slide function
-
   const [distanceToSlide, setDistanceToSlide] = createSignal<number>(0);
-
-  //testing stuff
+  //test state
 
   //Function that: Sets the stack pixel width, Positions the stack in the screen center, sets the collision boundries for the stack
   //Called both on mount and on screen resize
@@ -216,17 +219,11 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       } else {
         dragToStill();
         setCurrentBinder(binder);
-        console.log(selectedBinder());
       }
     }
 
     loop();
   }
-
-  createEffect(() => {
-    console.log(stackDragging());
-  });
-
   return (
     <div
       class="stackHandle"
