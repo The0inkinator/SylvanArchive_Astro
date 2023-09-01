@@ -9,9 +9,8 @@ export default function ShelfScene() {
   onMount(() => {
     setShelfList((prevList) => [
       ...prevList,
-      <TestComponent />,
       <Shelf shelfRef="1" />,
-      <Shelf shelfRef="2" />,
+      // <Shelf shelfRef="2" />,
     ]);
   });
 
@@ -25,12 +24,7 @@ export default function ShelfScene() {
   }
 
   return (
-    <div
-      style={{ 'background-color': 'red' }}
-      onclick={() => {
-        newShelf();
-      }}
-    >
+    <div>
       <For each={shelfList()} fallback={<div>Loading stacks...</div>}>
         {(item) => <>{item}</>}
       </For>
