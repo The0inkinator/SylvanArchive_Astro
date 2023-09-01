@@ -14,11 +14,11 @@ export default function ShelfScene() {
     ]);
   });
 
-  function newShelf() {
+  function newShelf(path: string) {
     setShelfList((prevList) => [
       ...prevList,
       () => {
-        return <Shelf binderList="colors" />;
+        return <Shelf binderList={`${path}`} />;
       },
     ]);
   }

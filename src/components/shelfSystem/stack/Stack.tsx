@@ -24,16 +24,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Tracks if mouse is over stack updated with a create effect in the body of the function
   let stackHovered: boolean = false;
   //Context state for dragging
-  const [
-    stackDragging,
-    {
-      dragToStill,
-      dragToDragging,
-      dragToDrifting,
-      dragToSliding,
-      dragToChecking,
-    },
-  ]: any = useStackDraggingContext();
+  const [stackDragging, { dragToStill, dragToDragging, dragToDrifting }]: any =
+    useStackDraggingContext();
   //Number that directly controls where the stack is on screen through its "left" style
   const [stackPosition, setStackPosition] = createSignal<number>(0);
   //Secondary position for the handleMouseMove function
@@ -64,27 +56,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Called both on mount and on screen resize
 
   //Calls setDefaults and adds event listeners to handle clicking and dragging of the stack
-  onMount(() => {
-    import(`../../../lists${stackFrom}`)
-      .then((module) => {
-        const dynamicMapList = module.default;
-        // console.log(dynamicMapList);
-        if (dynamicMapList.length > 1) {
-          setNewMapList(dynamicMapList);
-          console.log(newMapList());
-        } else {
-          console.log('invalid list');
-          import('../../../lists').then((module) => {
-            setNewMapList(module.default);
-            console.log(newMapList());
-          });
-        }
-      })
-      .catch((error) => {
-        setNewMapList(MapList);
-        console.log(newMapList());
-      });
 
+  onMount(() => {
     function setDefaults() {
       const windowWidth = window.innerWidth;
       const remSize = 16;
@@ -94,7 +67,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
           parseInt(rootStyles.getPropertyValue('--BinderSize')) * remSize
         );
       }
-      setStackWidth(MapList.length * binderSize());
+
+      setStackWidth(newMapList().length * binderSize());
       const stackStartingPos = () => {
         if (windowWidth - stackWidth() >= 0) {
           return windowWidth / 2 - stackWidth() / 2;
@@ -108,7 +82,20 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         windowWidth / 2 - (stackWidth() - binderSize() / 2);
       setStackCollision({ left: collisionLeft, right: collisionRight });
     }
-    setDefaults();
+
+    import(`../../../lists${stackFrom}`).then((module) => {
+      const dynamicMapList = module.default;
+      if (dynamicMapList.length > 1) {
+        setNewMapList(dynamicMapList);
+        setDefaults();
+      } else {
+        console.log('invalid list');
+        import('../../../lists').then((module) => {
+          setNewMapList(module.default);
+          setDefaults();
+        });
+      }
+    });
 
     //handles window resize to update all relevant properties
     createEffect(() => {
@@ -130,24 +117,18 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     if (stackHovered) {
       changeActiveStack(thisStack);
     }
-    if (thisStackActive()) {
-      if (stackHovered) {
-        setStackOffsetX(event.clientX - stackPosition());
-        document.body.style.cursor = 'grabbing';
-        dragToChecking();
-        //calls drift function which handles the tracking and styling for the ice-rink effect
-      }
+    if (thisStackActive() && stackHovered) {
+      setStackOffsetX(event.clientX - stackPosition());
+      document.body.style.cursor = 'grabbing';
+      dragToDragging();
+      drift();
+      //calls drift function which handles the tracking and styling for the ice-rink effect
     }
   };
 
   //handles mouseMove
   const handleMouseMove = (event: MouseEvent) => {
     if (thisStackActive()) {
-      if (stackDragging() === 'checking') {
-        dragToDragging();
-        drift();
-      }
-
       if (stackDragging() === 'dragging') {
         const mousePosX = event.clientX;
         setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
@@ -166,19 +147,11 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       }
 
       if (stackDragging() === 'dragging') {
+        console.log(stackDriftSpeed());
         dragToDrifting();
       } else {
         dragToStill();
       }
-      setTimeout(() => {
-        if (
-          stackDragging() === 'still' &&
-          selectedBinder() !== 0 &&
-          selectedBinder() !== 0.5
-        ) {
-          slide(selectedBinder());
-        }
-      }, 1);
     }
   };
 
@@ -197,6 +170,20 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     }
   }
 
+  function capDriftSpeed(pos: number) {
+    if (Math.abs(pos) > 20) {
+      if (pos > 0) {
+        return 20;
+      } else if (pos < 0) {
+        return -20;
+      } else {
+        return 0;
+      }
+    } else {
+      return pos;
+    }
+  }
+
   //This function is called when mouseDown and will loop while mouse down to track the stack's "speed"
   //Once mouseUp the function contiues to loop rather than tracking the "speed" it:
   //A. Moves the stack in the direction it was being dragged and then B. Reduces the speed and loops.
@@ -206,15 +193,15 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     if (thisStackActive()) {
       function loop() {
         if (stackDragging() === 'dragging') {
-          setStackDriftSpeed(stackDrift() - stackPosition());
+          setStackDriftSpeed(capDriftSpeed(stackDrift() - stackPosition()));
           const newStackDrift = stackPosition();
           setStackDrift(newStackDrift);
-          setTimeout(loop, 1);
+          setTimeout(loop, 10);
         } else if (stackDragging() === 'drifting') {
           if (Math.abs(stackDriftSpeed()) > 1) {
             //Adjusting the single integer at the end of newStackSpeed will change the stack's "friction"
             //A higher number means lower "friction" and visa versa. Numbers below 1 will cause no friction
-            const newStackSpeed = stackDriftSpeed() - stackDriftSpeed() / 20;
+            const newStackSpeed = stackDriftSpeed() - stackDriftSpeed() / 13;
             const newStackPos = (() => {
               if (newStackSpeed > 0) {
                 return stackPosition() - Math.abs(newStackSpeed);
@@ -224,7 +211,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
             })();
             setStackPosition(collisionCheck(newStackPos as number));
             setStackDriftSpeed(newStackSpeed);
-            setTimeout(loop, 1);
+            setTimeout(loop, 5);
           } else if (stackDragging() === 'drifting' && stackDriftSpeed() < 1) {
             dragToStill();
             setStackDriftSpeed(0);
@@ -279,6 +266,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
           document.body.style.cursor = 'grab';
         }
       }}
+      onclick={() => {}}
       onmouseleave={() => {
         stackHovered = false;
         if (stackDragging() === 'still') {
