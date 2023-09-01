@@ -281,31 +281,10 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       }}
     >
       <div class="stackContainer">
-        {/* {MapList.map((gridCard, gridCardIndex) => {
-          const tempBgCardList = gridCard.bgCards?.map((bgCard) => {
-            return {
-              cardName: bgCard.cardName,
-              cardSet: bgCard.cardSet,
-              cardCollectNum: bgCard.cardCollectNum,
-              cardFace: bgCard.cardFace,
-            };
-          });
-          return (
-            <Binder
-              title={gridCard.title}
-              displayArt={{
-                cardName: gridCard.displayArt.cardName,
-                cardSet: gridCard.displayArt?.cardSet,
-                cardCollectNum: gridCard.displayArt?.cardCollectNum,
-                cardFace: gridCard.displayArt?.cardFace,
-              }}
-              bgCards={tempBgCardList}
-              binderNum={gridCardIndex + 1}
-              binderParent={thisStack}
-            />
-          );
-        })} */}
-        <For each={newMapList()} fallback={<div>loading binderlist...</div>}>
+        <For
+          each={newMapList()}
+          fallback={<div class="loadingListText">Loading List...</div>}
+        >
           {(item: any, index: any) => {
             const tempBgCardList = item.bgCards?.map((bgCard: any) => {
               return {
