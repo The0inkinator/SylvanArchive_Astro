@@ -147,7 +147,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       }
 
       if (stackDragging() === 'dragging') {
-        console.log(stackDriftSpeed());
         dragToDrifting();
       } else {
         dragToStill();
@@ -316,6 +315,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
                 cardFace: bgCard.cardFace,
               };
             });
+
             return (
               <Binder
                 title={item.title}
@@ -326,7 +326,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
                   cardFace: item.displayArt?.cardFace,
                 }}
                 bgCards={tempBgCardList}
-                binderNum={index + 1}
+                binderNum={index() + 1}
                 binderParent={thisStack}
               />
             );
