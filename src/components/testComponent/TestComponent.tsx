@@ -1,4 +1,3 @@
-import { createSignal, createEffect } from "solid-js";
 import "./testComponentStyle.css";
 import TestChild from "./testChild";
 import { useActiveStackContext } from "../../context/ActiveStackContext";

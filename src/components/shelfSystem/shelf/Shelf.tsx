@@ -3,11 +3,9 @@ import Stack from "../stack/Stack";
 
 interface ShelfInputs {
   shelfRef: string;
-  shelfFrom?: string;
-  shelfTo?: string;
 }
 
-export default function Shelf({ shelfRef, shelfFrom, shelfTo }: ShelfInputs) {
+export default function Shelf({ shelfRef }: ShelfInputs) {
   return (
     <div class="shelfContainer">
       <div class="stackSlider">
