@@ -17,12 +17,7 @@ interface StackInputs {
   stackTo?: string;
 }
 
-interface optionTypes {
-  value1?: number;
-  value2?: number;
-}
-
-export const [selectedBinder, setSelectedBinder] = createSignal<number>(0);
+// export const [selectedBinder, setSelectedBinder] = createSignal<number>(0);
 
 export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Property to track the pixel width of cards that the stack is made of
@@ -112,65 +107,64 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
-
-    // console.log('setting selected binder', selectedBinder());
-
-    // function tick() {
-    //   function loop() {
-    //     console.log(selectedBinder());
-    //     setTimeout(loop, 500);
-    //   }
-    //   loop();
-    // }
-    // tick();
+    changeActiveStack(thisStack);
   });
 
   //handles mouseDown
   const handleMouseDown = (event: MouseEvent) => {
     if (stackHovered) {
-      setStackOffsetX(event.clientX - stackPosition());
-      document.body.style.cursor = "grabbing";
-      dragToChecking();
-      //calls drift function which handles the tracking and styling for the ice-rink effect
+      changeActiveStack(thisStack);
+    }
+    if (thisStackActive()) {
+      if (stackHovered) {
+        setStackOffsetX(event.clientX - stackPosition());
+        document.body.style.cursor = "grabbing";
+        dragToChecking();
+        //calls drift function which handles the tracking and styling for the ice-rink effect
+      }
     }
   };
 
   //handles mouseMove
   const handleMouseMove = (event: MouseEvent) => {
-    if (stackDragging() === "checking") {
-      dragToDragging();
-      drift();
-    }
+    if (thisStackActive()) {
+      if (stackDragging() === "checking") {
+        dragToDragging();
+        drift();
+      }
 
-    if (stackDragging() === "dragging") {
-      const mousePosX = event.clientX;
-      setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
-      setStackPosition(collisionCheck(newStackPosition()));
+      if (stackDragging() === "dragging") {
+        const mousePosX = event.clientX;
+        setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
+        setStackPosition(collisionCheck(newStackPosition()));
+      }
     }
   };
 
   //handles mouseUp
   const handleMouseUp = (event: MouseEvent) => {
-    if (!stackHovered) {
-      document.body.style.cursor = "auto";
-    } else {
-      document.body.style.cursor = "grab";
-    }
-
-    if (stackDragging() === "dragging") {
-      dragToDrifting();
-    } else {
-      dragToStill();
-    }
-    setTimeout(() => {
-      if (
-        stackDragging() === "still" &&
-        selectedBinder() !== 0 &&
-        selectedBinder() !== 0.5
-      ) {
-        slide(selectedBinder());
+    if (thisStackActive()) {
+      if (!stackHovered) {
+        document.body.style.cursor = "auto";
+      } else {
+        document.body.style.cursor = "grab";
       }
-    }, 1);
+
+      if (stackDragging() === "dragging") {
+        dragToDrifting();
+      } else {
+        dragToStill();
+      }
+      setTimeout(() => {
+        if (
+          stackDragging() === "still" &&
+          selectedBinder() !== 0 &&
+          selectedBinder() !== 0.5
+        ) {
+          slide(selectedBinder());
+        }
+      }, 1);
+    }
   };
 
   // createEffect(() => {
@@ -194,61 +188,70 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Once the speed falls below one it will revert the stack state back to "still"
   //This creates an ice-rink like effect
   function drift() {
-    function loop() {
-      if (stackDragging() === "dragging") {
-        setStackDriftSpeed(stackDrift() - stackPosition());
-        const newStackDrift = stackPosition();
-        setStackDrift(newStackDrift);
-        setTimeout(loop, 1);
-      } else if (stackDragging() === "drifting") {
-        if (Math.abs(stackDriftSpeed()) > 1) {
-          //Adjusting the single integer at the end of newStackSpeed will change the stack's "friction"
-          //A higher number means lower "friction" and visa versa. Numbers below 1 will cause no friction
-          const newStackSpeed = stackDriftSpeed() - stackDriftSpeed() / 20;
-          const newStackPos = (() => {
-            if (newStackSpeed > 0) {
-              return stackPosition() - Math.abs(newStackSpeed);
-            } else if (newStackSpeed < 0) {
-              return stackPosition() + Math.abs(newStackSpeed);
-            }
-          })();
-          setStackPosition(collisionCheck(newStackPos as number));
-          setStackDriftSpeed(newStackSpeed);
+    if (thisStackActive()) {
+      function loop() {
+        if (stackDragging() === "dragging") {
+          setStackDriftSpeed(stackDrift() - stackPosition());
+          const newStackDrift = stackPosition();
+          setStackDrift(newStackDrift);
           setTimeout(loop, 1);
-        } else if (stackDragging() === "drifting" && stackDriftSpeed() < 1) {
-          dragToStill();
-          setStackDriftSpeed(0);
+        } else if (stackDragging() === "drifting") {
+          if (Math.abs(stackDriftSpeed()) > 1) {
+            //Adjusting the single integer at the end of newStackSpeed will change the stack's "friction"
+            //A higher number means lower "friction" and visa versa. Numbers below 1 will cause no friction
+            const newStackSpeed = stackDriftSpeed() - stackDriftSpeed() / 20;
+            const newStackPos = (() => {
+              if (newStackSpeed > 0) {
+                return stackPosition() - Math.abs(newStackSpeed);
+              } else if (newStackSpeed < 0) {
+                return stackPosition() + Math.abs(newStackSpeed);
+              }
+            })();
+            setStackPosition(collisionCheck(newStackPos as number));
+            setStackDriftSpeed(newStackSpeed);
+            setTimeout(loop, 1);
+          } else if (stackDragging() === "drifting" && stackDriftSpeed() < 1) {
+            dragToStill();
+            setStackDriftSpeed(0);
+          }
         }
       }
+      loop();
     }
-    loop();
   }
 
   function slide(binder: number) {
-    setCurrentBinder(0.5);
-    const halfBinder = binderSize() / 2;
-    const screenCenter = window.innerWidth / 2;
-    const binderInStack = binderSize() * binder - halfBinder;
-    setDistanceToSlide(screenCenter - (stackPosition() + binderInStack));
-    function loop() {
-      if (Math.abs(distanceToSlide()) > 1) {
-        let slideIncrement: number;
-        setDistanceToSlide(screenCenter - (stackPosition() + binderInStack));
-        slideIncrement = distanceToSlide() / 8;
-        setNewStackPosition(collisionCheck(stackPosition() + slideIncrement));
-        setStackPosition(newStackPosition());
+    if (thisStackActive()) {
+      setCurrentBinder(0.5);
+      const halfBinder = binderSize() / 2;
+      const screenCenter = window.innerWidth / 2;
+      const binderInStack = binderSize() * binder - halfBinder;
+      setDistanceToSlide(screenCenter - (stackPosition() + binderInStack));
+      function loop() {
+        if (Math.abs(distanceToSlide()) > 1) {
+          let slideIncrement: number;
+          setDistanceToSlide(screenCenter - (stackPosition() + binderInStack));
+          slideIncrement = distanceToSlide() / 8;
+          setNewStackPosition(collisionCheck(stackPosition() + slideIncrement));
+          setStackPosition(newStackPosition());
 
-        setTimeout(loop, 1);
-      } else {
-        dragToStill();
-        setCurrentBinder(binder);
+          setTimeout(loop, 1);
+        } else {
+          dragToStill();
+          setCurrentBinder(binder);
+        }
       }
-    }
 
-    loop();
+      loop();
+    }
   }
+
   createEffect(() => {
-    console.log(activeStack());
+    if (thisStack === activeStack()) {
+      setThisStackActive(true);
+    } else {
+      setThisStackActive(false);
+    }
   });
 
   return (
@@ -260,9 +263,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         if (stackDragging() !== "dragging") {
           document.body.style.cursor = "grab";
         }
-      }}
-      onclick={() => {
-        changeActiveStack(1);
       }}
       onmouseleave={() => {
         stackHovered = false;
