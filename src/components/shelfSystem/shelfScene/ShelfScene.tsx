@@ -1,7 +1,7 @@
-import "./shelfSceneStyles.css";
-import Shelf from "../shelf/Shelf";
-import TestComponent from "../../testComponent/TestComponent";
-import { createSignal, onMount, For } from "solid-js";
+import './shelfSceneStyles.css';
+import Shelf from '../shelf/Shelf';
+import TestComponent from '../../testComponent/TestComponent';
+import { createSignal, onMount, For } from 'solid-js';
 
 export default function ShelfScene() {
   const [shelfList, setShelfList] = createSignal<any[]>([]);
@@ -12,19 +12,21 @@ export default function ShelfScene() {
       <TestComponent />,
       <Shelf shelfRef="1" />,
       <Shelf shelfRef="2" />,
-      <Shelf shelfRef="4" />,
-      <Shelf shelfRef="3" />,
-      <Shelf shelfRef="5" />,
     ]);
   });
 
   function newShelf() {
-    setShelfList((prevList) => [...prevList, <TestComponent />]);
+    setShelfList((prevList) => [
+      ...prevList,
+      () => {
+        return <Shelf shelfRef="3" />;
+      },
+    ]);
   }
 
   return (
     <div
-      style={{ "background-color": "red" }}
+      style={{ 'background-color': 'red' }}
       onclick={() => {
         newShelf();
       }}
