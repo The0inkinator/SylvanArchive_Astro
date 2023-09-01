@@ -7,14 +7,10 @@ import { ActiveStackProvider } from "../../../context/ActiveStackContext";
 
 export default function ShelfScene() {
   return (
-    <StackDraggingProvider dragState={"still"}>
-      <SelectedBinderProvider selectedBinderState={0}>
-        <ActiveStackProvider activeStackState={null}>
-          <TestComponent />
-          <Shelf shelfRef="1" />
-          <Shelf shelfRef="2" />
-        </ActiveStackProvider>
-      </SelectedBinderProvider>
-    </StackDraggingProvider>
+    <>
+      <TestComponent />
+      <Shelf shelfRef="1" />
+      <Shelf shelfRef="2" />
+    </>
   );
 }
