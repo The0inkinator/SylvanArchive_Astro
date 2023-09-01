@@ -9,8 +9,8 @@ export default function ShelfScene() {
   onMount(() => {
     setShelfList((prevList) => [
       ...prevList,
-      <Shelf shelfRef="1" />,
-      // <Shelf shelfRef="2" />,
+      <Shelf binderList="/colors" />,
+      // <Shelf binderList="2" />,
     ]);
   });
 
@@ -18,7 +18,7 @@ export default function ShelfScene() {
     setShelfList((prevList) => [
       ...prevList,
       () => {
-        return <Shelf shelfRef="3" />;
+        return <Shelf binderList="colors" />;
       },
     ]);
   }

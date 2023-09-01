@@ -1,15 +1,15 @@
-import "./shelfStyles.css";
-import Stack from "../stack/Stack";
+import './shelfStyles.css';
+import Stack from '../stack/Stack';
 
 interface ShelfInputs {
-  shelfRef: string;
+  binderList: string;
 }
 
-export default function Shelf({ shelfRef }: ShelfInputs) {
+export default function Shelf({ binderList }: ShelfInputs) {
   return (
     <div class="shelfContainer">
       <div class="stackSlider">
-        <Stack stackRef={`${shelfRef}`} />
+        <Stack stackRef={`${binderList}`} stackFrom={`${binderList}`} />
       </div>
     </div>
   );

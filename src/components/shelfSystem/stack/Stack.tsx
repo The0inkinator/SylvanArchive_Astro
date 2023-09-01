@@ -1,15 +1,10 @@
-import "./stackStyles.css";
-import Binder from "../binder/Binder";
-import { default as MapList } from "../../../lists/colors";
-import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
-import { useStackDraggingContext } from "../../../context/StackDraggingContext";
-import { useSelectedBinderContext } from "../../../context/SelectedBinderContext";
-import { useActiveStackContext } from "../../../context/ActiveStackContext";
-import {
-  screenSize,
-  setScreenSize,
-  getScreenSize,
-} from "../../floatingMenu/FloatingMenu";
+import './stackStyles.css';
+import Binder from '../binder/Binder';
+import { default as MapList } from '../../../lists';
+import { createSignal, createEffect, onMount, onCleanup, For } from 'solid-js';
+import { useStackDraggingContext } from '../../../context/StackDraggingContext';
+import { useSelectedBinderContext } from '../../../context/SelectedBinderContext';
+import { useActiveStackContext } from '../../../context/ActiveStackContext';
 
 interface StackInputs {
   stackRef: string;
@@ -28,8 +23,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   const [stackOffsetX, setStackOffsetX] = createSignal<number>(0);
   //Tracks if mouse is over stack updated with a create effect in the body of the function
   let stackHovered: boolean = false;
-  //3 States: Still = no movement
-  //Dragging = mouse clicked and component moving, Drifting = mouse unclicked component "slowing down"
+  //Context state for dragging
   const [
     stackDragging,
     {
@@ -61,6 +55,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //State for slide function
   const [distanceToSlide, setDistanceToSlide] = createSignal<number>(0);
   const [thisStackActive, setThisStackActive] = createSignal<boolean>(true);
+  const [newMapList, setNewMapList] = createSignal<any[]>([]);
 
   //typing for refs
   let thisStack: HTMLDivElement | null = null;
@@ -70,13 +65,33 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
   //Calls setDefaults and adds event listeners to handle clicking and dragging of the stack
   onMount(() => {
+    import(`../../../lists${stackFrom}`)
+      .then((module) => {
+        const dynamicMapList = module.default;
+        // console.log(dynamicMapList);
+        if (dynamicMapList.length > 1) {
+          setNewMapList(dynamicMapList);
+          console.log(newMapList());
+        } else {
+          console.log('invalid list');
+          import('../../../lists').then((module) => {
+            setNewMapList(module.default);
+            console.log(newMapList());
+          });
+        }
+      })
+      .catch((error) => {
+        setNewMapList(MapList);
+        console.log(newMapList());
+      });
+
     function setDefaults() {
       const windowWidth = window.innerWidth;
       const remSize = 16;
       if (thisStack) {
         const rootStyles = getComputedStyle(thisStack);
         setBinderSize(
-          parseInt(rootStyles.getPropertyValue("--BinderSize")) * remSize
+          parseInt(rootStyles.getPropertyValue('--BinderSize')) * remSize
         );
       }
       setStackWidth(MapList.length * binderSize());
@@ -97,16 +112,16 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     //handles window resize to update all relevant properties
     createEffect(() => {
-      window.addEventListener("resize", setDefaults);
+      window.addEventListener('resize', setDefaults);
 
       onCleanup(() => {
-        window.removeEventListener("resize", setDefaults);
+        window.removeEventListener('resize', setDefaults);
       });
     });
 
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
     changeActiveStack(thisStack);
   });
 
@@ -118,7 +133,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     if (thisStackActive()) {
       if (stackHovered) {
         setStackOffsetX(event.clientX - stackPosition());
-        document.body.style.cursor = "grabbing";
+        document.body.style.cursor = 'grabbing';
         dragToChecking();
         //calls drift function which handles the tracking and styling for the ice-rink effect
       }
@@ -128,12 +143,12 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //handles mouseMove
   const handleMouseMove = (event: MouseEvent) => {
     if (thisStackActive()) {
-      if (stackDragging() === "checking") {
+      if (stackDragging() === 'checking') {
         dragToDragging();
         drift();
       }
 
-      if (stackDragging() === "dragging") {
+      if (stackDragging() === 'dragging') {
         const mousePosX = event.clientX;
         setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
         setStackPosition(collisionCheck(newStackPosition()));
@@ -145,19 +160,19 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   const handleMouseUp = (event: MouseEvent) => {
     if (thisStackActive()) {
       if (!stackHovered) {
-        document.body.style.cursor = "auto";
+        document.body.style.cursor = 'auto';
       } else {
-        document.body.style.cursor = "grab";
+        document.body.style.cursor = 'grab';
       }
 
-      if (stackDragging() === "dragging") {
+      if (stackDragging() === 'dragging') {
         dragToDrifting();
       } else {
         dragToStill();
       }
       setTimeout(() => {
         if (
-          stackDragging() === "still" &&
+          stackDragging() === 'still' &&
           selectedBinder() !== 0 &&
           selectedBinder() !== 0.5
         ) {
@@ -190,12 +205,12 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   function drift() {
     if (thisStackActive()) {
       function loop() {
-        if (stackDragging() === "dragging") {
+        if (stackDragging() === 'dragging') {
           setStackDriftSpeed(stackDrift() - stackPosition());
           const newStackDrift = stackPosition();
           setStackDrift(newStackDrift);
           setTimeout(loop, 1);
-        } else if (stackDragging() === "drifting") {
+        } else if (stackDragging() === 'drifting') {
           if (Math.abs(stackDriftSpeed()) > 1) {
             //Adjusting the single integer at the end of newStackSpeed will change the stack's "friction"
             //A higher number means lower "friction" and visa versa. Numbers below 1 will cause no friction
@@ -210,7 +225,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
             setStackPosition(collisionCheck(newStackPos as number));
             setStackDriftSpeed(newStackSpeed);
             setTimeout(loop, 1);
-          } else if (stackDragging() === "drifting" && stackDriftSpeed() < 1) {
+          } else if (stackDragging() === 'drifting' && stackDriftSpeed() < 1) {
             dragToStill();
             setStackDriftSpeed(0);
           }
@@ -260,14 +275,14 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       ref={(el) => (thisStack = el)}
       onmouseenter={() => {
         stackHovered = true;
-        if (stackDragging() !== "dragging") {
-          document.body.style.cursor = "grab";
+        if (stackDragging() !== 'dragging') {
+          document.body.style.cursor = 'grab';
         }
       }}
       onmouseleave={() => {
         stackHovered = false;
-        if (stackDragging() === "still") {
-          document.body.style.cursor = "auto";
+        if (stackDragging() === 'still') {
+          document.body.style.cursor = 'auto';
         }
       }}
       style={{
@@ -275,11 +290,11 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         left: `${collisionCheck(stackPosition())}px`,
         //Stackwidth is set on mount and updated on resize
         width: `${stackWidth()}px`,
-        opacity: thisStackActive() ? "100%" : "50%",
+        opacity: thisStackActive() ? '100%' : '50%',
       }}
     >
       <div class="stackContainer">
-        {MapList.map((gridCard, gridCardIndex) => {
+        {/* {MapList.map((gridCard, gridCardIndex) => {
           const tempBgCardList = gridCard.bgCards?.map((bgCard) => {
             return {
               cardName: bgCard.cardName,
@@ -302,7 +317,33 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
               binderParent={thisStack}
             />
           );
-        })}
+        })} */}
+        <For each={newMapList()} fallback={<div>loading binderlist...</div>}>
+          {(item: any, index: any) => {
+            const tempBgCardList = item.bgCards?.map((bgCard: any) => {
+              return {
+                cardName: bgCard.cardName,
+                cardSet: bgCard.cardSet,
+                cardCollectNum: bgCard.cardCollectNum,
+                cardFace: bgCard.cardFace,
+              };
+            });
+            return (
+              <Binder
+                title={item.title}
+                displayArt={{
+                  cardName: item.displayArt.cardName,
+                  cardSet: item.displayArt?.cardSet,
+                  cardCollectNum: item.displayArt?.cardCollectNum,
+                  cardFace: item.displayArt?.cardFace,
+                }}
+                bgCards={tempBgCardList}
+                binderNum={index + 1}
+                binderParent={thisStack}
+              />
+            );
+          }}
+        </For>
       </div>
     </div>
   );
