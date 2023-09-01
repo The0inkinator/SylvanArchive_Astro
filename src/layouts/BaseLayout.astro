@@ -39,14 +39,26 @@ import BaseFooter from "../components/BaseFooter.astro";
     />
   </head>
 
+  <script>
+  // Import and define your context providers here
+  import { StackDraggingProvider } from './path/to/StackDraggingContext';
+  import { SelectedBinderProvider } from './path/to/SelectedBinderContext';
+  import { ActiveStackProvider } from './path/to/ActiveStackContext';
+</script>
+
   <body>
+
     <BaseHeader />
     <div class="upperMargin"></div>
     <div id="contentContainer">
+
       <slot />
+
     </div>
     <div class="bottomMargin"></div>
+
   </body>
+
 
   <style>
     .upperMargin {

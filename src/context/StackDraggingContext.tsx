@@ -1,28 +1,22 @@
-import { createSignal, createContext, useContext } from "solid-js";
+import { createSignal, createContext, useContext } from 'solid-js';
 
 const StackDraggingContext = createContext();
 
 export function StackDraggingProvider(props: any) {
   const [stackDragging, setStackDragging] = createSignal<
-      "still" | "dragging" | "drifting" | "sliding" | "checking"
-    >("still"),
+      'still' | 'dragging' | 'drifting'
+    >('still'),
     stackDragState = [
       stackDragging,
       {
         dragToStill() {
-          setStackDragging("still");
+          setStackDragging('still');
         },
         dragToDragging() {
-          setStackDragging("dragging");
+          setStackDragging('dragging');
         },
         dragToDrifting() {
-          setStackDragging("drifting");
-        },
-        dragToSliding() {
-          setStackDragging("sliding");
-        },
-        dragToChecking() {
-          setStackDragging("checking");
+          setStackDragging('drifting');
         },
       },
     ];
