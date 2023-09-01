@@ -1,14 +1,17 @@
-import { createSignal, createEffect } from 'solid-js';
-import './testComponentStyle.css';
-import TestChild from './testChild';
-import { SelectedBinderProvider } from '../../context/SelectedBinderContext';
+import "./testComponentStyle.css";
+import TestChild from "./testChild";
+import { useActiveStackContext } from "../../context/ActiveStackContext";
 
 export default function TestComponent() {
+  const [activeStack]: any = useActiveStackContext();
   return (
-    <SelectedBinderProvider selectedBinderState={0}>
-      <div class="testComponent" onclick={() => {}}>
-        <TestChild />
-      </div>
-    </SelectedBinderProvider>
+    <div
+      class="testComponent"
+      onclick={() => {
+        console.log(activeStack());
+      }}
+    >
+      <TestChild />
+    </div>
   );
 }
