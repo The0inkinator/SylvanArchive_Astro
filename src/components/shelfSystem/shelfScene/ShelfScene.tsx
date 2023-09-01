@@ -31,9 +31,9 @@ export default function ShelfScene() {
         newShelf();
       }}
     >
-      {shelfList().map((component) => {
-        return component;
-      })}
+      <For each={shelfList()} fallback={<div>Loading stacks...</div>}>
+        {(item) => <>{item}</>}
+      </For>
     </div>
   );
 }
