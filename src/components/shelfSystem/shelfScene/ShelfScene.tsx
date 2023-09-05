@@ -1,7 +1,7 @@
-import './shelfSceneStyles.css';
-import Shelf from '../shelf/Shelf';
-import TestComponent from '../../testComponent/TestComponent';
-import { createSignal, onMount, For } from 'solid-js';
+import "./shelfSceneStyles.css";
+import Shelf from "../shelf/Shelf";
+import TestComponent from "../../testComponent/TestComponent";
+import { createSignal, onMount, For } from "solid-js";
 
 export default function ShelfScene() {
   const [shelfList, setShelfList] = createSignal<any[]>([]);
