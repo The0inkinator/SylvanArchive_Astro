@@ -132,7 +132,7 @@ export default function Binder({
   });
 
   const handleClick = (event: MouseEvent) => {
-    if (selectedBinder().number !== 0.5) {
+    if (stackDragging() === 'still') {
       setCurrentBinder(binderNum);
     }
   };

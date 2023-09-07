@@ -21,6 +21,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   const [stackOffsetX, setStackOffsetX] = createSignal<number>(0);
   //Tracks if mouse is over stack updated with a create effect in the body of the function
   let stackHovered: boolean = false;
+  let localStackDragging: boolean = false;
   //Context state for dragging
   const [stackDragging, { dragToStill, dragToDragging, dragToDrifting }]: any =
     useStackDraggingContext();
@@ -115,20 +116,26 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   const handleMouseDown = (event: MouseEvent) => {
     if (stackHovered) {
       changeActiveStack(thisStack);
+      localStackDragging = true;
     }
     if (thisStackActive() && stackHovered) {
+      slideCheck();
       setStackOffsetX(event.clientX - stackPosition());
       document.body.style.cursor = 'grabbing';
-      dragToDragging();
-      drift();
-      slideCheck();
-      //calls drift function which handles the tracking and styling for the ice-rink effect
     }
   };
 
   //handles mouseMove
   const handleMouseMove = (event: MouseEvent) => {
     if (thisStackActive()) {
+      if (
+        localStackDragging &&
+        stackDragging() !== 'dragging' &&
+        stackDragging() !== 'drifting'
+      ) {
+        dragToDragging();
+        drift();
+      }
       if (stackDragging() === 'dragging') {
         const mousePosX = event.clientX;
         setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
@@ -137,13 +144,10 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     }
   };
 
-  createEffect(() => {
-    console.log(stackDragging());
-  });
-
   //handles mouseUp
   const handleMouseUp = (event: MouseEvent) => {
     if (thisStackActive()) {
+      localStackDragging = false;
       if (!stackHovered) {
         document.body.style.cursor = 'auto';
       } else {
@@ -156,15 +160,11 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         dragToStill();
       }
 
-      if (canSlide() && selectedBinder() >= 1) {
+      if (canSlide() && stackDragging() === 'still') {
         slide(selectedBinder());
       }
     }
   };
-
-  // createEffect(() => {
-  //   console.log(stackDragging());
-  // });
 
   //Function takes in the stack's screen position and prevents it from exceeding the set boundries
   function collisionCheck(pos: number) {
@@ -243,9 +243,13 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     }
   }
 
+  // createEffect(() => {
+  //   console.log(stackDragging());
+  // });
+
   function slide(binder: number) {
-    if (thisStackActive()) {
-      setCurrentBinder(0.5);
+    if (thisStackActive() && stackDragging() === 'still') {
+      dragToDrifting();
       const halfBinder = binderSize() / 2;
       const screenCenter = window.innerWidth / 2;
       const binderInStack = binderSize() * binder - halfBinder;
@@ -261,7 +265,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
           setTimeout(loop, 1);
         } else {
           dragToStill();
-          setCurrentBinder(binder);
         }
       }
 
