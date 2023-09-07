@@ -127,7 +127,7 @@ export default function Binder({
 
   onMount(() => {
     if (binderContainer) {
-      binderContainer.addEventListener('click', handleClick);
+      binderContainer.addEventListener('mousedown', handleClick);
     }
   });
 
