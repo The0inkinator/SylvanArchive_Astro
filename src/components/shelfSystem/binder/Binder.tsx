@@ -127,15 +127,21 @@ export default function Binder({
 
   onMount(() => {
     if (binderContainer) {
-      binderContainer.addEventListener('mousedown', handleClick);
+      binderContainer.addEventListener('mousedown', handleMouseDown);
     }
   });
 
-  const handleClick = (event: MouseEvent) => {
+  const handleMouseDown = (event: MouseEvent) => {
     if (stackDragging() === 'still') {
       setCurrentBinder(binderNum);
     }
   };
+
+  createEffect(() => {
+    if (stackDragging() !== 'still' && selectedBinder() !== binderNum) {
+      setBinderActive(false);
+    }
+  });
 
   return (
     <>
@@ -152,7 +158,9 @@ export default function Binder({
           setBinderActive(true);
         }}
         onmouseleave={() => {
-          setBinderActive(false);
+          if (selectedBinder() !== binderNum) {
+            setBinderActive(false);
+          }
         }}
       >
         <div
