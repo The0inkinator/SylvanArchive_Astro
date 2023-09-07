@@ -138,7 +138,10 @@ export default function Binder({
   };
 
   createEffect(() => {
-    if (stackDragging() !== 'still' && selectedBinder() !== binderNum) {
+    if (
+      stackDragging() !== 'still' &&
+      selectedBinder().selectedBinder !== binderNum
+    ) {
       setBinderActive(false);
     }
   });

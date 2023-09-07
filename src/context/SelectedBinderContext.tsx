@@ -3,18 +3,23 @@ import { createSignal, createContext, useContext } from 'solid-js';
 const SelectedBinderContext = createContext();
 
 interface binderInfo {
-  number: number;
-  bAddress: any;
-  sAddress: any;
+  hoveredBinder: number;
+  selectedBinder: number;
 }
 
 export function SelectedBinderProvider(props: any) {
-  const [selectedBinder, setSelectedBinder] = createSignal<number>(0),
+  const [selectedBinder, setSelectedBinder] = createSignal<binderInfo>({
+      hoveredBinder: 0,
+      selectedBinder: 0,
+    }),
     selectedBinderState = [
       selectedBinder,
       {
         setCurrentBinder(inputNumber: number) {
-          setSelectedBinder(inputNumber);
+          setSelectedBinder({
+            hoveredBinder: selectedBinder().hoveredBinder,
+            selectedBinder: inputNumber,
+          });
         },
       },
     ];

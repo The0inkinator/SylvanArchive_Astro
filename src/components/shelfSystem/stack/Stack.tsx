@@ -12,6 +12,8 @@ interface StackInputs {
   stackTo?: string;
 }
 
+
+
 export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Property to track the pixel width of cards that the stack is made of
   const [binderSize, setBinderSize] = createSignal<number>(0);
@@ -161,7 +163,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       }
 
       if (canSlide() && stackDragging() === 'still') {
-        slide(selectedBinder());
+        slide(selectedBinder().selectedBinder);
       }
     }
   };
