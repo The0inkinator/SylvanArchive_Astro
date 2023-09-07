@@ -96,21 +96,13 @@ const FixingLands: GridCardInputs[] = [
     title: "Red",
     link: "",
     displayArt: { cardName: "fiery emancipation" },
-    bgCards: [
-      { cardName: "goblin guide" },
-      { cardName: "searing blaze" },
-      { cardName: "chandra torch of defiance" },
-    ],
+    bgCards: [{ cardName: "goblin guide" }, { cardName: "searing blaze" }],
   },
   {
     title: "Green",
     link: "",
     displayArt: { cardName: "craterhoof behemoth" },
-    bgCards: [
-      { cardName: "Elvish Mystic" },
-      { cardName: "farseek" },
-      { cardName: "Natural Order" },
-    ],
+    bgCards: [{ cardName: "Elvish Mystic" }],
   },
 ];
 export default FixingLands;
