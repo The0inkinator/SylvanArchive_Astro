@@ -12,7 +12,10 @@ interface StackInputs {
   stackTo?: string;
 }
 
-
+type BinderOptions = {
+  selectedBinder: number;
+  hoveredBinder: number;
+};
 
 export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Property to track the pixel width of cards that the stack is made of

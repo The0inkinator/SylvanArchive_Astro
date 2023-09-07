@@ -21,6 +21,12 @@ export function SelectedBinderProvider(props: any) {
             selectedBinder: inputNumber,
           });
         },
+        setHoveredBinder(inputNumber: number) {
+          setSelectedBinder({
+            hoveredBinder: inputNumber,
+            selectedBinder: selectedBinder().selectedBinder,
+          });
+        },
       },
     ];
 
