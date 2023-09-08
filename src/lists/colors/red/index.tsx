@@ -13,13 +13,23 @@ interface GridCardInputs {
 }
 const FixingLands: GridCardInputs[] = [
   {
-    title: 'Title',
+    title: 'Creatures',
     link: '',
-    displayArt: { cardName: 'DiplayArt' },
+    displayArt: { cardName: 'Eidolon of the Great Revel' },
     bgCards: [
-      { cardName: 'Bg Card 1' },
-      { cardName: 'Bg Card  2' },
-      { cardName: 'Bg Card  3' },
+      { cardName: 'Goblin Guide' },
+      { cardName: 'Laelia, the blade Reforged' },
+      { cardName: 'Fury' },
+    ],
+  },
+  {
+    title: 'Spells',
+    link: '',
+    displayArt: { cardName: 'Lightning Bolt' },
+    bgCards: [
+      { cardName: 'Flame Slash' },
+      { cardName: 'pyroclasm' },
+      { cardName: 'fiery emancipation' },
     ],
   },
 ];
