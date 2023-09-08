@@ -54,6 +54,7 @@ export default function Binder({
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
   //State to handle all visual edits to binder when it is "active"
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
+  const [binderHidden, setBinderHidden] = createSignal<boolean>(false);
   //Shelf contexts
 
   const [binderState, { setSelectedBinder, setHoveredBinder }]: any =
@@ -139,6 +140,7 @@ export default function Binder({
     }
   };
 
+  //handles binder visuals
   createEffect(() => {
     if (
       binderState().hoveredBinder === binderNum &&
@@ -151,6 +153,21 @@ export default function Binder({
         setBinderActive(false);
       }
     }
+    if (
+      stackDragging() !== 'still' &&
+      binderState().selectedBinder !== binderNum &&
+      binderState().hoveredBinder !== binderNum
+    ) {
+      setBinderActive(false);
+    }
+    if (
+      binderState().selectedBinder !== binderNum &&
+      binderState().selectedBinder > 0
+    ) {
+      setBinderHidden(true);
+    } else {
+      setBinderHidden(false);
+    }
   });
 
   createEffect(() => {
@@ -159,16 +176,6 @@ export default function Binder({
       binderState().selectedBinder === binderNum
     ) {
       console.log('Generate Stack', binderLink);
-    }
-  });
-
-  createEffect(() => {
-    if (
-      stackDragging() !== 'still' &&
-      binderState().selectedBinder !== binderNum &&
-      binderState().hoveredBinder !== binderNum
-    ) {
-      setBinderActive(false);
     }
   });
 
@@ -189,6 +196,7 @@ export default function Binder({
         onmouseleave={() => {
           setHoveredBinder(0);
         }}
+        style={{ opacity: binderHidden() ? '50%' : '100%' }}
       >
         <div
           tabindex="0"
