@@ -17,6 +17,7 @@ import {
 } from '../../../backend/ScryfallAPIFetcher';
 import { useStackDraggingContext } from '../../../context/StackDraggingContext';
 import { useBinderStateContext } from '../../../context/BinderStateContext';
+import { useStackStateContext } from '../../../context/StackStateContext';
 
 //TYPING
 interface CardFetcherInputs {
@@ -59,6 +60,9 @@ export default function Binder({
 
   const [binderState, { setSelectedBinder, setHoveredBinder }]: any =
     useBinderStateContext();
+
+  const [stackState, { changeActiveStack, queueStack }]: any =
+    useStackStateContext();
 
   const [stackDragging]: any = useStackDraggingContext();
 
@@ -176,6 +180,7 @@ export default function Binder({
       binderState().selectedBinder === binderNum
     ) {
       console.log('Generate Stack', binderLink);
+      // queueStack(binderLink);
     }
   });
 

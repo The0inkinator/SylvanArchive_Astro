@@ -4,7 +4,7 @@ import { default as MapList } from '../../../lists';
 import { createSignal, createEffect, onMount, onCleanup, For } from 'solid-js';
 import { useStackDraggingContext } from '../../../context/StackDraggingContext';
 import { useBinderStateContext } from '../../../context/BinderStateContext';
-import { useActiveStackContext } from '../../../context/ActiveStackContext';
+import { useStackStateContext } from '../../../context/StackStateContext';
 
 interface StackInputs {
   stackRef: string;
@@ -42,8 +42,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   }>({ left: 0, right: 0 });
   //Context States
   const [binderState, { setSelectedBinder }]: any = useBinderStateContext();
-
-  const [activeStack, { changeActiveStack }]: any = useActiveStackContext();
+  const [stackState, { changeActiveStack, queueStack }]: any =
+    useStackStateContext();
   //State for slide function
   const [distanceToSlide, setDistanceToSlide] = createSignal<number>(0);
   const [canSlide, setCanSlide] = createSignal<boolean>(false);
@@ -289,7 +289,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   }
 
   createEffect(() => {
-    if (thisStack === activeStack()) {
+    if (thisStack === stackState().activeStack) {
       setThisStackActive(true);
     } else {
       setThisStackActive(false);
