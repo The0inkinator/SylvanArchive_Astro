@@ -179,10 +179,16 @@ export default function Binder({
       stackDragging() === 'locked' &&
       binderState().selectedBinder === binderNum
     ) {
-      console.log('Generate Stack', binderLink);
-      // queueStack(binderLink);
+      queueStackFromBinder();
     }
   });
+
+  const queueStackFromBinder = () => {
+    if (stackState().stackQueued === 'none') {
+      queueStack(`${binderLink}`);
+      console.log(stackState().stackQueued);
+    }
+  };
 
   return (
     <>
