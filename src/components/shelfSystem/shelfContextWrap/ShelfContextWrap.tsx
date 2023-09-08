@@ -1,16 +1,16 @@
 import { StackDraggingProvider } from "../../../context/StackDraggingContext";
-import { SelectedBinderProvider } from "../../../context/BinderStateContext";
+import { BinderStateProvider } from "../../../context/BinderStateContext";
 import { ActiveStackProvider } from "../../../context/ActiveStackContext";
 import ShelfScene from "../shelfScene/ShelfScene";
 
 export default function ShelfContextWrap() {
   return (
     <StackDraggingProvider dragState={"still"}>
-      <SelectedBinderProvider selectedBinderState={0}>
+      <BinderStateProvider binderStateList={0}>
         <ActiveStackProvider activeStackState={null}>
           <ShelfScene />
         </ActiveStackProvider>
-      </SelectedBinderProvider>
+      </BinderStateProvider>
     </StackDraggingProvider>
   );
 }

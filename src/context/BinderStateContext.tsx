@@ -1,42 +1,42 @@
 import { createSignal, createContext, useContext } from "solid-js";
 
-const SelectedBinderContext = createContext();
+const BinderStateContext = createContext();
 
 interface binderInfo {
   hoveredBinder: number;
   selectedBinder: number;
 }
 
-export function SelectedBinderProvider(props: any) {
-  const [selectedBinder, setSelectedBinder] = createSignal<binderInfo>({
+export function BinderStateProvider(props: any) {
+  const [binderState, setBinderState] = createSignal<binderInfo>({
       hoveredBinder: 0,
       selectedBinder: 0,
     }),
-    selectedBinderState = [
-      selectedBinder,
+    binderStateList = [
+      binderState,
       {
-        setCurrentBinder(inputNumber: number) {
-          setSelectedBinder({
-            hoveredBinder: selectedBinder().hoveredBinder,
+        setSelectedBinder(inputNumber: number) {
+          setBinderState({
+            hoveredBinder: binderState().hoveredBinder,
             selectedBinder: inputNumber,
           });
         },
         setHoveredBinder(inputNumber: number) {
-          setSelectedBinder({
+          setBinderState({
             hoveredBinder: inputNumber,
-            selectedBinder: selectedBinder().selectedBinder,
+            selectedBinder: binderState().selectedBinder,
           });
         },
       },
     ];
 
   return (
-    <SelectedBinderContext.Provider value={selectedBinderState}>
+    <BinderStateContext.Provider value={binderStateList}>
       {props.children}
-    </SelectedBinderContext.Provider>
+    </BinderStateContext.Provider>
   );
 }
 
-export function useSelectedBinderContext() {
-  return useContext(SelectedBinderContext);
+export function useBinderStateContext() {
+  return useContext(BinderStateContext);
 }

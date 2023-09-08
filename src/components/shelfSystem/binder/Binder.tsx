@@ -16,7 +16,7 @@ import {
   SmallCardFetcher,
 } from "../../../backend/ScryfallAPIFetcher";
 import { useStackDraggingContext } from "../../../context/StackDraggingContext";
-import { useSelectedBinderContext } from "../../../context/BinderStateContext";
+import { useBinderStateContext } from "../../../context/BinderStateContext";
 
 //TYPING
 interface CardFetcherInputs {
@@ -54,8 +54,8 @@ export default function Binder({
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
   //Shelf contexts
 
-  const [selectedBinder, { setCurrentBinder, setHoveredBinder }]: any =
-    useSelectedBinderContext();
+  const [binderState, { setSelectedBinder, setHoveredBinder }]: any =
+    useBinderStateContext();
 
   const [stackDragging]: any = useStackDraggingContext();
 
@@ -133,14 +133,14 @@ export default function Binder({
 
   const handleMouseDown = (event: MouseEvent) => {
     if (stackDragging() === "still") {
-      setCurrentBinder(binderNum);
+      setSelectedBinder(binderNum);
     }
   };
 
   createEffect(() => {
     if (
       stackDragging() !== "still" &&
-      selectedBinder().selectedBinder !== binderNum
+      binderState().selectedBinder !== binderNum
     ) {
       setBinderActive(false);
     }
@@ -163,7 +163,7 @@ export default function Binder({
         }}
         onmouseleave={() => {
           setHoveredBinder(0);
-          if (selectedBinder() !== binderNum) {
+          if (binderState() !== binderNum) {
             setBinderActive(false);
           }
         }}
