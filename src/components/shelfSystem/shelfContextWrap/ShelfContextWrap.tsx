@@ -1,5 +1,5 @@
 import { StackDraggingProvider } from "../../../context/StackDraggingContext";
-import { SelectedBinderProvider } from "../../../context/SelectedBinderContext";
+import { SelectedBinderProvider } from "../../../context/BinderStateContext";
 import { ActiveStackProvider } from "../../../context/ActiveStackContext";
 import ShelfScene from "../shelfScene/ShelfScene";
 

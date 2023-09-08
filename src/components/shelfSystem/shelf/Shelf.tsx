@@ -1,5 +1,5 @@
-import './shelfStyles.css';
-import Stack from '../stack/Stack';
+import "./shelfStyles.css";
+import Stack from "../stack/Stack";
 
 interface ShelfInputs {
   binderList: string;
