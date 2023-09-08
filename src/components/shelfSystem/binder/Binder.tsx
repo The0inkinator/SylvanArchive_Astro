@@ -146,31 +146,33 @@ export default function Binder({
 
   //handles binder visuals
   createEffect(() => {
-    if (
-      binderState().hoveredBinder === binderNum &&
-      (binderState().selectedBinder === 0 ||
-        binderState().selectedBinder === binderNum)
-    ) {
-      setBinderActive(true);
-    } else {
-      if (binderState().selectedBinder !== binderNum) {
+    if (stackState().activeStack === binderParent) {
+      if (
+        binderState().hoveredBinder === binderNum &&
+        (binderState().selectedBinder === 0 ||
+          binderState().selectedBinder === binderNum)
+      ) {
+        setBinderActive(true);
+      } else {
+        if (binderState().selectedBinder !== binderNum) {
+          setBinderActive(false);
+        }
+      }
+      if (
+        stackDragging() !== 'still' &&
+        binderState().selectedBinder !== binderNum &&
+        binderState().hoveredBinder !== binderNum
+      ) {
         setBinderActive(false);
       }
-    }
-    if (
-      stackDragging() !== 'still' &&
-      binderState().selectedBinder !== binderNum &&
-      binderState().hoveredBinder !== binderNum
-    ) {
-      setBinderActive(false);
-    }
-    if (
-      binderState().selectedBinder !== binderNum &&
-      binderState().selectedBinder > 0
-    ) {
-      setBinderHidden(true);
-    } else {
-      setBinderHidden(false);
+      if (
+        binderState().selectedBinder !== binderNum &&
+        binderState().selectedBinder > 0
+      ) {
+        setBinderHidden(true);
+      } else {
+        setBinderHidden(false);
+      }
     }
   });
 
@@ -186,7 +188,7 @@ export default function Binder({
   const queueStackFromBinder = () => {
     if (stackState().stackQueued === 'none') {
       queueStack(`${binderLink}`);
-      console.log(stackState().stackQueued);
+      // console.log(stackState().stackQueued);
     }
   };
 

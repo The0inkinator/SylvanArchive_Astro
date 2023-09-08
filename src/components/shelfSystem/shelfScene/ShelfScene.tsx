@@ -8,20 +8,10 @@ export default function ShelfScene() {
   const [stackState, { queueStack }]: any = useStackStateContext();
 
   onMount(() => {
-    setShelfList((prevList) => [
-      ...prevList,
-      <Shelf binderList="/colors" />,
-      // <Shelf binderList="2" />,
-    ]);
+    setShelfList((prevList) => [...prevList, <Shelf binderList="/colors" />]);
 
     newShelfCheck();
   });
-
-  // createEffect(() => {
-  //   if (stackState().stackQueued !== 'none') {
-  //     newShelf(stackState().stackQueued);
-  //   }
-  // });
 
   function newShelf(path: string) {
     if (stackState().stackQueued !== 'none') {
@@ -31,6 +21,7 @@ export default function ShelfScene() {
           return <Shelf binderList={`${path}`} />;
         },
       ]);
+      queueStack('none');
     }
   }
 
@@ -39,7 +30,6 @@ export default function ShelfScene() {
       if (stackState().stackQueued === 'none') {
         setTimeout(loop, 100);
       } else {
-        // console.log('loop found stack Queued');
         newShelf(stackState().stackQueued);
       }
     }
