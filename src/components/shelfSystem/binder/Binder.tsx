@@ -9,21 +9,21 @@
 // base on how many are passed to it, these also use the art fetcher and require a
 // minimum of a card name for each
 
-import "./binderStyles.css";
-import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
+import './binderStyles.css';
+import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import {
   CardArtFetcher,
   SmallCardFetcher,
-} from "../../../backend/ScryfallAPIFetcher";
-import { useStackDraggingContext } from "../../../context/StackDraggingContext";
-import { useBinderStateContext } from "../../../context/BinderStateContext";
+} from '../../../backend/ScryfallAPIFetcher';
+import { useStackDraggingContext } from '../../../context/StackDraggingContext';
+import { useBinderStateContext } from '../../../context/BinderStateContext';
 
 //TYPING
 interface CardFetcherInputs {
   cardName: string;
   cardSet?: string;
   cardCollectNum?: number;
-  cardFace?: "front" | "back";
+  cardFace?: 'front' | 'back';
 }
 interface BinderInputs {
   displayArt: CardFetcherInputs;
@@ -31,6 +31,7 @@ interface BinderInputs {
   title: string;
   binderNum: number;
   binderParent: any;
+  binderLink: string;
 }
 
 //Main function
@@ -40,10 +41,11 @@ export default function Binder({
   title,
   binderNum,
   binderParent,
+  binderLink,
 }: BinderInputs) {
   //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
-  let bgCardPositions: string[] = ["translate(-50%, -50%)"];
+  let bgCardPositions: string[] = ['translate(-50%, -50%)'];
   let bgCardRotation: number = 0;
   let bgCardSize: number = 65;
 
@@ -85,7 +87,7 @@ export default function Binder({
           let mapCardSet: any;
           let mapCardCollectNum: any;
           let mapCardFace: any;
-          if (typeof card === "string") {
+          if (typeof card === 'string') {
             cardInfo = card;
           } else {
             cardInfo = card.cardName;
@@ -127,20 +129,44 @@ export default function Binder({
 
   onMount(() => {
     if (binderContainer) {
-      binderContainer.addEventListener("mousedown", handleMouseDown);
+      binderContainer.addEventListener('dblclick', handleDoubleClick);
     }
   });
 
-  const handleMouseDown = (event: MouseEvent) => {
-    if (stackDragging() === "still") {
+  const handleDoubleClick = (event: MouseEvent) => {
+    if (stackDragging() === 'still') {
       setSelectedBinder(binderNum);
     }
   };
 
   createEffect(() => {
     if (
-      stackDragging() !== "still" &&
-      binderState().selectedBinder !== binderNum
+      binderState().hoveredBinder === binderNum &&
+      (binderState().selectedBinder === 0 ||
+        binderState().selectedBinder === binderNum)
+    ) {
+      setBinderActive(true);
+    } else {
+      if (binderState().selectedBinder !== binderNum) {
+        setBinderActive(false);
+      }
+    }
+  });
+
+  createEffect(() => {
+    if (
+      stackDragging() === 'locked' &&
+      binderState().selectedBinder === binderNum
+    ) {
+      console.log('Generate Stack', binderLink);
+    }
+  });
+
+  createEffect(() => {
+    if (
+      stackDragging() !== 'still' &&
+      binderState().selectedBinder !== binderNum &&
+      binderState().hoveredBinder !== binderNum
     ) {
       setBinderActive(false);
     }
@@ -158,14 +184,10 @@ export default function Binder({
           setBinderActive(false);
         }}
         onmouseenter={() => {
-          setBinderActive(true);
           setHoveredBinder(binderNum);
         }}
         onmouseleave={() => {
           setHoveredBinder(0);
-          if (binderState() !== binderNum) {
-            setBinderActive(false);
-          }
         }}
       >
         <div
@@ -183,9 +205,9 @@ export default function Binder({
                 binderImageActive: binderActive(),
               }}
               style={{
-                "background-image": displayArtUrl()
+                'background-image': displayArtUrl()
                   ? `url(${displayArtUrl()})`
-                  : "none",
+                  : 'none',
               }}
             ></div>
             <div class="overlay"></div>
@@ -199,7 +221,7 @@ export default function Binder({
                 <div
                   class="popUpCard"
                   style={{
-                    "background-image": card ? `url(${card})` : "none",
+                    'background-image': card ? `url(${card})` : 'none',
                     transform: binderActive()
                       ? bgCardPositions[index + 1]
                       : bgCardPositions[0],
