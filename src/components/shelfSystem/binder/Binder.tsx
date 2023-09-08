@@ -54,7 +54,7 @@ export default function Binder({
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
   //Shelf contexts
 
-  const [selectedBinder, { setCurrentBinder, setBinderAddress }]: any =
+  const [selectedBinder, { setCurrentBinder, setHoveredBinder }]: any =
     useSelectedBinderContext();
 
   const [stackDragging]: any = useStackDraggingContext();
@@ -127,15 +127,24 @@ export default function Binder({
 
   onMount(() => {
     if (binderContainer) {
-      binderContainer.addEventListener('click', handleClick);
+      binderContainer.addEventListener('mousedown', handleMouseDown);
     }
   });
 
-  const handleClick = (event: MouseEvent) => {
-    if (selectedBinder().number !== 0.5) {
+  const handleMouseDown = (event: MouseEvent) => {
+    if (stackDragging() === 'still') {
       setCurrentBinder(binderNum);
     }
   };
+
+  createEffect(() => {
+    if (
+      stackDragging() !== 'still' &&
+      selectedBinder().selectedBinder !== binderNum
+    ) {
+      setBinderActive(false);
+    }
+  });
 
   return (
     <>
@@ -150,9 +159,13 @@ export default function Binder({
         }}
         onmouseenter={() => {
           setBinderActive(true);
+          setHoveredBinder(binderNum);
         }}
         onmouseleave={() => {
-          setBinderActive(false);
+          setHoveredBinder(0);
+          if (selectedBinder() !== binderNum) {
+            setBinderActive(false);
+          }
         }}
       >
         <div
