@@ -3,7 +3,7 @@ import Binder from "../binder/Binder";
 import { default as MapList } from "../../../lists";
 import { createSignal, createEffect, onMount, onCleanup, For } from "solid-js";
 import { useStackDraggingContext } from "../../../context/StackDraggingContext";
-import { useSelectedBinderContext } from "../../../context/BinderStateContext";
+import { useBinderStateContext } from "../../../context/BinderStateContext";
 import { useActiveStackContext } from "../../../context/ActiveStackContext";
 
 interface StackInputs {
@@ -11,11 +11,6 @@ interface StackInputs {
   stackFrom?: string;
   stackTo?: string;
 }
-
-type BinderOptions = {
-  selectedBinder: number;
-  hoveredBinder: number;
-};
 
 export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   //Property to track the pixel width of cards that the stack is made of
@@ -44,8 +39,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     right: number;
   }>({ left: 0, right: 0 });
   //Context States
-  const [selectedBinder, { setCurrentBinder }]: any =
-    useSelectedBinderContext();
+  const [binderState, { setCurrentBinder }]: any = useBinderStateContext();
 
   const [activeStack, { changeActiveStack }]: any = useActiveStackContext();
   //State for slide function
@@ -166,7 +160,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       }
 
       if (canSlide() && stackDragging() === "still") {
-        slide(selectedBinder().selectedBinder);
+        slide(binderState().selectedBinder);
       }
     }
   };
