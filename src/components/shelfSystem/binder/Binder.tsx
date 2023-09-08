@@ -66,6 +66,8 @@ export default function Binder({
 
   const [stackDragging]: any = useStackDraggingContext();
 
+  const [localSelectedBinder, setLocalSelectedBinder] = createSignal<number>(0);
+
   //Define Unique HTML Elements ro reference
   let binderContainer: HTMLDivElement | null = null;
   let thisBinder: HTMLDivElement | null = null;
@@ -144,6 +146,16 @@ export default function Binder({
     }
   };
 
+  createEffect(() => {
+    if (
+      binderState().selectedBinder === binderNum &&
+      stackState().activeStack === binderParent
+    ) {
+      setLocalSelectedBinder(binderNum);
+      console.log(localSelectedBinder());
+    }
+  });
+
   //handles binder visuals
   createEffect(() => {
     if (stackState().activeStack === binderParent) {
@@ -188,7 +200,6 @@ export default function Binder({
   const queueStackFromBinder = () => {
     if (stackState().stackQueued === 'none') {
       queueStack(`${binderLink}`);
-      // console.log(stackState().stackQueued);
     }
   };
 

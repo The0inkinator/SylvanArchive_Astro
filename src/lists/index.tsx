@@ -14,13 +14,13 @@ interface GridCardInputs {
 const FixingLands: GridCardInputs[] = [
   {
     title: 'Lands',
-    link: '',
+    link: '/lands',
     displayArt: { cardName: 'flooded strand', cardSet: 'bfz' },
     bgCards: [{ cardName: 'field of ruin' }, { cardName: 'Rishadan Port' }],
   },
   {
     title: 'Creatures',
-    link: '',
+    link: '/creatures',
     displayArt: { cardName: 'Morophon the boundless' },
     bgCards: [
       { cardName: 'Goblin Guide' },
@@ -30,7 +30,7 @@ const FixingLands: GridCardInputs[] = [
   },
   {
     title: 'Spells',
-    link: '',
+    link: '/spells',
     displayArt: { cardName: 'Supreme Verdict', cardSet: '2x2' },
     bgCards: [
       { cardName: 'Vindicate' },
@@ -40,7 +40,7 @@ const FixingLands: GridCardInputs[] = [
   },
   {
     title: 'Archtypes',
-    link: '',
+    link: '/archetypes',
     displayArt: { cardName: 'Mayhem Devil' },
     bgCards: [
       { cardName: 'Emry Lurker of the loch' },
@@ -50,7 +50,7 @@ const FixingLands: GridCardInputs[] = [
   },
   {
     title: 'Colors',
-    link: '',
+    link: '/colors',
     displayArt: { cardName: 'Mana confluence', cardSet: 'sld' },
     bgCards: [
       { cardName: 'Swords to plowshares' },

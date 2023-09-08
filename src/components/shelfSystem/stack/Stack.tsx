@@ -113,7 +113,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     window.addEventListener('dblclick', handleDoubleClick);
 
     changeActiveStack(thisStack);
-    // console.log('the active stack is', thisStack);
   });
 
   //handles mouseDown
