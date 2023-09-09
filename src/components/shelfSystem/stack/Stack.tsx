@@ -42,7 +42,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     right: number;
   }>({ left: 0, right: 0 });
   //Context States
-  const [binderState, { setSelectedBinder }]: any = useBinderStateContext();
+  const [binderState, { setSelectedBinder, setHoveredBinder }]: any =
+    useBinderStateContext();
   const [stackState, { changeActiveStack, queueStack, addToStackCount }]: any =
     useStackStateContext();
   //State for slide function
@@ -118,6 +119,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     window.addEventListener("dblclick", handleDoubleClick);
 
     changeActiveStack(thisStack);
+    setHoveredBinder(0);
+    // setSelectedBinder(0);
   });
 
   //handles mouseDown
@@ -204,10 +207,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     }
   }
 
-  // createEffect(() => {
-  //   console.log(binderState());
-  // });
-
   //This function is called when mouseDown and will loop while mouse down to track the stack's "speed"
   //Once mouseUp the function contiues to loop rather than tracking the "speed" it:
   //A. Moves the stack in the direction it was being dragged and then B. Reduces the speed and loops.
@@ -260,10 +259,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       loop();
     }
   }
-
-  // createEffect(() => {
-  //   console.log(stackDragging());
-  // });
 
   function slide(binder: number) {
     if (thisStackActive() && stackDragging() === "still") {
@@ -323,7 +318,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         left: `${collisionCheck(stackPosition())}px`,
         //Stackwidth is set on mount and updated on resize
         width: `${stackWidth()}px`,
-        opacity: thisStackActive() ? "100%" : "50%",
+        // opacity: thisStackActive() ? "100%" : "50%",
       }}
     >
       <div class="stackContainer">

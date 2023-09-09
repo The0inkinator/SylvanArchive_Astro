@@ -55,14 +55,16 @@ export default function Binder({
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
   //State to handle all visual edits to binder when it is "active"
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
-  const [binderHidden, setBinderHidden] = createSignal<boolean>(false);
+  const [binderVisible, setBinderVisible] = createSignal<boolean>(false);
   //Shelf contexts
   const [binderState, { setSelectedBinder, setHoveredBinder }]: any =
     useBinderStateContext();
   const [stackState, { changeActiveStack, queueStack }]: any =
     useStackStateContext();
   const [stackDragging]: any = useStackDraggingContext();
-  const [localSelectedBinder, setLocalSelectedBinder] = createSignal<number>(0);
+  const [thisBinderSelected, setThisBinderSelected] = createSignal<
+    true | false | "waiting"
+  >(false);
 
   //Define Unique HTML Elements ro reference
   let binderContainer: HTMLDivElement | null = null;
@@ -142,47 +144,74 @@ export default function Binder({
     }
   };
 
+  //HANDLE BINDER VISUALS
   createEffect(() => {
     if (
-      binderState().selectedBinder === binderNum &&
+      binderState().selectedBinder > 0 &&
       stackState().activeStack === binderParent
     ) {
-      setLocalSelectedBinder(binderNum);
-      // console.log(localSelectedBinder());
+      if (binderState().selectedBinder === binderNum) {
+        setThisBinderSelected(true);
+      } else {
+        setThisBinderSelected(false);
+      }
     }
   });
 
-  //handles binder visuals
   createEffect(() => {
-    if (stackState().activeStack === binderParent) {
-      if (
-        binderState().hoveredBinder === binderNum &&
-        (binderState().selectedBinder === 0 ||
-          binderState().selectedBinder === binderNum)
-      ) {
-        setBinderActive(true);
-      } else {
-        if (binderState().selectedBinder !== binderNum) {
-          setBinderActive(false);
-        }
-      }
-      if (
-        stackDragging() !== "still" &&
-        binderState().selectedBinder !== binderNum &&
-        binderState().hoveredBinder !== binderNum
-      ) {
-        setBinderActive(false);
-      }
-      if (
-        binderState().selectedBinder !== binderNum &&
-        binderState().selectedBinder > 0
-      ) {
-        setBinderHidden(true);
-      } else {
-        setBinderHidden(false);
-      }
+    if (binderState().selectedBinder !== binderNum && thisBinderSelected()) {
+      setThisBinderSelected("waiting");
     }
   });
+
+  createEffect(() => {
+    if (
+      stackState().activeStack === binderParent &&
+      binderState().selectedBinder === 0
+    ) {
+      setBinderVisible(true);
+    } else if (thisBinderSelected() !== false) {
+      setBinderVisible(true);
+    } else {
+      setBinderVisible(false);
+    }
+  });
+
+  createEffect(() => {
+    if (stackState().activeStack === binderParent) {
+    }
+  });
+
+  // createEffect(() => {
+  //   if (stackState().activeStack === binderParent) {
+  //     if (
+  //       binderState().hoveredBinder === binderNum &&
+  //       (binderState().selectedBinder === 0 ||
+  //         binderState().selectedBinder === binderNum)
+  //     ) {
+  //       setBinderActive(true);
+  //     } else {
+  //       if (binderState().selectedBinder !== binderNum) {
+  //         setBinderActive(false);
+  //       }
+  //     }
+  //     if (
+  //       stackDragging() !== "still" &&
+  //       binderState().selectedBinder !== binderNum &&
+  //       binderState().hoveredBinder !== binderNum
+  //     ) {
+  //       setBinderActive(false);
+  //     }
+  //     if (
+  //       binderState().selectedBinder !== binderNum &&
+  //       binderState().selectedBinder > 0
+  //     ) {
+  //       setBinderHidden(true);
+  //     } else {
+  //       setBinderHidden(false);
+  //     }
+  //   }
+  // });
 
   createEffect(() => {
     if (
@@ -216,7 +245,7 @@ export default function Binder({
         onmouseleave={() => {
           setHoveredBinder(0);
         }}
-        style={{ opacity: binderHidden() ? "50%" : "100%" }}
+        style={{ opacity: binderVisible() ? "100%" : "50%" }}
       >
         <div
           tabindex="0"
