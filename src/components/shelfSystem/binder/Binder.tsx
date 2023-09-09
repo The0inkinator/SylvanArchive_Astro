@@ -179,39 +179,28 @@ export default function Binder({
 
   createEffect(() => {
     if (stackState().activeStack === binderParent) {
+      if (
+        binderState().hoveredBinder === binderNum &&
+        binderState().selectedBinder === 0
+      ) {
+        setBinderActive(true);
+      } else if (thisBinderSelected() !== false) {
+        setBinderActive(true);
+      } else {
+        setBinderActive(false);
+      }
     }
   });
 
-  // createEffect(() => {
-  //   if (stackState().activeStack === binderParent) {
-  //     if (
-  //       binderState().hoveredBinder === binderNum &&
-  //       (binderState().selectedBinder === 0 ||
-  //         binderState().selectedBinder === binderNum)
-  //     ) {
-  //       setBinderActive(true);
-  //     } else {
-  //       if (binderState().selectedBinder !== binderNum) {
-  //         setBinderActive(false);
-  //       }
-  //     }
-  //     if (
-  //       stackDragging() !== "still" &&
-  //       binderState().selectedBinder !== binderNum &&
-  //       binderState().hoveredBinder !== binderNum
-  //     ) {
-  //       setBinderActive(false);
-  //     }
-  //     if (
-  //       binderState().selectedBinder !== binderNum &&
-  //       binderState().selectedBinder > 0
-  //     ) {
-  //       setBinderHidden(true);
-  //     } else {
-  //       setBinderHidden(false);
-  //     }
-  //   }
-  // });
+  createEffect(() => {
+    if (
+      stackState().activeStack === binderParent &&
+      stackDragging() === "dragging" &&
+      thisBinderSelected()
+    ) {
+      setThisBinderSelected(false);
+    }
+  });
 
   createEffect(() => {
     if (
@@ -240,10 +229,14 @@ export default function Binder({
           setBinderActive(false);
         }}
         onmouseenter={() => {
-          setHoveredBinder(binderNum);
+          if (stackState().activeStack === binderParent) {
+            setHoveredBinder(binderNum);
+          }
         }}
         onmouseleave={() => {
-          setHoveredBinder(0);
+          if (stackState().activeStack === binderParent) {
+            setHoveredBinder(0);
+          }
         }}
         style={{ opacity: binderVisible() ? "100%" : "50%" }}
       >
