@@ -1,8 +1,8 @@
-import './shelfSceneStyles.css';
-import Shelf from '../shelf/Shelf';
-import { createSignal, createEffect, onMount, For } from 'solid-js';
-import { useStackStateContext } from '../../../context/StackStateContext';
-import { useBinderStateContext } from '../../../context/BinderStateContext';
+import "./shelfSceneStyles.css";
+import Shelf from "../shelf/Shelf";
+import { createSignal, createEffect, onMount, For } from "solid-js";
+import { useStackStateContext } from "../../../context/StackStateContext";
+import { useBinderStateContext } from "../../../context/BinderStateContext";
 
 export default function ShelfScene() {
   const [shelfList, setShelfList] = createSignal<any[]>([]);
@@ -17,7 +17,7 @@ export default function ShelfScene() {
   });
 
   function newShelf(path: string) {
-    if (stackState().stackQueued !== 'none') {
+    if (stackState().queuedStack !== "none") {
       setHoveredBinder(0);
       setSelectedBinder(0);
       setShelfList((prevList) => [
@@ -26,16 +26,16 @@ export default function ShelfScene() {
           return <Shelf binderList={`${path}`} />;
         },
       ]);
-      queueStack('none');
+      queueStack("none");
     }
   }
 
   const newShelfCheck = () => {
     function loop() {
-      if (stackState().stackQueued === 'none') {
+      if (stackState().queuedStack === "none") {
         setTimeout(loop, 100);
       } else {
-        newShelf(stackState().stackQueued);
+        newShelf(stackState().queuedStack);
       }
     }
     loop();
