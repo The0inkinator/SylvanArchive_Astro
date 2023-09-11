@@ -9,22 +9,22 @@
 // base on how many are passed to it, these also use the art fetcher and require a
 // minimum of a card name for each
 
-import "./binderStyles.css";
-import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
+import './binderStyles.css';
+import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import {
   CardArtFetcher,
   SmallCardFetcher,
-} from "../../../backend/ScryfallAPIFetcher";
-import { useStackDraggingContext } from "../../../context/StackDraggingContext";
-import { useBinderStateContext } from "../../../context/BinderStateContext";
-import { useStackStateContext } from "../../../context/StackStateContext";
+} from '../../../backend/ScryfallAPIFetcher';
+import { useStackDraggingContext } from '../../../context/StackDraggingContext';
+import { useBinderStateContext } from '../../../context/BinderStateContext';
+import { useStackStateContext } from '../../../context/StackStateContext';
 
 //TYPING
 interface CardFetcherInputs {
   cardName: string;
   cardSet?: string;
   cardCollectNum?: number;
-  cardFace?: "front" | "back";
+  cardFace?: 'front' | 'back';
 }
 interface BinderInputs {
   displayArt: CardFetcherInputs;
@@ -46,13 +46,14 @@ export default function Binder({
 }: BinderInputs) {
   //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
-  let bgCardPositions: string[] = ["translate(-50%, -50%)"];
+  let bgCardPositions: string[] = ['translate(-50%, -50%)'];
   let bgCardRotation: number = 0;
   let bgCardSize: number = 65;
 
   //State to asynchronously pass elements card art/images
   const [displayArtUrl, setDisplayArtUrl] = createSignal<string | null>(null);
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
+  const [bgCardsLoaded, setBgCardsLoaded] = createSignal<boolean>(false);
   //State to handle all visual edits to binder when it is "active"
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
   const [binderVisible, setBinderVisible] = createSignal<boolean>(false);
@@ -63,7 +64,7 @@ export default function Binder({
     useStackStateContext();
   const [stackDragging]: any = useStackDraggingContext();
   const [thisBinderSelected, setThisBinderSelected] = createSignal<
-    true | false | "waiting"
+    true | false | 'waiting'
   >(false);
 
   //Define Unique HTML Elements ro reference
@@ -92,7 +93,7 @@ export default function Binder({
           let mapCardSet: any;
           let mapCardCollectNum: any;
           let mapCardFace: any;
-          if (typeof card === "string") {
+          if (typeof card === 'string') {
             cardInfo = card;
           } else {
             cardInfo = card.cardName;
@@ -108,6 +109,13 @@ export default function Binder({
           });
         })
       );
+      setBgCardUrls(bgCardArray);
+      setBgCardsLoaded(true);
+    }
+  });
+
+  createEffect(() => {
+    if (binderState().hoveredBinder > 0 && bgCardUrls().length === 0) {
       setBgCardUrls(bgCardArray);
     }
   });
@@ -134,12 +142,12 @@ export default function Binder({
 
   onMount(() => {
     if (binderContainer) {
-      binderContainer.addEventListener("dblclick", handleDoubleClick);
+      binderContainer.addEventListener('dblclick', handleDoubleClick);
     }
   });
 
   const handleDoubleClick = (event: MouseEvent) => {
-    if (stackDragging() === "still") {
+    if (stackDragging() === 'still') {
       setSelectedBinder(binderNum);
     }
   };
@@ -155,12 +163,6 @@ export default function Binder({
       } else {
         setThisBinderSelected(false);
       }
-    }
-  });
-
-  createEffect(() => {
-    if (binderState().selectedBinder !== binderNum && thisBinderSelected()) {
-      setThisBinderSelected("waiting");
     }
   });
 
@@ -195,7 +197,7 @@ export default function Binder({
   createEffect(() => {
     if (
       stackState().activeStack === binderParent &&
-      stackDragging() === "dragging" &&
+      stackDragging() === 'dragging' &&
       thisBinderSelected()
     ) {
       setThisBinderSelected(false);
@@ -204,7 +206,7 @@ export default function Binder({
 
   createEffect(() => {
     if (
-      stackDragging() === "locked" &&
+      stackDragging() === 'locked' &&
       binderState().selectedBinder === binderNum
     ) {
       queueStackFromBinder();
@@ -212,7 +214,7 @@ export default function Binder({
   });
 
   const queueStackFromBinder = () => {
-    if (stackState().queuedStack === "none") {
+    if (stackState().queuedStack === 'none') {
       queueStack(`${binderLink}`);
     }
   };
@@ -238,7 +240,7 @@ export default function Binder({
             setHoveredBinder(0);
           }
         }}
-        style={{ opacity: binderVisible() ? "100%" : "50%" }}
+        style={{ opacity: binderVisible() ? '100%' : '50%' }}
       >
         <div
           tabindex="0"
@@ -255,9 +257,9 @@ export default function Binder({
                 binderImageActive: binderActive(),
               }}
               style={{
-                "background-image": displayArtUrl()
+                'background-image': displayArtUrl()
                   ? `url(${displayArtUrl()})`
-                  : "none",
+                  : 'none',
               }}
             ></div>
             <div class="overlay"></div>
@@ -266,21 +268,22 @@ export default function Binder({
           </div>
 
           <div class="popUpContainer">
-            {bgCardUrls().map((card: any, index: number) => {
-              return (
-                <div
-                  class="popUpCard"
-                  style={{
-                    "background-image": card ? `url(${card})` : "none",
-                    transform: binderActive()
-                      ? bgCardPositions[index + 1]
-                      : bgCardPositions[0],
-                    width: binderActive() ? `${bgCardSize}%` : `$50%`,
-                    height: binderActive() ? `${bgCardSize}%` : `$50%`,
-                  }}
-                ></div>
-              );
-            })}
+            {bgCardsLoaded() &&
+              bgCardUrls().map((card: any, index: number) => {
+                return (
+                  <div
+                    class="popUpCard"
+                    style={{
+                      'background-image': card ? `url(${card})` : 'none',
+                      transform: binderActive()
+                        ? bgCardPositions[index + 1]
+                        : bgCardPositions[0],
+                      width: binderActive() ? `${bgCardSize}%` : `$50%`,
+                      height: binderActive() ? `${bgCardSize}%` : `$50%`,
+                    }}
+                  ></div>
+                );
+              })}
           </div>
         </div>
       </div>
