@@ -1,8 +1,16 @@
 import "./shelfSceneStyles.css";
 import Shelf from "../shelf/Shelf";
-import { createSignal, createEffect, onMount, For } from "solid-js";
+import {
+  createSignal,
+  createEffect,
+  onMount,
+  For,
+  Switch,
+  Match,
+} from "solid-js";
 import { useStackStateContext } from "../../../context/StackStateContext";
 import { useBinderStateContext } from "../../../context/BinderStateContext";
+import BackButton from "../backButton/BackButton";
 
 export default function ShelfScene() {
   const [shelfList, setShelfList] = createSignal<any[]>([]);
@@ -18,8 +26,6 @@ export default function ShelfScene() {
 
   function newShelf(path: string) {
     if (stackState().queuedStack !== "none") {
-      setHoveredBinder(0);
-      setSelectedBinder(0);
       setShelfList((prevList) => [
         ...prevList,
         () => {
@@ -42,13 +48,20 @@ export default function ShelfScene() {
   };
 
   return (
-    <div>
-      <For
-        each={shelfList()}
-        fallback={<div class="loadingStacksText">Loading stacks...</div>}
-      >
-        {(item) => <>{item}</>}
-      </For>
-    </div>
+    <>
+      <div>
+        <For
+          each={shelfList()}
+          fallback={<div class="loadingStacksText">Loading stacks...</div>}
+        >
+          {(item) => <>{item}</>}
+        </For>
+      </div>
+      <Switch fallback={<></>}>
+        <Match when={stackState().stackCount > 1}>
+          <BackButton />
+        </Match>
+      </Switch>
+    </>
   );
 }
