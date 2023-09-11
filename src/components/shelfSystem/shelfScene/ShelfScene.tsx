@@ -10,6 +10,7 @@ import {
 } from "solid-js";
 import { useStackStateContext } from "../../../context/StackStateContext";
 import { useBinderStateContext } from "../../../context/BinderStateContext";
+import { useStackDraggingContext } from "../../../context/StackDraggingContext";
 import BackButton from "../backButton/BackButton";
 
 export default function ShelfScene() {
@@ -18,6 +19,7 @@ export default function ShelfScene() {
     useStackStateContext();
   const [binderState, { setHoveredBinder, setSelectedBinder }]: any =
     useBinderStateContext();
+  const [stackDragging, { dragToStill }]: any = useStackDraggingContext();
 
   onMount(() => {
     setShelfList((prevList) => [...prevList, <Shelf binderList="" />]);
@@ -36,17 +38,37 @@ export default function ShelfScene() {
     }
   }
 
-  function closeStacks() {
+  createEffect(() => {
+    console.log(stackDragging());
+  });
+
+  function closeStacks(inputNumber: number) {
+    const shelfListLength = shelfList().length;
+    const tempShelfArray = shelfList().slice(0, -2);
     const newShelfArray = shelfList().slice(0, -1);
-    setShelfList(newShelfArray);
-    closeXStacks(0);
-    addToStackCount(-1);
+    addToStackCount(-2);
+    dragToStill();
+
+    if (shelfListLength <= 2) {
+      closeXStacks(0);
+
+      setShelfList([
+        () => {
+          return <Shelf binderList="" />;
+        },
+      ]);
+    } else {
+      closeXStacks(0);
+
+      setShelfList(tempShelfArray);
+      setShelfList(newShelfArray);
+    }
   }
 
   const updateStacks = () => {
     function loop() {
       if (stackState().stacksToClose > 0) {
-        closeStacks();
+        closeStacks(stackState().stacksToClose);
         setTimeout(loop, 100);
       } else if (stackState().queuedStack !== "none") {
         newShelf(stackState().queuedStack);

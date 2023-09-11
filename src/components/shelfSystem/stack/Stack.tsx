@@ -110,7 +110,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     });
 
     addToStackCount(1);
-    console.log(stackState().stackCount);
     stackNumber = stackState().stackCount;
 
     window.addEventListener("mousedown", handleMouseDown);
@@ -123,10 +122,16 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     setSelectedBinder(0);
   });
 
+  onCleanup(() => {
+    window.removeEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("dblclick", handleDoubleClick);
+  });
+
   //handles mouseDown
   const handleMouseDown = (event: MouseEvent) => {
     if (stackHovered) {
-      // changeActiveStack(thisStack);
       localStackDragging = true;
     }
     if (thisStackActive() && stackHovered) {
@@ -207,12 +212,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     }
   }
 
-  createEffect(() => {
-    if (stackState().stackCount === stackNumber) {
-      setThisStackActive(true);
-    }
-  });
-
   //This function is called when mouseDown and will loop while mouse down to track the stack's "speed"
   //Once mouseUp the function contiues to loop rather than tracking the "speed" it:
   //A. Moves the stack in the direction it was being dragged and then B. Reduces the speed and loops.
@@ -225,6 +224,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         if (stackDragging() === "dragging") {
           setStackDriftSpeed(capDriftSpeed(stackDrift() - stackPosition()));
           const newStackDrift = stackPosition();
+          console.log(`stack #${stackNumber} drift speed:`, stackDriftSpeed());
           setStackDrift(newStackDrift);
           setTimeout(loop, 10);
         } else if (stackDragging() === "drifting") {
