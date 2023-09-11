@@ -111,7 +111,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     addToStackCount();
     stackNumber = stackState().stackCount;
-    console.log(stackNumber);
 
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mousemove", handleMouseMove);
@@ -120,7 +119,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     changeActiveStack(thisStack);
     setHoveredBinder(0);
-    // setSelectedBinder(0);
   });
 
   //handles mouseDown

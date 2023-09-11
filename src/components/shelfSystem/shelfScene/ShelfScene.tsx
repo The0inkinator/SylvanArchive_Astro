@@ -67,7 +67,7 @@ export default function ShelfScene() {
           each={shelfList()}
           fallback={<div class="loadingStacksText">Loading stacks...</div>}
         >
-          {(item) => <>{item}</>}
+          {(item) => <div>{item()}</div>}
         </For>
       </div>
       <Switch fallback={<></>}>
