@@ -6,7 +6,7 @@ interface stackInfo {
   activeStack: any;
   queuedStack: string | "none";
   stackCount: number;
-  closeStacks: number;
+  stacksToClose: number;
 }
 
 export function StackStateProvider(props: any) {
@@ -14,7 +14,7 @@ export function StackStateProvider(props: any) {
       activeStack: null,
       queuedStack: "none",
       stackCount: 0,
-      closeStacks: 0,
+      stacksToClose: 0,
     }),
     stackStateList = [
       stackState,
@@ -24,7 +24,7 @@ export function StackStateProvider(props: any) {
             activeStack: input,
             queuedStack: stackState().queuedStack,
             stackCount: stackState().stackCount,
-            closeStacks: stackState().closeStacks,
+            stacksToClose: stackState().stacksToClose,
           });
         },
         queueStack(inputPath: string | "none") {
@@ -32,7 +32,7 @@ export function StackStateProvider(props: any) {
             activeStack: stackState().activeStack,
             queuedStack: inputPath,
             stackCount: stackState().stackCount,
-            closeStacks: stackState().closeStacks,
+            stacksToClose: stackState().stacksToClose,
           });
         },
         addToStackCount() {
@@ -40,15 +40,15 @@ export function StackStateProvider(props: any) {
             activeStack: stackState().activeStack,
             queuedStack: stackState().queuedStack,
             stackCount: stackState().stackCount + 1,
-            closeStacks: stackState().closeStacks,
+            stacksToClose: stackState().stacksToClose,
           });
         },
-        closeStack(inputNumber: number) {
+        closeXStacks(inputNumber: number) {
           setStackState({
             activeStack: stackState().activeStack,
             queuedStack: stackState().queuedStack,
             stackCount: stackState().stackCount,
-            closeStacks: inputNumber,
+            stacksToClose: inputNumber,
           });
         },
       },

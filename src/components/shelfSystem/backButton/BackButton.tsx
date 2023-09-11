@@ -4,7 +4,7 @@ import { useStackStateContext } from "../../../context/StackStateContext";
 
 export default function BackButton() {
   const [opacity, setOpacity] = createSignal<number>(0);
-  const [stackState, { closeStack }]: any = useStackStateContext();
+  const [stackState, { closeXStacks }]: any = useStackStateContext();
   onMount(() => {
     function makeButtonVisible() {
       setOpacity(100);
@@ -14,8 +14,7 @@ export default function BackButton() {
   return (
     <button
       onClick={() => {
-        closeStack(1);
-        console.log(stackState());
+        closeXStacks(1);
       }}
       tabIndex={-1}
       classList={{ backButton: true }}

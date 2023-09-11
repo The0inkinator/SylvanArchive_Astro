@@ -14,14 +14,14 @@ import BackButton from "../backButton/BackButton";
 
 export default function ShelfScene() {
   const [shelfList, setShelfList] = createSignal<any[]>([]);
-  const [stackState, { queueStack }]: any = useStackStateContext();
+  const [stackState, { queueStack, closeXStacks }]: any =
+    useStackStateContext();
   const [binderState, { setHoveredBinder, setSelectedBinder }]: any =
     useBinderStateContext();
 
   onMount(() => {
     setShelfList((prevList) => [...prevList, <Shelf binderList="" />]);
-
-    newShelfCheck();
+    updateStacks();
   });
 
   function newShelf(path: string) {
@@ -36,12 +36,25 @@ export default function ShelfScene() {
     }
   }
 
-  const newShelfCheck = () => {
+  function closeStacks() {
+    console.log(shelfList());
+
+    const newShelfArray = shelfList().slice(0, -1);
+    console.log(newShelfArray);
+    setShelfList(newShelfArray);
+    closeXStacks(0);
+  }
+
+  const updateStacks = () => {
     function loop() {
-      if (stackState().queuedStack === "none") {
+      if (stackState().stacksToClose > 0) {
+        closeStacks();
+        setTimeout(loop, 100);
+      } else if (stackState().queuedStack !== "none") {
+        newShelf(stackState().queuedStack);
         setTimeout(loop, 100);
       } else {
-        newShelf(stackState().queuedStack);
+        setTimeout(loop, 100);
       }
     }
     loop();
