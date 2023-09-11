@@ -9,22 +9,22 @@
 // base on how many are passed to it, these also use the art fetcher and require a
 // minimum of a card name for each
 
-import './binderStyles.css';
-import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
+import "./binderStyles.css";
+import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
 import {
   CardArtFetcher,
   SmallCardFetcher,
-} from '../../../backend/ScryfallAPIFetcher';
-import { useStackDraggingContext } from '../../../context/StackDraggingContext';
-import { useBinderStateContext } from '../../../context/BinderStateContext';
-import { useStackStateContext } from '../../../context/StackStateContext';
+} from "../../../backend/ScryfallAPIFetcher";
+import { useStackDraggingContext } from "../../../context/StackDraggingContext";
+import { useBinderStateContext } from "../../../context/BinderStateContext";
+import { useStackStateContext } from "../../../context/StackStateContext";
 
 //TYPING
 interface CardFetcherInputs {
   cardName: string;
   cardSet?: string;
   cardCollectNum?: number;
-  cardFace?: 'front' | 'back';
+  cardFace?: "front" | "back";
 }
 interface BinderInputs {
   displayArt: CardFetcherInputs;
@@ -46,7 +46,7 @@ export default function Binder({
 }: BinderInputs) {
   //Empty styling properties for bgCards
   let bgCardArray: any[] = [];
-  let bgCardPositions: string[] = ['translate(-50%, -50%)'];
+  let bgCardPositions: string[] = ["translate(-50%, -50%)"];
   let bgCardRotation: number = 0;
   let bgCardSize: number = 65;
 
@@ -55,18 +55,16 @@ export default function Binder({
   const [bgCardUrls, setBgCardUrls] = createSignal<any>([]);
   //State to handle all visual edits to binder when it is "active"
   const [binderActive, setBinderActive] = createSignal<boolean>(false);
-  const [binderHidden, setBinderHidden] = createSignal<boolean>(false);
+  const [binderVisible, setBinderVisible] = createSignal<boolean>(false);
   //Shelf contexts
-
   const [binderState, { setSelectedBinder, setHoveredBinder }]: any =
     useBinderStateContext();
-
   const [stackState, { changeActiveStack, queueStack }]: any =
     useStackStateContext();
-
   const [stackDragging]: any = useStackDraggingContext();
-
-  const [localSelectedBinder, setLocalSelectedBinder] = createSignal<number>(0);
+  const [thisBinderSelected, setThisBinderSelected] = createSignal<
+    true | false | "waiting"
+  >(false);
 
   //Define Unique HTML Elements ro reference
   let binderContainer: HTMLDivElement | null = null;
@@ -94,7 +92,7 @@ export default function Binder({
           let mapCardSet: any;
           let mapCardCollectNum: any;
           let mapCardFace: any;
-          if (typeof card === 'string') {
+          if (typeof card === "string") {
             cardInfo = card;
           } else {
             cardInfo = card.cardName;
@@ -136,61 +134,77 @@ export default function Binder({
 
   onMount(() => {
     if (binderContainer) {
-      binderContainer.addEventListener('dblclick', handleDoubleClick);
+      binderContainer.addEventListener("dblclick", handleDoubleClick);
     }
   });
 
   const handleDoubleClick = (event: MouseEvent) => {
-    if (stackDragging() === 'still') {
+    if (stackDragging() === "still") {
       setSelectedBinder(binderNum);
     }
   };
 
+  //HANDLE BINDER VISUALS
   createEffect(() => {
     if (
-      binderState().selectedBinder === binderNum &&
+      binderState().selectedBinder > 0 &&
       stackState().activeStack === binderParent
     ) {
-      setLocalSelectedBinder(binderNum);
-      console.log(localSelectedBinder());
+      if (binderState().selectedBinder === binderNum) {
+        setThisBinderSelected(true);
+      } else {
+        setThisBinderSelected(false);
+      }
     }
   });
 
-  //handles binder visuals
+  createEffect(() => {
+    if (binderState().selectedBinder !== binderNum && thisBinderSelected()) {
+      setThisBinderSelected("waiting");
+    }
+  });
+
+  createEffect(() => {
+    if (
+      stackState().activeStack === binderParent &&
+      binderState().selectedBinder === 0
+    ) {
+      setBinderVisible(true);
+    } else if (thisBinderSelected() !== false) {
+      setBinderVisible(true);
+    } else {
+      setBinderVisible(false);
+    }
+  });
+
   createEffect(() => {
     if (stackState().activeStack === binderParent) {
       if (
         binderState().hoveredBinder === binderNum &&
-        (binderState().selectedBinder === 0 ||
-          binderState().selectedBinder === binderNum)
+        binderState().selectedBinder === 0
       ) {
         setBinderActive(true);
+      } else if (thisBinderSelected() !== false) {
+        setBinderActive(true);
       } else {
-        if (binderState().selectedBinder !== binderNum) {
-          setBinderActive(false);
-        }
-      }
-      if (
-        stackDragging() !== 'still' &&
-        binderState().selectedBinder !== binderNum &&
-        binderState().hoveredBinder !== binderNum
-      ) {
         setBinderActive(false);
-      }
-      if (
-        binderState().selectedBinder !== binderNum &&
-        binderState().selectedBinder > 0
-      ) {
-        setBinderHidden(true);
-      } else {
-        setBinderHidden(false);
       }
     }
   });
 
   createEffect(() => {
     if (
-      stackDragging() === 'locked' &&
+      stackState().activeStack === binderParent &&
+      stackDragging() === "dragging" &&
+      thisBinderSelected()
+    ) {
+      setThisBinderSelected(false);
+    }
+  });
+
+  createEffect(() => {
+    if (
+      stackDragging() === "locked" &&
       binderState().selectedBinder === binderNum
     ) {
       queueStackFromBinder();
@@ -198,7 +212,7 @@ export default function Binder({
   });
 
   const queueStackFromBinder = () => {
-    if (stackState().stackQueued === 'none') {
+    if (stackState().queuedStack === "none") {
       queueStack(`${binderLink}`);
     }
   };
@@ -215,12 +229,16 @@ export default function Binder({
           setBinderActive(false);
         }}
         onmouseenter={() => {
-          setHoveredBinder(binderNum);
+          if (stackState().activeStack === binderParent) {
+            setHoveredBinder(binderNum);
+          }
         }}
         onmouseleave={() => {
-          setHoveredBinder(0);
+          if (stackState().activeStack === binderParent) {
+            setHoveredBinder(0);
+          }
         }}
-        style={{ opacity: binderHidden() ? '50%' : '100%' }}
+        style={{ opacity: binderVisible() ? "100%" : "50%" }}
       >
         <div
           tabindex="0"
@@ -237,9 +255,9 @@ export default function Binder({
                 binderImageActive: binderActive(),
               }}
               style={{
-                'background-image': displayArtUrl()
+                "background-image": displayArtUrl()
                   ? `url(${displayArtUrl()})`
-                  : 'none',
+                  : "none",
               }}
             ></div>
             <div class="overlay"></div>
@@ -253,7 +271,7 @@ export default function Binder({
                 <div
                   class="popUpCard"
                   style={{
-                    'background-image': card ? `url(${card})` : 'none',
+                    "background-image": card ? `url(${card})` : "none",
                     transform: binderActive()
                       ? bgCardPositions[index + 1]
                       : bgCardPositions[0],

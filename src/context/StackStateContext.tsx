@@ -1,16 +1,20 @@
-import { createSignal, createContext, useContext } from 'solid-js';
+import { createSignal, createContext, useContext } from "solid-js";
 
 const StackStateContext = createContext();
 
 interface stackInfo {
   activeStack: any;
-  stackQueued: string | 'none';
+  queuedStack: string | "none";
+  stackCount: number;
+  stacksToClose: number;
 }
 
 export function StackStateProvider(props: any) {
   const [stackState, setStackState] = createSignal<stackInfo>({
       activeStack: null,
-      stackQueued: 'none',
+      queuedStack: "none",
+      stackCount: 0,
+      stacksToClose: 0,
     }),
     stackStateList = [
       stackState,
@@ -18,13 +22,33 @@ export function StackStateProvider(props: any) {
         changeActiveStack(input: any) {
           setStackState({
             activeStack: input,
-            stackQueued: stackState().stackQueued,
+            queuedStack: stackState().queuedStack,
+            stackCount: stackState().stackCount,
+            stacksToClose: stackState().stacksToClose,
           });
         },
-        queueStack(inputPath: string | 'none') {
+        queueStack(inputPath: string | "none") {
           setStackState({
             activeStack: stackState().activeStack,
-            stackQueued: inputPath,
+            queuedStack: inputPath,
+            stackCount: stackState().stackCount,
+            stacksToClose: stackState().stacksToClose,
+          });
+        },
+        addToStackCount(inputNumber: number) {
+          setStackState({
+            activeStack: stackState().activeStack,
+            queuedStack: stackState().queuedStack,
+            stackCount: stackState().stackCount + inputNumber,
+            stacksToClose: stackState().stacksToClose,
+          });
+        },
+        closeXStacks(inputNumber: number) {
+          setStackState({
+            activeStack: stackState().activeStack,
+            queuedStack: stackState().queuedStack,
+            stackCount: stackState().stackCount,
+            stacksToClose: inputNumber,
           });
         },
       },
