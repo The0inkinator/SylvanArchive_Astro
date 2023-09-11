@@ -35,11 +35,11 @@ export function StackStateProvider(props: any) {
             stacksToClose: stackState().stacksToClose,
           });
         },
-        addToStackCount() {
+        addToStackCount(inputNumber: number) {
           setStackState({
             activeStack: stackState().activeStack,
             queuedStack: stackState().queuedStack,
-            stackCount: stackState().stackCount + 1,
+            stackCount: stackState().stackCount + inputNumber,
             stacksToClose: stackState().stacksToClose,
           });
         },

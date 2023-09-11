@@ -14,7 +14,7 @@ import BackButton from "../backButton/BackButton";
 
 export default function ShelfScene() {
   const [shelfList, setShelfList] = createSignal<any[]>([]);
-  const [stackState, { queueStack, closeXStacks }]: any =
+  const [stackState, { queueStack, closeXStacks, addToStackCount }]: any =
     useStackStateContext();
   const [binderState, { setHoveredBinder, setSelectedBinder }]: any =
     useBinderStateContext();
@@ -37,12 +37,10 @@ export default function ShelfScene() {
   }
 
   function closeStacks() {
-    console.log(shelfList());
-
     const newShelfArray = shelfList().slice(0, -1);
-    console.log(newShelfArray);
     setShelfList(newShelfArray);
     closeXStacks(0);
+    addToStackCount(-1);
   }
 
   const updateStacks = () => {

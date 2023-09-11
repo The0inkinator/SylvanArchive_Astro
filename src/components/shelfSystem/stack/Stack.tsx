@@ -109,7 +109,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       });
     });
 
-    addToStackCount();
+    addToStackCount(1);
+    console.log(stackState().stackCount);
     stackNumber = stackState().stackCount;
 
     window.addEventListener("mousedown", handleMouseDown);
@@ -119,12 +120,13 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     changeActiveStack(thisStack);
     setHoveredBinder(0);
+    setSelectedBinder(0);
   });
 
   //handles mouseDown
   const handleMouseDown = (event: MouseEvent) => {
     if (stackHovered) {
-      changeActiveStack(thisStack);
+      // changeActiveStack(thisStack);
       localStackDragging = true;
     }
     if (thisStackActive() && stackHovered) {
@@ -204,6 +206,12 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       return pos;
     }
   }
+
+  createEffect(() => {
+    if (stackState().stackCount === stackNumber) {
+      setThisStackActive(true);
+    }
+  });
 
   //This function is called when mouseDown and will loop while mouse down to track the stack's "speed"
   //Once mouseUp the function contiues to loop rather than tracking the "speed" it:
