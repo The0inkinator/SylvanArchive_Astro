@@ -6,6 +6,7 @@ interface stackInfo {
   activeStack: any;
   queuedStack: string | "none";
   stackCount: number;
+  closeStacks: number;
 }
 
 export function StackStateProvider(props: any) {
@@ -13,6 +14,7 @@ export function StackStateProvider(props: any) {
       activeStack: null,
       queuedStack: "none",
       stackCount: 0,
+      closeStacks: 0,
     }),
     stackStateList = [
       stackState,
@@ -22,6 +24,7 @@ export function StackStateProvider(props: any) {
             activeStack: input,
             queuedStack: stackState().queuedStack,
             stackCount: stackState().stackCount,
+            closeStacks: stackState().closeStacks,
           });
         },
         queueStack(inputPath: string | "none") {
@@ -29,6 +32,7 @@ export function StackStateProvider(props: any) {
             activeStack: stackState().activeStack,
             queuedStack: inputPath,
             stackCount: stackState().stackCount,
+            closeStacks: stackState().closeStacks,
           });
         },
         addToStackCount() {
@@ -36,6 +40,15 @@ export function StackStateProvider(props: any) {
             activeStack: stackState().activeStack,
             queuedStack: stackState().queuedStack,
             stackCount: stackState().stackCount + 1,
+            closeStacks: stackState().closeStacks,
+          });
+        },
+        closeStack(inputNumber: number) {
+          setStackState({
+            activeStack: stackState().activeStack,
+            queuedStack: stackState().queuedStack,
+            stackCount: stackState().stackCount,
+            closeStacks: inputNumber,
           });
         },
       },
