@@ -38,10 +38,6 @@ export default function ShelfScene() {
     }
   }
 
-  createEffect(() => {
-    console.log(stackDragging());
-  });
-
   function closeStacks(inputNumber: number) {
     const shelfListLength = shelfList().length;
     const tempShelfArray = shelfList().slice(0, -2);

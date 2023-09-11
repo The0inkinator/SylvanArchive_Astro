@@ -171,8 +171,10 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       }
 
       if (stackDragging() === "dragging") {
+        console.log("drag to drifting");
         dragToDrifting();
       } else {
+        console.log("drag to still");
         dragToStill();
       }
     }
@@ -212,6 +214,12 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     }
   }
 
+  createEffect(() => {
+    if (stackState().activeStack === thisStack) {
+      console.log(stackDragging());
+    }
+  });
+
   //This function is called when mouseDown and will loop while mouse down to track the stack's "speed"
   //Once mouseUp the function contiues to loop rather than tracking the "speed" it:
   //A. Moves the stack in the direction it was being dragged and then B. Reduces the speed and loops.
@@ -224,7 +232,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         if (stackDragging() === "dragging") {
           setStackDriftSpeed(capDriftSpeed(stackDrift() - stackPosition()));
           const newStackDrift = stackPosition();
-          console.log(`stack #${stackNumber} drift speed:`, stackDriftSpeed());
           setStackDrift(newStackDrift);
           setTimeout(loop, 10);
         } else if (stackDragging() === "drifting") {
@@ -241,8 +248,10 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
             })();
             setStackPosition(collisionCheck(newStackPos as number));
             setStackDriftSpeed(newStackSpeed);
+            // console.log(stackDriftSpeed());
             setTimeout(loop, 5);
           } else if (stackDragging() === "drifting" && stackDriftSpeed() < 1) {
+            console.log("dragtostill");
             dragToStill();
             setStackDriftSpeed(0);
           }
