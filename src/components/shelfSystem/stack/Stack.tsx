@@ -127,6 +127,10 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     changeActiveStack(thisStack);
     setHoveredBinder(0);
     setSelectedBinder(0);
+
+    if (thisStack) {
+      thisStack.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
   });
 
   onCleanup(() => {
