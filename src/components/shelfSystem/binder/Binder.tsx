@@ -144,6 +144,8 @@ export default function Binder({
     if (binderContainer) {
       binderContainer.addEventListener('dblclick', handleDoubleClick);
     }
+    const stackContainer = binderParent.children;
+    const binderCount = stackContainer[0].children.length;
   });
 
   const handleDoubleClick = (event: MouseEvent) => {
