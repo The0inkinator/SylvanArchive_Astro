@@ -51,8 +51,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   const [canSlide, setCanSlide] = createSignal<boolean>(false);
   const [thisStackActive, setThisStackActive] = createSignal<boolean>(true);
   const [newMapList, setNewMapList] = createSignal<any[]>([]);
-
-  let selectedBinderInStack: number;
+  const [selectedBinderCtr, setSelectedBinderCtr] = createSignal<number>(0);
 
   //typing for refs
   let thisStack: HTMLDivElement | null = null;
@@ -82,9 +81,11 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         }
       };
 
-      if (stackPosition() === 0) {
-        setStackPosition(stackStartingPos);
+      if (selectedBinderCtr() > 0) {
+        const currentCenter: number = windowWidth / 2 - selectedBinderCtr();
+        setStackPosition(currentCenter);
       } else {
+        setStackPosition(stackStartingPos);
       }
       const collisionLeft = windowWidth / 2 - binderSize() / 2;
       const collisionRight =
@@ -276,6 +277,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       const halfBinder = binderSize() / 2;
       const screenCenter = window.innerWidth / 2;
       const binderInStack = binderSize() * binder - halfBinder;
+      setSelectedBinderCtr(binderInStack);
       setDistanceToSlide(screenCenter - (stackPosition() + binderInStack));
       function loop() {
         if (Math.abs(distanceToSlide()) > 1) {
