@@ -130,6 +130,19 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     if (thisStack) {
       thisStack.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      if (stackNumber === 1) {
+        const thisStackHeight: number = thisStack.offsetHeight;
+        const thisStackTopMargin: number =
+          window.innerHeight / 2 - thisStackHeight;
+        console.log();
+        const stackContainer: HTMLElement | null | undefined = thisStack
+          .parentNode?.parentNode as HTMLElement;
+
+        console.log(thisStackTopMargin);
+        if (stackContainer) {
+          stackContainer.style.marginTop = `${thisStackTopMargin}px`;
+        }
+      }
     }
   });
 
