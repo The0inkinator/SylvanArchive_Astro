@@ -30,7 +30,7 @@ const FixingLands: GridCardInputs[] = [
   },
   {
     title: 'Spells',
-    link: '/spells',
+    link: '/binders',
     displayArt: { cardName: 'Supreme Verdict', cardSet: '2x2' },
     bgCards: [
       { cardName: 'Vindicate' },
