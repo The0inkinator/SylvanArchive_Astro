@@ -1,5 +1,5 @@
-import "./shelfSceneStyles.css";
-import Shelf from "../shelf/Shelf";
+import './shelfSceneStyles.css';
+import Shelf from '../shelf/Shelf';
 import {
   createSignal,
   createEffect,
@@ -7,11 +7,11 @@ import {
   For,
   Switch,
   Match,
-} from "solid-js";
-import { useStackStateContext } from "../../../context/StackStateContext";
-import { useBinderStateContext } from "../../../context/BinderStateContext";
-import { useStackDraggingContext } from "../../../context/StackDraggingContext";
-import BackButton from "../backButton/BackButton";
+} from 'solid-js';
+import { useStackStateContext } from '../../../context/StackStateContext';
+import { useBinderStateContext } from '../../../context/BinderStateContext';
+import { useStackDraggingContext } from '../../../context/StackDraggingContext';
+import BackButton from '../backButton/BackButton';
 
 export default function ShelfScene() {
   const [shelfList, setShelfList] = createSignal<any[]>([]);
@@ -27,14 +27,14 @@ export default function ShelfScene() {
   });
 
   function newShelf(path: string) {
-    if (stackState().queuedStack !== "none") {
+    if (stackState().queuedStack !== 'none') {
       setShelfList((prevList) => [
         ...prevList,
         () => {
           return <Shelf binderList={`${path}`} />;
         },
       ]);
-      queueStack("none");
+      queueStack('none');
     }
   }
 
@@ -66,7 +66,7 @@ export default function ShelfScene() {
       if (stackState().stacksToClose > 0) {
         closeStacks(stackState().stacksToClose);
         setTimeout(loop, 100);
-      } else if (stackState().queuedStack !== "none") {
+      } else if (stackState().queuedStack !== 'none') {
         newShelf(stackState().queuedStack);
         setTimeout(loop, 100);
       } else {

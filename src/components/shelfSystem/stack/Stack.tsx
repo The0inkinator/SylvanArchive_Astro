@@ -138,7 +138,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         const stackContainer: HTMLElement | null | undefined = thisStack
           .parentNode?.parentNode as HTMLElement;
 
-        console.log(thisStackTopMargin);
         if (stackContainer) {
           stackContainer.style.marginTop = `${thisStackTopMargin}px`;
         }

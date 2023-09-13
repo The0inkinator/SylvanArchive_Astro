@@ -1,7 +1,5 @@
 ---
 import "../styles/zaGlobal.css";
-import BaseHeader from "../components/BaseHeader.astro";
-import BaseFooter from "../components/BaseFooter.astro";
 ---
 
 <html lang="en">
@@ -40,29 +38,24 @@ import BaseFooter from "../components/BaseFooter.astro";
   </head>
 
   <body>
-    <BaseHeader />
-    <div class="upperMargin"></div>
+
     <div id="contentContainer">
       <slot />
     </div>
-    <div class="bottomMargin"></div>
+
   </body>
 
   <style>
-    .upperMargin {
-      /* height: 10rem; */
-    }
+
     #contentContainer {
       display: flex;
       flex-direction: column;
-      /* min-height: 100svh; */
+
       justify-content: center;
-      /* margin-top: 10rem; */
+
     }
 
-    .bottomMargin {
-      height: 50svh;
-    }
+
   </style>
 
 </html>
