@@ -4,7 +4,7 @@
   height: calc(var(--BinderSize) * 1.4);
   display: grid;
   user-select: none;
-  transition: opacity 0.25s;
+  transition: opacity 0.5s;
 }
 
 .binderContainer > * {

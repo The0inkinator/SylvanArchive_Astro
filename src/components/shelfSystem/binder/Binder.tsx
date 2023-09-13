@@ -66,6 +66,7 @@ export default function Binder({
   const [thisBinderSelected, setThisBinderSelected] = createSignal<
     true | false | 'waiting'
   >(false);
+  const [binderAnimating, setBinderAnimating] = createSignal<boolean>(true);
 
   //Define Unique HTML Elements ro reference
   let binderContainer: HTMLDivElement | null = null;
@@ -144,8 +145,26 @@ export default function Binder({
     if (binderContainer) {
       binderContainer.addEventListener('dblclick', handleDoubleClick);
     }
+
+    //fade in animation
     const stackContainer = binderParent.children;
     const binderCount = stackContainer[0].children.length;
+
+    function fadeIn() {
+      let centerBinder: number[];
+      let binderDistance: number;
+      centerBinder = [Math.ceil(binderCount / 2)];
+      binderDistance = centerBinder[0] - binderNum;
+      if (binderDistance < 0) {
+        binderDistance = Math.abs(binderDistance) + 0.5;
+      }
+      const timeToFadeIn: number = binderDistance * 150;
+      setTimeout(() => {
+        setBinderVisible(true);
+        setBinderAnimating(false);
+      }, timeToFadeIn);
+    }
+    fadeIn();
   });
 
   const handleDoubleClick = (event: MouseEvent) => {
@@ -169,15 +188,17 @@ export default function Binder({
   });
 
   createEffect(() => {
-    if (
-      stackState().activeStack === binderParent &&
-      binderState().selectedBinder === 0
-    ) {
-      setBinderVisible(true);
-    } else if (thisBinderSelected() !== false) {
-      setBinderVisible(true);
-    } else {
-      setBinderVisible(false);
+    if (!binderAnimating()) {
+      if (
+        stackState().activeStack === binderParent &&
+        binderState().selectedBinder === 0
+      ) {
+        setBinderVisible(true);
+      } else if (thisBinderSelected() !== false) {
+        setBinderVisible(true);
+      } else {
+        setBinderVisible(false);
+      }
     }
   });
 

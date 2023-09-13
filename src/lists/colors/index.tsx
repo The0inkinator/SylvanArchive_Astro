@@ -104,6 +104,16 @@ const FixingLands: GridCardInputs[] = [
     displayArt: { cardName: 'craterhoof behemoth' },
     bgCards: [{ cardName: 'Elvish Mystic' }],
   },
+  {
+    title: 'colorless',
+    link: '/colors/colorless',
+    displayArt: { cardName: 'warping wail' },
+    bgCards: [
+      { cardName: 'sol ring' },
+      { cardName: 'mind stone' },
+      { cardName: 'wastes' },
+    ],
+  },
 ];
 export default FixingLands;
 
