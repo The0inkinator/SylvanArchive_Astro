@@ -158,7 +158,7 @@ export default function Binder({
       if (binderDistance < 0) {
         binderDistance = Math.abs(binderDistance) + 0.5;
       }
-      const timeToFadeIn: number = binderDistance * 150;
+      const timeToFadeIn: number = binderDistance * 100;
       setTimeout(() => {
         setBinderVisible(true);
         setBinderAnimating(false);
@@ -263,7 +263,9 @@ export default function Binder({
             setHoveredBinder(0);
           }
         }}
-        style={{ opacity: binderVisible() ? '100%' : '50%' }}
+        style={{
+          opacity: binderVisible() ? '100%' : binderAnimating() ? '0%' : '50%',
+        }}
       >
         <div
           tabindex="0"
