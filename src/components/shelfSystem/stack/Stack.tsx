@@ -131,18 +131,26 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     if (thisStack) {
       thisStack.scrollIntoView({ block: "center", behavior: "smooth" });
-      // if (stackNumber === 1) {
-      //   const thisStackHeight: number = thisStack.offsetHeight;
-      //   const thisStackTopMargin: number =
-      //     window.innerHeight / 2 - thisStackHeight;
-      //   console.log();
-      //   const stackContainer: HTMLElement | null | undefined = thisStack
-      //     .parentNode?.parentNode as HTMLElement;
+      createEffect(() => {
+        const stackContainer: HTMLElement | null | undefined = thisStack
+          .parentNode?.parentNode as HTMLElement;
 
-      //   if (stackContainer) {
-      //     stackContainer.style.marginTop = `${thisStackTopMargin}px`;
-      //   }
-      // }
+        if (stackNumber === stackState().stackCount) {
+          console.log(`Stack # ${stackNumber} is the bottom stack`);
+
+          if (stackContainer) {
+            const containerHeight = stackContainer.offsetHeight;
+            const windowHeight = window.innerHeight;
+            const newUpperMargin = windowHeight / 2 - containerHeight / 2;
+
+            stackContainer.style.marginBottom = `${newUpperMargin}px`;
+          }
+        } else {
+          if (stackContainer) {
+            stackContainer.style.marginBottom = `0px`;
+          }
+        }
+      });
     }
   });
 
