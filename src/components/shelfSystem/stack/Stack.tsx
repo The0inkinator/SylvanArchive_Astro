@@ -93,18 +93,34 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       setStackCollision({ left: collisionLeft, right: collisionRight });
     }
 
-    import(`../../../lists${stackFrom}`).then((module) => {
-      const dynamicMapList = module.default;
-      if (dynamicMapList.length > 1) {
-        setNewMapList(dynamicMapList);
+    createEffect(async () => {
+      try {
+        const stackPathData = await fetch(
+          `https://sylvan-archive-api-03b13d1a78b5.herokuapp.com/api/data/stacks${stackFrom}`
+        );
+
+        const stackPath = await stackPathData.json();
+        console.log(stackPath);
+
+        setNewMapList(stackPath);
         setDefaults();
-      } else {
-        import("../../../lists").then((module) => {
-          setNewMapList(module.default);
-          setDefaults();
-        });
+      } catch (error) {
+        console.log(error);
       }
     });
+
+    // import(`../../../lists${stackFrom}`).then((module) => {
+    //   const dynamicMapList = module.default;
+    //   if (dynamicMapList.length > 1) {
+    //     setNewMapList(dynamicMapList);
+    //     setDefaults();
+    //   } else {
+    //     import("../../../lists").then((module) => {
+    //       setNewMapList(module.default);
+    //       setDefaults();
+    //     });
+    //   }
+    // });
 
     //handles window resize to update all relevant properties
     createEffect(() => {
