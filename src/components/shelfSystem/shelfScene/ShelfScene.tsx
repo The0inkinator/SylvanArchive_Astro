@@ -24,16 +24,6 @@ export default function ShelfScene() {
   onMount(() => {
     setShelfList((prevList) => [...prevList, <Shelf binderList="" />]);
     updateStacks();
-
-    createEffect(async () => {
-      try {
-        const data = await fetch(`http://localhost:3001/api/data`);
-        const dataConverted = await data.json();
-        console.log(dataConverted);
-      } catch (error) {
-        console.log(error);
-      }
-    });
   });
 
   function newShelf(path: string) {
