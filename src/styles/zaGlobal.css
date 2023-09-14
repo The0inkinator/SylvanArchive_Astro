@@ -61,6 +61,8 @@
   :root {
     /* Margins */
     --NavGridMargin: 80vw;
+    /* Sizes */
+    --BinderSize: 11rem;
   }
 }
 
@@ -71,7 +73,7 @@
     --NavGridMargin: 95vw;
 
     /* Sizes */
-    --BinderSize: 12rem;
+    --BinderSize: 9rem;
     --SearchBarWidth: calc(100vw - (var(--MenuHeight) * 4));
     --BookmarkBarWidth: calc(100vw - (var(--MenuHeight) * 4));
 
