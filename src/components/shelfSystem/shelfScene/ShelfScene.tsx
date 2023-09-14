@@ -77,7 +77,7 @@ export default function ShelfScene() {
   };
 
   return (
-    <>
+    <div class="shelfSceneContainer">
       <div class="bgImage"></div>
       <div>
         <For
@@ -92,6 +92,6 @@ export default function ShelfScene() {
           <BackButton />
         </Match>
       </Switch>
-    </>
+    </div>
   );
 }

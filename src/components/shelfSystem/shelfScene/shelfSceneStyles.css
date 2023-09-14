@@ -5,6 +5,10 @@
   font-size: 2rem;
 }
 
+.shelfSceneContainer {
+  overflow: hidden;
+}
+
 .bgImage {
   position: fixed;
   overflow: hidden;
