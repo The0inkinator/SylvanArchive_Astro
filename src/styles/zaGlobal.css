@@ -25,7 +25,7 @@
   --ShadowGreen: hsl(146 59.8% 10%);
   --DefaultGreen: hsl(120, 63%, 37%);
   --FocusGreen: hsl(133, 55%, 27%);
-  --BackgroundColor: hsl(134 60% 93%);
+  --BackgroundColor: black;
 
   /*Sizes*/
   --MagicCardSize: 12rem;
