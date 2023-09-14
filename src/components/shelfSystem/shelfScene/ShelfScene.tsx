@@ -78,6 +78,7 @@ export default function ShelfScene() {
 
   return (
     <>
+      <div class="bgImage"></div>
       <div>
         <For
           each={shelfList()}
