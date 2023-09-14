@@ -357,10 +357,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       }}
     >
       <div class="stackContainer">
-        <For
-          each={newMapList()}
-          fallback={<div class="loadingListText">Loading List...</div>}
-        >
+        <For each={newMapList()} fallback={<div class="loadingListText"></div>}>
           {(item: any, index: any) => {
             const tempBgCardList = item.bgCards?.map((bgCard: any) => {
               return {
