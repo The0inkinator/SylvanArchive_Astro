@@ -7,21 +7,37 @@ interface ShelfInputs {
   binderList: string;
 }
 
+let shelfContainer: any;
+
 export default function Shelf({ binderList }: ShelfInputs) {
   const [upperMargin, setUpperMargin] = createSignal<number>(0);
   const [stackState]: any = useStackStateContext();
 
   onMount(() => {
     if (stackState().stackCount === 0) {
-      setUpperMargin(100);
+      const containerHeight = shelfContainer.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const newUpperMargin = windowHeight / 2 - containerHeight / 2;
+      setUpperMargin(newUpperMargin);
     } else {
       setUpperMargin(0);
     }
+
+    const handleResize = () => {
+      if (upperMargin() > 0) {
+        const containerHeight = shelfContainer.offsetHeight;
+        const windowHeight = window.innerHeight;
+        const newUpperMargin = windowHeight / 2 - containerHeight / 2;
+        setUpperMargin(newUpperMargin);
+      }
+    };
+    window.addEventListener("resize", handleResize);
   });
 
   return (
     <div
       class="shelfContainer"
+      ref={shelfContainer}
       style={{
         "margin-top": upperMargin() > 0 ? `${upperMargin()}px` : "0px",
       }}

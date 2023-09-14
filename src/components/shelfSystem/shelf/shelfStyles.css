@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition: margin 0.25s;
 }
 
 .stackSlider {
