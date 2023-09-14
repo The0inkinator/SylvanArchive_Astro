@@ -100,7 +100,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         );
 
         const stackPath = await stackPathData.json();
-        console.log(stackPath);
 
         setNewMapList(stackPath);
         setDefaults();
@@ -108,19 +107,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         console.log(error);
       }
     });
-
-    // import(`../../../lists${stackFrom}`).then((module) => {
-    //   const dynamicMapList = module.default;
-    //   if (dynamicMapList.length > 1) {
-    //     setNewMapList(dynamicMapList);
-    //     setDefaults();
-    //   } else {
-    //     import("../../../lists").then((module) => {
-    //       setNewMapList(module.default);
-    //       setDefaults();
-    //     });
-    //   }
-    // });
 
     //handles window resize to update all relevant properties
     createEffect(() => {
@@ -145,18 +131,18 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     if (thisStack) {
       thisStack.scrollIntoView({ block: "center", behavior: "smooth" });
-      if (stackNumber === 1) {
-        const thisStackHeight: number = thisStack.offsetHeight;
-        const thisStackTopMargin: number =
-          window.innerHeight / 2 - thisStackHeight;
-        console.log();
-        const stackContainer: HTMLElement | null | undefined = thisStack
-          .parentNode?.parentNode as HTMLElement;
+      // if (stackNumber === 1) {
+      //   const thisStackHeight: number = thisStack.offsetHeight;
+      //   const thisStackTopMargin: number =
+      //     window.innerHeight / 2 - thisStackHeight;
+      //   console.log();
+      //   const stackContainer: HTMLElement | null | undefined = thisStack
+      //     .parentNode?.parentNode as HTMLElement;
 
-        if (stackContainer) {
-          stackContainer.style.marginTop = `${thisStackTopMargin}px`;
-        }
-      }
+      //   if (stackContainer) {
+      //     stackContainer.style.marginTop = `${thisStackTopMargin}px`;
+      //   }
+      // }
     }
   });
 
