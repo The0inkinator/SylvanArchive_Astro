@@ -136,8 +136,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
           .parentNode?.parentNode as HTMLElement;
 
         if (stackNumber === stackState().stackCount) {
-          console.log(`Stack # ${stackNumber} is the bottom stack`);
-
           if (stackContainer) {
             const containerHeight = stackContainer.offsetHeight;
             const windowHeight = window.innerHeight;

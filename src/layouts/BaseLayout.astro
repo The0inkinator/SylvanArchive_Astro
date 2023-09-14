@@ -41,27 +41,16 @@ import BaseFooter from "../components/BaseFooter.astro";
 
   <body>
     <BaseHeader />
-    <div class="upperMargin"></div>
     <div id="contentContainer">
       <slot />
     </div>
-    <div class="bottomMargin"></div>
   </body>
 
   <style>
-    .upperMargin {
-      /* height: 10rem; */
-    }
     #contentContainer {
       display: flex;
       flex-direction: column;
-      /* min-height: 100svh; */
       justify-content: center;
-      /* margin-top: 10rem; */
     }
-
-    /* .bottomMargin {
-      height: 40svh;
-    } */
   </style>
 </html>
