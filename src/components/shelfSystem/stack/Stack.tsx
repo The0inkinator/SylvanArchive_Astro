@@ -99,7 +99,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         setNewMapList(dynamicMapList);
         setDefaults();
       } else {
-        console.log("invalid list");
         import("../../../lists").then((module) => {
           setNewMapList(module.default);
           setDefaults();
