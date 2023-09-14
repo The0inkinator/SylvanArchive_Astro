@@ -49,7 +49,7 @@
   transform-origin: center center;
   filter: blur(0.5px) grayscale(50%);
   transition: filter 0.2s;
-  background-color: lightgray;
+  background-color: darkslategray;
   background-image: url("https://cards.scryfall.io/art_crop/front/8/c/8c2996d9-3287-4480-8c04-7a378e37e3cf.jpg?1571667973");
 }
 
