@@ -11,7 +11,6 @@ import {
 import { useStackStateContext } from "../../../context/StackStateContext";
 import { useBinderStateContext } from "../../../context/BinderStateContext";
 import { useStackDraggingContext } from "../../../context/StackDraggingContext";
-import { useRoutingDataContext } from "../../../context/RoutingContext";
 import BackButton from "../backButton/BackButton";
 
 export default function ShelfScene() {
@@ -21,11 +20,20 @@ export default function ShelfScene() {
   const [binderState, { setHoveredBinder, setSelectedBinder }]: any =
     useBinderStateContext();
   const [stackDragging, { dragToStill }]: any = useStackDraggingContext();
-  const [routingData, {}]: any = useRoutingDataContext();
 
   onMount(() => {
     setShelfList((prevList) => [...prevList, <Shelf binderList="" />]);
     updateStacks();
+
+    createEffect(async () => {
+      try {
+        const data = await fetch(`http://localhost:3001/api/data`);
+        const dataConverted = await data.json();
+        console.log(dataConverted);
+      } catch (error) {
+        console.log(error);
+      }
+    });
   });
 
   function newShelf(path: string) {
