@@ -78,7 +78,9 @@ export default function ShelfScene() {
 
   return (
     <div class="shelfSceneContainer">
+      <div class="overlayGradient"></div>
       <div class="bgImage"></div>
+
       <div>
         <For
           each={shelfList()}
