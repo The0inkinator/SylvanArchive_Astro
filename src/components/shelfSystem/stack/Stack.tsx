@@ -131,26 +131,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     if (thisStack) {
       thisStack.scrollIntoView({ block: "center", behavior: "smooth" });
-      // createEffect(() => {
-      //   if (thisStack) {
-      //     const stackContainer: HTMLElement | null | undefined = thisStack
-      //       .parentNode?.parentNode as HTMLElement;
-
-      //     if (stackNumber === stackState().stackCount) {
-      //       if (stackContainer) {
-      //         const containerHeight = stackContainer.offsetHeight;
-      //         const windowHeight = window.innerHeight;
-      //         const newUpperMargin = windowHeight / 2 - containerHeight / 2;
-
-      //         stackContainer.style.marginBottom = `${newUpperMargin}px`;
-      //       }
-      //     } else {
-      //       if (stackContainer) {
-      //         stackContainer.style.marginBottom = `0px`;
-      //       }
-      //     }
-      //   }
-      // });
     }
   });
 

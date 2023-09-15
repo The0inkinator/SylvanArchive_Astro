@@ -89,7 +89,10 @@ export default function ShelfScene() {
           {(item) => <div>{item()}</div>}
         </For>
       </div>
-      <div class="bottomMargin"></div>
+      <div
+        class="bottomMargin"
+        style={{ height: `${stackState().shelfHeight}px` }}
+      ></div>
       <Switch fallback={<></>}>
         <Match when={stackState().stackCount > 1}>
           <BackButton />

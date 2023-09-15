@@ -41,6 +41,6 @@
 
 .bottomMargin {
   width: 100%;
-  height: 1rem;
-  background-color: red;
+  pointer-events: none;
+  /* background-color: red; */
 }

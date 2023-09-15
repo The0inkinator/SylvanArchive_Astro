@@ -19,9 +19,7 @@ export default function Shelf({ binderList }: ShelfInputs) {
 
       const windowHeight = window.innerHeight;
       const newUpperMargin = windowHeight / 2 - containerHeight / 2;
-      console.log(stackState().shelfHeight);
-      setShelfHeight(10);
-      console.log(stackState().shelfHeight);
+      setShelfHeight(containerHeight);
       setUpperMargin(newUpperMargin);
     } else {
       setUpperMargin(0);
@@ -32,6 +30,7 @@ export default function Shelf({ binderList }: ShelfInputs) {
         const containerHeight = shelfContainer.offsetHeight;
         const windowHeight = window.innerHeight;
         const newUpperMargin = windowHeight / 2 - containerHeight / 2;
+        setShelfHeight(containerHeight);
         setUpperMargin(newUpperMargin);
       }
     };
