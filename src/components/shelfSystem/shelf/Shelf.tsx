@@ -11,13 +11,17 @@ let shelfContainer: any;
 
 export default function Shelf({ binderList }: ShelfInputs) {
   const [upperMargin, setUpperMargin] = createSignal<number>(0);
-  const [stackState]: any = useStackStateContext();
+  const [stackState, { setShelfHeight }]: any = useStackStateContext();
 
   onMount(() => {
     if (stackState().stackCount === 0) {
       const containerHeight = shelfContainer.offsetHeight;
+
       const windowHeight = window.innerHeight;
       const newUpperMargin = windowHeight / 2 - containerHeight / 2;
+      console.log(stackState().shelfHeight);
+      setShelfHeight(10);
+      console.log(stackState().shelfHeight);
       setUpperMargin(newUpperMargin);
     } else {
       setUpperMargin(0);

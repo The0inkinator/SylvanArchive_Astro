@@ -7,6 +7,7 @@ interface stackInfo {
   queuedStack: string | "none";
   stackCount: number;
   stacksToClose: number;
+  shelfHeight: number;
 }
 
 export function StackStateProvider(props: any) {
@@ -15,6 +16,7 @@ export function StackStateProvider(props: any) {
       queuedStack: "none",
       stackCount: 0,
       stacksToClose: 0,
+      shelfHeight: 0,
     }),
     stackStateList = [
       stackState,
@@ -25,6 +27,7 @@ export function StackStateProvider(props: any) {
             queuedStack: stackState().queuedStack,
             stackCount: stackState().stackCount,
             stacksToClose: stackState().stacksToClose,
+            shelfHeight: stackState().shelfHeight,
           });
         },
         queueStack(inputPath: string | "none") {
@@ -33,6 +36,7 @@ export function StackStateProvider(props: any) {
             queuedStack: inputPath,
             stackCount: stackState().stackCount,
             stacksToClose: stackState().stacksToClose,
+            shelfHeight: stackState().shelfHeight,
           });
         },
         addToStackCount(inputNumber: number) {
@@ -41,6 +45,7 @@ export function StackStateProvider(props: any) {
             queuedStack: stackState().queuedStack,
             stackCount: stackState().stackCount + inputNumber,
             stacksToClose: stackState().stacksToClose,
+            shelfHeight: stackState().shelfHeight,
           });
         },
         closeXStacks(inputNumber: number) {
@@ -49,7 +54,11 @@ export function StackStateProvider(props: any) {
             queuedStack: stackState().queuedStack,
             stackCount: stackState().stackCount,
             stacksToClose: inputNumber,
+            shelfHeight: stackState().shelfHeight,
           });
+        },
+        setShelfHeight(inputNumber: number) {
+          stackState().shelfHeight = inputNumber;
         },
       },
     ];
