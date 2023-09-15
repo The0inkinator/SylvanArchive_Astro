@@ -31,31 +31,14 @@ export function StackStateProvider(props: any) {
           });
         },
         queueStack(inputPath: string | "none") {
-          setStackState({
-            activeStack: stackState().activeStack,
-            queuedStack: inputPath,
-            stackCount: stackState().stackCount,
-            stacksToClose: stackState().stacksToClose,
-            shelfHeight: stackState().shelfHeight,
-          });
+          stackState().queuedStack = inputPath;
         },
         addToStackCount(inputNumber: number) {
-          setStackState({
-            activeStack: stackState().activeStack,
-            queuedStack: stackState().queuedStack,
-            stackCount: stackState().stackCount + inputNumber,
-            stacksToClose: stackState().stacksToClose,
-            shelfHeight: stackState().shelfHeight,
-          });
+          const newStackCount = stackState().stackCount + inputNumber;
+          stackState().stackCount = newStackCount;
         },
         closeXStacks(inputNumber: number) {
-          setStackState({
-            activeStack: stackState().activeStack,
-            queuedStack: stackState().queuedStack,
-            stackCount: stackState().stackCount,
-            stacksToClose: inputNumber,
-            shelfHeight: stackState().shelfHeight,
-          });
+          stackState().stacksToClose = inputNumber;
         },
         setShelfHeight(inputNumber: number) {
           stackState().shelfHeight = inputNumber;
