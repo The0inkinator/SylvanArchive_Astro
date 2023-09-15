@@ -6,7 +6,8 @@
 }
 
 .shelfSceneContainer {
-  overflow: hidden;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 .overlayGradient {
@@ -30,7 +31,7 @@
   z-index: -10;
   width: 100vw;
   height: 100vh;
-  background-image: url("/public/images/BGTestImg.jpg");
+  background-image: url('/public/images/BGTestImg.jpg');
   background-size: cover;
   background-position: center;
   top: 50%;
