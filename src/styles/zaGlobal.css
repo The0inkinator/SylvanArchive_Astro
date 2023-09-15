@@ -9,13 +9,13 @@
 /*CUSTOM FONTS*/
 
 @font-face {
-  font-family: 'Mukta';
-  src: url('public/fonts/Mukta-Regular.ttf');
+  font-family: "Mukta";
+  src: url("public/fonts/Mukta-Regular.ttf");
 }
 
 @font-face {
-  font-family: 'Modern Sans';
-  src: url('../fonts/ModernSans-Light.otf');
+  font-family: "Modern Sans";
+  src: url("../fonts/ModernSans-Light.otf");
 }
 /*SITEWIDE VALUES*/
 :root {
@@ -25,7 +25,7 @@
   --ShadowGreen: hsl(146 59.8% 10%);
   --DefaultGreen: hsl(120, 63%, 37%);
   --FocusGreen: hsl(133, 55%, 27%);
-  --BackgroundColor: hsl(134 60% 93%);
+  --BackgroundColor: black;
 
   /*Sizes*/
   --MagicCardSize: 12rem;
@@ -61,6 +61,8 @@
   :root {
     /* Margins */
     --NavGridMargin: 80vw;
+    /* Sizes */
+    --BinderSize: 11rem;
   }
 }
 
@@ -71,7 +73,7 @@
     --NavGridMargin: 95vw;
 
     /* Sizes */
-    --BinderSize: 12rem;
+    --BinderSize: 9rem;
     --SearchBarWidth: calc(100vw - (var(--MenuHeight) * 4));
     --BookmarkBarWidth: calc(100vw - (var(--MenuHeight) * 4));
 

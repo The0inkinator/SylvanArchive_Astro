@@ -10,6 +10,10 @@
   overflow: hidden;
   border-radius: calc(var(--MenuHeight) / 5);
   background-color: white;
+  background-image: url("/logos/backIcon.svg");
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
   box-shadow: 0 0 0 2px var(--DefaultGreen);
   cursor: pointer;
   transition: opacity 0.25s;

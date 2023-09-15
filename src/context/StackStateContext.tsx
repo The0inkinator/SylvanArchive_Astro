@@ -7,6 +7,7 @@ interface stackInfo {
   queuedStack: string | "none";
   stackCount: number;
   stacksToClose: number;
+  shelfHeight: number;
 }
 
 export function StackStateProvider(props: any) {
@@ -15,6 +16,7 @@ export function StackStateProvider(props: any) {
       queuedStack: "none",
       stackCount: 0,
       stacksToClose: 0,
+      shelfHeight: 0,
     }),
     stackStateList = [
       stackState,
@@ -25,31 +27,28 @@ export function StackStateProvider(props: any) {
             queuedStack: stackState().queuedStack,
             stackCount: stackState().stackCount,
             stacksToClose: stackState().stacksToClose,
+            shelfHeight: stackState().shelfHeight,
           });
         },
         queueStack(inputPath: string | "none") {
-          setStackState({
-            activeStack: stackState().activeStack,
-            queuedStack: inputPath,
-            stackCount: stackState().stackCount,
-            stacksToClose: stackState().stacksToClose,
-          });
+          stackState().queuedStack = inputPath;
         },
         addToStackCount(inputNumber: number) {
+          const newStackCount = stackState().stackCount + inputNumber;
+          // stackState().stackCount = newStackCount;
           setStackState({
             activeStack: stackState().activeStack,
             queuedStack: stackState().queuedStack,
-            stackCount: stackState().stackCount + inputNumber,
+            stackCount: newStackCount,
             stacksToClose: stackState().stacksToClose,
+            shelfHeight: stackState().shelfHeight,
           });
         },
         closeXStacks(inputNumber: number) {
-          setStackState({
-            activeStack: stackState().activeStack,
-            queuedStack: stackState().queuedStack,
-            stackCount: stackState().stackCount,
-            stacksToClose: inputNumber,
-          });
+          stackState().stacksToClose = inputNumber;
+        },
+        setShelfHeight(inputNumber: number) {
+          stackState().shelfHeight = inputNumber;
         },
       },
     ];

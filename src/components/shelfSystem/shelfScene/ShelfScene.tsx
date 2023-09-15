@@ -1,5 +1,5 @@
-import './shelfSceneStyles.css';
-import Shelf from '../shelf/Shelf';
+import "./shelfSceneStyles.css";
+import Shelf from "../shelf/Shelf";
 import {
   createSignal,
   createEffect,
@@ -7,11 +7,11 @@ import {
   For,
   Switch,
   Match,
-} from 'solid-js';
-import { useStackStateContext } from '../../../context/StackStateContext';
-import { useBinderStateContext } from '../../../context/BinderStateContext';
-import { useStackDraggingContext } from '../../../context/StackDraggingContext';
-import BackButton from '../backButton/BackButton';
+} from "solid-js";
+import { useStackStateContext } from "../../../context/StackStateContext";
+import { useBinderStateContext } from "../../../context/BinderStateContext";
+import { useStackDraggingContext } from "../../../context/StackDraggingContext";
+import BackButton from "../backButton/BackButton";
 
 export default function ShelfScene() {
   const [shelfList, setShelfList] = createSignal<any[]>([]);
@@ -27,38 +27,23 @@ export default function ShelfScene() {
   });
 
   function newShelf(path: string) {
-    if (stackState().queuedStack !== 'none') {
+    if (stackState().queuedStack !== "none") {
       setShelfList((prevList) => [
         ...prevList,
         () => {
           return <Shelf binderList={`${path}`} />;
         },
       ]);
-      queueStack('none');
+      queueStack("none");
     }
   }
 
   function closeStacks(inputNumber: number) {
-    const shelfListLength = shelfList().length;
-    const tempShelfArray = shelfList().slice(0, -2);
-    const newShelfArray = shelfList().slice(0, -1);
-    addToStackCount(-2);
+    const newShelfArray = shelfList().slice(0, -inputNumber);
+    addToStackCount(-inputNumber);
+    closeXStacks(0);
+    setShelfList(newShelfArray);
     dragToStill();
-
-    if (shelfListLength <= 2) {
-      closeXStacks(0);
-
-      setShelfList([
-        () => {
-          return <Shelf binderList="" />;
-        },
-      ]);
-    } else {
-      closeXStacks(0);
-
-      setShelfList(tempShelfArray);
-      setShelfList(newShelfArray);
-    }
   }
 
   const updateStacks = () => {
@@ -66,7 +51,7 @@ export default function ShelfScene() {
       if (stackState().stacksToClose > 0) {
         closeStacks(stackState().stacksToClose);
         setTimeout(loop, 100);
-      } else if (stackState().queuedStack !== 'none') {
+      } else if (stackState().queuedStack !== "none") {
         newShelf(stackState().queuedStack);
         setTimeout(loop, 100);
       } else {
@@ -77,20 +62,27 @@ export default function ShelfScene() {
   };
 
   return (
-    <>
+    <div class="shelfSceneContainer">
+      <div class="overlayGradient"></div>
+      <div class="bgImage"></div>
+
       <div>
         <For
           each={shelfList()}
-          fallback={<div class="loadingStacksText">Loading stacks...</div>}
+          fallback={<div class="loadingStacksText"></div>}
         >
           {(item) => <div>{item()}</div>}
         </For>
       </div>
+      <div
+        class="bottomMargin"
+        style={{ height: `${stackState().shelfHeight}px` }}
+      ></div>
       <Switch fallback={<></>}>
         <Match when={stackState().stackCount > 1}>
           <BackButton />
         </Match>
       </Switch>
-    </>
+    </div>
   );
 }
