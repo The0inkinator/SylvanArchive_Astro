@@ -123,20 +123,14 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     stackNumber = stackState().stackCount;
 
     window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('touchstart', handleTouchStart, {
-      passive: false,
-      capture: true,
-    });
+    window.addEventListener('touchstart', handleTouchStart);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('touchmove', handleTouchMove, {
       passive: false,
       capture: true,
     });
     window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('touchend', handleTouchEnd, {
-      passive: false,
-      capture: true,
-    });
+    window.addEventListener('touchend', handleTouchEnd);
     window.addEventListener('dblclick', handleDoubleClick);
 
     changeActiveStack(thisStack);
@@ -208,7 +202,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         event.touches[0].clientY >= componentRect.top &&
         event.touches[0].clientY <= componentRect.bottom
       ) {
-        event.preventDefault();
         localStackDragging = true;
         setStackOffsetX(event.touches[0].clientX - stackPosition());
       }
@@ -274,7 +267,6 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   const handleTouchEnd = (event: TouchEvent) => {
     localStackDragging = false;
     if (thisStackActive()) {
-      event.preventDefault();
       if (stackDragging() === 'dragging') {
         dragToDrifting();
       }
