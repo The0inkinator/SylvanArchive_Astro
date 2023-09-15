@@ -35,7 +35,14 @@ export function StackStateProvider(props: any) {
         },
         addToStackCount(inputNumber: number) {
           const newStackCount = stackState().stackCount + inputNumber;
-          stackState().stackCount = newStackCount;
+          // stackState().stackCount = newStackCount;
+          setStackState({
+            activeStack: stackState().activeStack,
+            queuedStack: stackState().queuedStack,
+            stackCount: newStackCount,
+            stacksToClose: stackState().stacksToClose,
+            shelfHeight: stackState().shelfHeight,
+          });
         },
         closeXStacks(inputNumber: number) {
           stackState().stacksToClose = inputNumber;

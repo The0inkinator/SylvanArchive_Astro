@@ -39,26 +39,11 @@ export default function ShelfScene() {
   }
 
   function closeStacks(inputNumber: number) {
-    const shelfListLength = shelfList().length;
-    const tempShelfArray = shelfList().slice(0, -2);
-    const newShelfArray = shelfList().slice(0, -1);
-    addToStackCount(-2);
+    const newShelfArray = shelfList().slice(0, -inputNumber);
+    addToStackCount(-inputNumber);
+    closeXStacks(0);
+    setShelfList(newShelfArray);
     dragToStill();
-
-    if (shelfListLength <= 2) {
-      closeXStacks(0);
-
-      setShelfList([
-        () => {
-          return <Shelf binderList="" />;
-        },
-      ]);
-    } else {
-      closeXStacks(0);
-
-      setShelfList(tempShelfArray);
-      setShelfList(newShelfArray);
-    }
   }
 
   const updateStacks = () => {

@@ -52,6 +52,8 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   const [thisStackActive, setThisStackActive] = createSignal<boolean>(true);
   const [newMapList, setNewMapList] = createSignal<any[]>([]);
   const [selectedBinderCtr, setSelectedBinderCtr] = createSignal<number>(0);
+  const [previouslyMounted, setPreviouslyMounted] =
+    createSignal<boolean>(false);
 
   //typing for refs
   let thisStack: HTMLDivElement | null = null;
@@ -131,6 +133,24 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     if (thisStack) {
       thisStack.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
+  });
+
+  createEffect(() => {
+    if (stackState().stackCount > stackNumber && !previouslyMounted()) {
+      setPreviouslyMounted(true);
+    }
+  });
+
+  createEffect(() => {
+    if (stackState().stackCount === stackNumber && previouslyMounted()) {
+      if (thisStack) {
+        changeActiveStack(thisStack);
+      }
+      setPreviouslyMounted(false);
+      setThisStackActive(true);
+      setSelectedBinder(0);
+      setHoveredBinder(0);
     }
   });
 
