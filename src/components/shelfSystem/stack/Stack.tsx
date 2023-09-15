@@ -123,8 +123,11 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     stackNumber = stackState().stackCount;
 
     window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("touchstart", handleTouchStart);
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove);
     window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("touchend", handleTouchEnd);
     window.addEventListener("dblclick", handleDoubleClick);
 
     changeActiveStack(thisStack);
@@ -156,20 +159,49 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
   onCleanup(() => {
     window.removeEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("dblclick", handleDoubleClick);
+    window.removeEventListener("touchstart", handleTouchStart);
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("touchmove", handleTouchMove);
+    window.removeEventListener("mouseup", handleMouseUp);
+    window.removeEventListener("touchend", handleTouchEnd);
+    window.removeEventListener("dblclick", handleDoubleClick);
   });
 
   //handles mouseDown
   const handleMouseDown = (event: MouseEvent) => {
-    if (stackHovered) {
-      localStackDragging = true;
+    if (thisStack) {
+      const componentRect = thisStack.getBoundingClientRect();
+
+      if (
+        thisStackActive() &&
+        event.clientX >= componentRect.left &&
+        event.clientX <= componentRect.right &&
+        event.clientY >= componentRect.top &&
+        event.clientY <= componentRect.bottom
+      ) {
+        localStackDragging = true;
+        slideCheck();
+        setStackOffsetX(event.clientX - stackPosition());
+        document.body.style.cursor = "grabbing";
+      }
     }
-    if (thisStackActive() && stackHovered) {
-      slideCheck();
-      setStackOffsetX(event.clientX - stackPosition());
-      document.body.style.cursor = "grabbing";
+  };
+
+  //handles touchStart
+  const handleTouchStart = (event: TouchEvent) => {
+    if (thisStack && event.touches.length === 1) {
+      const componentRect = thisStack.getBoundingClientRect();
+
+      if (
+        thisStackActive() &&
+        event.touches[0].clientX >= componentRect.left &&
+        event.touches[0].clientX <= componentRect.right &&
+        event.touches[0].clientY >= componentRect.top &&
+        event.touches[0].clientY <= componentRect.bottom
+      ) {
+        localStackDragging = true;
+        setStackOffsetX(event.touches[0].clientX - stackPosition());
+      }
     }
   };
 
@@ -192,16 +224,45 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     }
   };
 
+  //handles touchMove
+  const handleTouchMove = (event: TouchEvent) => {
+    if (thisStackActive()) {
+      if (
+        localStackDragging &&
+        stackDragging() !== "dragging" &&
+        stackDragging() !== "drifting"
+      ) {
+        dragToDragging();
+        drift();
+      }
+      if (stackDragging() === "dragging") {
+        const mousePosX = event.touches[0].clientX;
+        setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
+        setStackPosition(collisionCheck(newStackPosition()));
+      }
+    }
+  };
+
   //handles mouseUp
   const handleMouseUp = (event: MouseEvent) => {
+    localStackDragging = false;
     if (thisStackActive()) {
-      localStackDragging = false;
       if (!stackHovered) {
         document.body.style.cursor = "auto";
       } else {
         document.body.style.cursor = "grab";
       }
 
+      if (stackDragging() === "dragging") {
+        dragToDrifting();
+      }
+    }
+  };
+
+  //handles touchEnd
+  const handleTouchEnd = (event: TouchEvent) => {
+    localStackDragging = false;
+    if (thisStackActive()) {
       if (stackDragging() === "dragging") {
         dragToDrifting();
       }
