@@ -22,7 +22,10 @@ export default function ShelfScene() {
   const [stackDragging, { dragToStill }]: any = useStackDraggingContext();
 
   onMount(() => {
-    setShelfList((prevList) => [...prevList, <Shelf binderList="" />]);
+    setShelfList((prevList) => [
+      ...prevList,
+      <Shelf binderList="initialStack1" />,
+    ]);
     updateStacks();
   });
 
