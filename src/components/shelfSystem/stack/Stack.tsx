@@ -1,6 +1,5 @@
 import "./stackStyles.css";
 import Binder from "../binder/Binder";
-import { default as MapList } from "../../../lists";
 import { createSignal, createEffect, onMount, onCleanup, For } from "solid-js";
 import { useStackDraggingContext } from "../../../context/StackDraggingContext";
 import { useBinderStateContext } from "../../../context/BinderStateContext";

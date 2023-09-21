@@ -3,6 +3,7 @@ import { BinderStateProvider } from "../../../context/BinderStateContext";
 import { RoutingProvider } from "../../../context/RoutingContext";
 import { StackStateProvider } from "../../../context/StackStateContext";
 import ShelfScene from "../shelfScene/ShelfScene";
+import { createEffect } from "solid-js";
 
 export default function ShelfContextWrap() {
   return (
