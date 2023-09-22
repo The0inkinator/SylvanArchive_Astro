@@ -96,18 +96,40 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     createEffect(async () => {
       try {
-        const stackPathData = await fetch(
-          `https://sylvan-archive-api-03b13d1a78b5.herokuapp.com/api/data/stacks${stackFrom}`
+        const stackData = await fetch(
+          `https://sylvan-archive-api-03b13d1a78b5.herokuapp.com/query/stack_map/*/address/'${stackFrom}'`
+        );
+        const stackInfoJson = await stackData.json();
+        const stackInfo = await stackInfoJson[0];
+
+        const childBindersData = await fetch(
+          `https://sylvan-archive-api-03b13d1a78b5.herokuapp.com/query/binder_map/*/parent_stack/'${stackInfo.address}'`
         );
 
-        const stackPath = await stackPathData.json();
+        const childBinders = await childBindersData.json();
 
-        setNewMapList(stackPath);
+        setNewMapList(childBinders);
+        console.log(newMapList());
         setDefaults();
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        console.error(err);
       }
     });
+
+    // createEffect(async () => {
+    //   try {
+    //     const stackPathData = await fetch(
+    //       `https://sylvan-archive-api-03b13d1a78b5.herokuapp.com/api/data/stacks${stackFrom}`
+    //     );
+
+    //     const stackPath = await stackPathData.json();
+
+    //     setNewMapList(stackPath);
+    //     setDefaults();
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // });
 
     //handles window resize to update all relevant properties
     createEffect(() => {
@@ -124,7 +146,10 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("touchstart", handleTouchStart);
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("touchmove", handleTouchMove);
+    window.addEventListener("touchmove", handleTouchMove, {
+      passive: false,
+      capture: true,
+    });
     window.addEventListener("mouseup", handleMouseUp);
     window.addEventListener("touchend", handleTouchEnd);
     window.addEventListener("dblclick", handleDoubleClick);
@@ -421,7 +446,17 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       <div class="stackContainer">
         <For each={newMapList()} fallback={<div class="loadingListText"></div>}>
           {(item: any, index: any) => {
-            const tempBgCardList = item.bgCards?.map((bgCard: any) => {
+            const tempBgCards: any[] = [
+              { cardName: item.bg_art_1 },
+              { cardName: item.bg_art_2 },
+              { cardName: item.bg_art_3 },
+            ];
+
+            const bgCards = tempBgCards.filter(
+              (entry) => entry.cardName !== null
+            );
+
+            const newBgCardList = bgCards?.map((bgCard: any) => {
               return {
                 cardName: bgCard.cardName,
                 cardSet: bgCard.cardSet,
@@ -429,20 +464,28 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
                 cardFace: bgCard.cardFace,
               };
             });
+            interface artInput {
+              cardName: any;
+              cardSet: any;
+              cardCollectNum: any;
+              cardFace: any;
+            }
+
+            const displayArt: artInput = {
+              cardName: item.binder_art,
+              cardSet: null,
+              cardCollectNum: null,
+              cardFace: null,
+            };
 
             return (
               <Binder
-                title={item.title}
-                displayArt={{
-                  cardName: item.displayArt.cardName,
-                  cardSet: item.displayArt?.cardSet,
-                  cardCollectNum: item.displayArt?.cardCollectNum,
-                  cardFace: item.displayArt?.cardFace,
-                }}
-                bgCards={tempBgCardList}
+                title={item.display_name}
+                displayArt={displayArt}
+                bgCards={newBgCardList}
                 binderNum={index() + 1}
                 binderParent={thisStack}
-                binderLink={item.link}
+                binderLink={item.child}
               />
             );
           }}
