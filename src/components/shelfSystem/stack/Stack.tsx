@@ -260,6 +260,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         drift();
       }
       if (stackDragging() === "dragging") {
+        event.preventDefault();
         const mousePosX = event.touches[0].clientX;
         setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
         setStackPosition(collisionCheck(newStackPosition()));
