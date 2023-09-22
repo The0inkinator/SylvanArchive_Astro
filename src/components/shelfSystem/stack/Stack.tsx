@@ -1,19 +1,9 @@
-<<<<<<< HEAD
 import "./stackStyles.css";
 import Binder from "../binder/Binder";
 import { createSignal, createEffect, onMount, onCleanup, For } from "solid-js";
 import { useStackDraggingContext } from "../../../context/StackDraggingContext";
 import { useBinderStateContext } from "../../../context/BinderStateContext";
 import { useStackStateContext } from "../../../context/StackStateContext";
-=======
-import './stackStyles.css';
-import Binder from '../binder/Binder';
-import { default as MapList } from '../../../lists';
-import { createSignal, createEffect, onMount, onCleanup, For } from 'solid-js';
-import { useStackDraggingContext } from '../../../context/StackDraggingContext';
-import { useBinderStateContext } from '../../../context/BinderStateContext';
-import { useStackStateContext } from '../../../context/StackStateContext';
->>>>>>> fbd906d5c952254c09d41a3f0f575b40e5bac340
 
 interface StackInputs {
   stackRef: string;
@@ -79,7 +69,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       if (thisStack) {
         const rootStyles = getComputedStyle(thisStack);
         setBinderSize(
-          parseInt(rootStyles.getPropertyValue('--BinderSize')) * remSize
+          parseInt(rootStyles.getPropertyValue("--BinderSize")) * remSize
         );
       }
 
@@ -143,33 +133,33 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
 
     //handles window resize to update all relevant properties
     createEffect(() => {
-      window.addEventListener('resize', setDefaults);
+      window.addEventListener("resize", setDefaults);
 
       onCleanup(() => {
-        window.removeEventListener('resize', setDefaults);
+        window.removeEventListener("resize", setDefaults);
       });
     });
 
     addToStackCount(1);
     stackNumber = stackState().stackCount;
 
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('touchstart', handleTouchStart);
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove, {
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove, {
       passive: false,
       capture: true,
     });
-    window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('touchend', handleTouchEnd);
-    window.addEventListener('dblclick', handleDoubleClick);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener("dblclick", handleDoubleClick);
 
     changeActiveStack(thisStack);
     setHoveredBinder(0);
     setSelectedBinder(0);
 
     if (thisStack) {
-      thisStack.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      thisStack.scrollIntoView({ block: "center", behavior: "smooth" });
     }
   });
 
@@ -192,13 +182,13 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   });
 
   onCleanup(() => {
-    window.removeEventListener('mousedown', handleMouseDown);
-    window.removeEventListener('touchstart', handleTouchStart);
-    window.removeEventListener('mousemove', handleMouseMove);
-    window.removeEventListener('touchmove', handleTouchMove);
-    window.removeEventListener('mouseup', handleMouseUp);
-    window.removeEventListener('touchend', handleTouchEnd);
-    window.removeEventListener('dblclick', handleDoubleClick);
+    window.removeEventListener("mousedown", handleMouseDown);
+    window.removeEventListener("touchstart", handleTouchStart);
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("touchmove", handleTouchMove);
+    window.removeEventListener("mouseup", handleMouseUp);
+    window.removeEventListener("touchend", handleTouchEnd);
+    window.removeEventListener("dblclick", handleDoubleClick);
   });
 
   //handles mouseDown
@@ -216,7 +206,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
         localStackDragging = true;
         slideCheck();
         setStackOffsetX(event.clientX - stackPosition());
-        document.body.style.cursor = 'grabbing';
+        document.body.style.cursor = "grabbing";
       }
     }
   };
@@ -244,13 +234,13 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     if (thisStackActive()) {
       if (
         localStackDragging &&
-        stackDragging() !== 'dragging' &&
-        stackDragging() !== 'drifting'
+        stackDragging() !== "dragging" &&
+        stackDragging() !== "drifting"
       ) {
         dragToDragging();
         drift();
       }
-      if (stackDragging() === 'dragging') {
+      if (stackDragging() === "dragging") {
         const mousePosX = event.clientX;
         setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
         setStackPosition(collisionCheck(newStackPosition()));
@@ -263,13 +253,13 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     if (thisStackActive()) {
       if (
         localStackDragging &&
-        stackDragging() !== 'dragging' &&
-        stackDragging() !== 'drifting'
+        stackDragging() !== "dragging" &&
+        stackDragging() !== "drifting"
       ) {
         dragToDragging();
         drift();
       }
-      if (stackDragging() === 'dragging') {
+      if (stackDragging() === "dragging") {
         event.preventDefault();
         const mousePosX = event.touches[0].clientX;
         setNewStackPosition(collisionCheck(mousePosX - stackOffsetX()));
@@ -283,12 +273,12 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     localStackDragging = false;
     if (thisStackActive()) {
       if (!stackHovered) {
-        document.body.style.cursor = 'auto';
+        document.body.style.cursor = "auto";
       } else {
-        document.body.style.cursor = 'grab';
+        document.body.style.cursor = "grab";
       }
 
-      if (stackDragging() === 'dragging') {
+      if (stackDragging() === "dragging") {
         dragToDrifting();
       }
     }
@@ -298,7 +288,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   const handleTouchEnd = (event: TouchEvent) => {
     localStackDragging = false;
     if (thisStackActive()) {
-      if (stackDragging() === 'dragging') {
+      if (stackDragging() === "dragging") {
         dragToDrifting();
       }
     }
@@ -308,7 +298,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     if (thisStackActive() && stackHovered) {
       slideCheck();
     }
-    if (canSlide() && stackDragging() === 'still') {
+    if (canSlide() && stackDragging() === "still") {
       slide(binderState().selectedBinder);
     }
   };
@@ -347,12 +337,12 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
     if (thisStackActive()) {
       setSelectedBinder(0);
       function loop() {
-        if (stackDragging() === 'dragging') {
+        if (stackDragging() === "dragging") {
           setStackDriftSpeed(capDriftSpeed(stackDrift() - stackPosition()));
           const newStackDrift = stackPosition();
           setStackDrift(newStackDrift);
           setTimeout(loop, 10);
-        } else if (stackDragging() === 'drifting') {
+        } else if (stackDragging() === "drifting") {
           if (Math.abs(stackDriftSpeed()) > 1) {
             //Adjusting the single integer at the end of newStackSpeed will change the stack's "friction"
             //A higher number means lower "friction" and visa versa. Numbers below 1 will cause no friction
@@ -368,7 +358,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
             setStackDriftSpeed(newStackSpeed);
             // console.log(stackDriftSpeed());
             setTimeout(loop, 5);
-          } else if (stackDragging() === 'drifting' && stackDriftSpeed() < 1) {
+          } else if (stackDragging() === "drifting" && stackDriftSpeed() < 1) {
             dragToStill();
             setStackDriftSpeed(0);
           }
@@ -393,7 +383,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
   }
 
   function slide(binder: number) {
-    if (thisStackActive() && stackDragging() === 'still') {
+    if (thisStackActive() && stackDragging() === "still") {
       dragToDrifting();
       const halfBinder = binderSize() / 2;
       const screenCenter = window.innerWidth / 2;
@@ -411,7 +401,7 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
           setTimeout(loop, 1);
         } else {
           dragToLocked();
-          if (stackDragging() === 'locked') {
+          if (stackDragging() === "locked") {
             dragToStill();
           }
         }
@@ -435,15 +425,15 @@ export default function Stack({ stackRef, stackFrom, stackTo }: StackInputs) {
       ref={(el) => (thisStack = el)}
       onmouseenter={() => {
         stackHovered = true;
-        if (stackDragging() !== 'dragging') {
-          document.body.style.cursor = 'grab';
+        if (stackDragging() !== "dragging") {
+          document.body.style.cursor = "grab";
         }
       }}
       onclick={() => {}}
       onmouseleave={() => {
         stackHovered = false;
-        if (stackDragging() === 'still') {
-          document.body.style.cursor = 'auto';
+        if (stackDragging() === "still") {
+          document.body.style.cursor = "auto";
         }
       }}
       style={{
